@@ -31,7 +31,7 @@ public class EmployeeDAODemo implements IDAO<Employee, Integer> {
     {
         for (Employee employee : employees)
             if (employee.getEmployeeID() == id)
-                return employees.get(id);
+                return employee;
         return null;
     }
 
