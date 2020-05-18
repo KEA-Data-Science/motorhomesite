@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
+
+    <title>Customers</title>
+</head>
+
+<body>
+
+<!--    Navbar -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+
+
+<div class="container">
+    <h1>CREATE NEW CUSTOMER</h1>
+
+    <!-- fragments -->
+    <!-- <nav th:replace="fragments/general.html :: navigation"></nav> -->
+
+    <form action="#" th:action="@{/save}" th:object="${customer}" method="post">
+        <table>
+            <tr>
+                <td>Drivers License Number</td>
+                <td><input type="text" th:field="*{driversLicence}" /></td>
+            </tr>
+            <tr>
+                <td>Driver's License Status</td>
+                <td>
+                    <input type="radio" id="true" th:field="*{approved}" value="true" />
+                    <label for="true">Approved</label>
+                    <input type="radio" id="false" th:field="*{approved}" value="true" />
+                    <label for="true">Not Approved</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Credit Card No.</td>
+                <td><input type="number" th:field="*{cardID}" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button class="button" type="submit">Save</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
