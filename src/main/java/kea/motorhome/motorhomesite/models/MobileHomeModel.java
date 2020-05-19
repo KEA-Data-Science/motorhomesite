@@ -1,4 +1,4 @@
-package kea.motorhome.motorhomesite.models1;
+package kea.motorhome.motorhomesite.models;
 
 public class MobileHomeModel
 {

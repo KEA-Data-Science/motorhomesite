@@ -1,6 +1,6 @@
 package kea.motorhome.motorhomesite.controllers;
 
-import kea.motorhome.motorhomesite.models1.MobileHomeModel;
+import kea.motorhome.motorhomesite.models.MobileHomeModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
