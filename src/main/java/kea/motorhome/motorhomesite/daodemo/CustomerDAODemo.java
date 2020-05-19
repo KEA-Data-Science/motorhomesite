@@ -19,19 +19,20 @@ public class CustomerDAODemo implements IDAO<Customer, String>
     public CustomerDAODemo()
     {
         customers = new ArrayList<>();
-//det her er dårlig stil, fjernes ;)
-        Address address2 = new Address(1, "USA", "Point peak", "4", "B34H54");
-        Address address1 = new Address(1, "Danmark", "Margovej", "15B", "5432");
 
+        Address address1 = new Address(1, "Danmark", "Margovej","15B","5432");
         Person person1 = new Person(1, "Alfred", "Boolan", address1, LocalDate.now().minusYears(2),
                                     SiteRole.CUSTOMER,
                                     LocalDate.now());
-        Person person2 = new Person(2, "Cara", "Dulsey", address2, LocalDate.now().minusYears(1),
-                                    SiteRole.CUSTOMER,
-                                    LocalDate.now());
 
-        customers.add(new Customer("1234-1234-1234", 10, person1, true));
-        customers.add(new Customer("1111-1234-1234", 10, person2, false));
+                                    customers.add(new Customer("1234-1234-1234", 1,person1,true));
+
+        Address address2 = new Address(2, "Danmark", "Vej","Nr.","2332");
+        Person person2 = new Person(2, "Bubbi", "Bipbup", address2, LocalDate.now().minusYears(4),
+                SiteRole.CUSTOMER,
+                LocalDate.now());
+
+        customers.add(new Customer("1234-1234-1235", 2,person2,true));
     }
 
     @Override

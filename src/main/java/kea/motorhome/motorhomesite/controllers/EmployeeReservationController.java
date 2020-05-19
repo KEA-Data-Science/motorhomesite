@@ -35,7 +35,7 @@ public class EmployeeReservationController
                                           )
     {
         model.addAttribute("motorhome", new MotorhomeDAODemo().read(motorhomeID));
-        model.addAttribute("customer",new CustomerDAODemo().read(customerID));
+        model.addAttribute("customer", new CustomerDAODemo().read(customerID));
 
         model.addAttribute("dateA",dateA);
         model.addAttribute("dateB",dateB);

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
+
+    <title>Customer Details</title>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div th:replace="fragments/navbar.html :: navigation"></div>
+
+    <br/><br/><br/><br/>
+
+    <h1>Customer Details</h1>
+
+    <table>
+        <tr>
+            <td>First Name</td>
+            <td th:text="${customer.getPerson().getFirstName()}"></td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td th:text="${customer.getPerson().getLastName()}"></td>
+        </tr>
+        <td>Address</td>
+        <td th:text="${customer.getPerson().getAddress().getRoadName() + ' ' + customer.getPerson().getAddress().getHouseNumber() + ', ' +
+        customer.getPerson().getAddress().getPostCode() + ' ' + customer.getPerson().getAddress().getCountry()}"></td>
+        <tr>
+            <td>Birth Date</td>
+            <td th:text="${customer.getPerson().getBirthDate()}"></td>
+        </tr>
+        <tr>
+            <td>Driver's License No.</td>
+            <td th:text="${customer.getDriversLicence()}"></td>
+        </tr>
+        <tr>
+            <td>Driver's License Status</td>
+            <td th:text="${customer.isApproved()}"></td>
+        </tr>
+        <tr>
+            <td>Credit Card No.</td>
+            <td th:text="${customer.getCardID()}"></td>
+        </tr>
+    </table>
+
+
+</body>
+</html>

@@ -12,10 +12,33 @@
 
 <body>
 
-<!--    Navbar -->
+<!-- Navbar -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
-<br/><br/><br/><br/>
-    <a href="/customers/new"><button class="button animate border-8px"><span>Create New Customer</span></button></a>
+    <br/><br/><br/><br/>
+
+    <a href="/customers/new"><button class="button"><span>Create New Customer</span></button></a>
+
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Driver's License No.</th>
+            <th>Driver's License Status</th>
+            <th>Actions</th>
+
+        </tr>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.getPerson().getFirstName()}"></td>
+            <td th:text="${customer.getPerson().getLastName()}"></td>
+            <td th:text="${customer.getDriversLicence()}"></td>
+            <td th:text="${customer.isApproved()}"></td>
+            <td><a th:href="@{/customers/details(id=${customer.getDriversLicence()})}"><button class="button"><span>Details</span></button></a>
+                <a th:href="@{/customers/edit(id=${customer.getDriversLicence()})}"><button class="button"><span>Edit</span></button></a>
+                <a th:href="@{/customers/delete(id=${customer.getDriversLicence()})}"><button class="button"><span>Delete</span></button></a>
+            </td>
+        </tr>
+        </tr>
+    </table>
 </body>
 </html>

@@ -7,7 +7,7 @@
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
 
-    <title>New Customer</title>
+    <title>Edit Customer</title>
 </head>
 
 <body>
@@ -17,26 +17,27 @@
 
     <br/><br/><br/><br/>
 
-    <h1>New Customer</h1>
+    <h1>Edit Customer</h1>
 
-    <form action="#" th:action="@{/save}" th:object="${customer}" method="post">
+    <form action="#" th:action="@{/update}" th:object="${customer}" method="post">
         <table>
+
             <tr>
-                <td>Drivers License Number</td>
-                <td><input type="text" th:field="*{driversLicence}" /></td>
+                <td>Driver's License No.</td>
+                <td><input type="text" th:field="*{driversLicence}" name="driversLicence" /></td>
             </tr>
             <tr>
                 <td>Driver's License Status</td>
                 <td>
-                    <input type="radio" id="true" th:field="*{approved}" value="true" />
+                    <input type="radio" id="true" th:field="*{approved}" value="true" name="approved" />
                     <label for="true">Approved</label>
-                    <input type="radio" id="false" th:field="*{approved}" value="false" />
+                    <input type="radio" id="false" th:field="*{approved}" value="false" name="approved"/>
                     <label for="true">Not Approved</label>
                 </td>
             </tr>
             <tr>
                 <td>Credit Card No.</td>
-                <td><input type="number" th:field="*{cardID}" /></td>
+                <td><input type="number" th:field="*{cardID}" name="cardID" /></td>
             </tr>
             <tr>
                 <td colspan="2"><button class="button" type="submit">Save</button></td>
