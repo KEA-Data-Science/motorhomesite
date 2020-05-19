@@ -261,8 +261,25 @@ justify-items: center;
 }
 
 #buttkick {
-    /*display: inline-block;*/
-    /*font-size: 45px;*/
-
     text-shadow: #2b7735;
+}
+/* Segment defines css that will reveal content with a jump */
+#nav-link-a{
+    display: inline-block;
+}
+#nav-link-a:hover + #nav-link-a-connected{
+    display: block;
+}
+
+#nav-link-a-connected{
+    display: none;
+}
+/* general styling */
+.center{
+    text-align:center;
+}
+
+.customer-approved-img{
+    height: 90px;
+    max-width: 90px;
 }

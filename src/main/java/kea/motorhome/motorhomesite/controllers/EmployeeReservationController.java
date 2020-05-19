@@ -6,15 +6,9 @@ import kea.motorhome.motorhomesite.daodemo.CustomerDAODemo;
 import kea.motorhome.motorhomesite.daodemo.MotorhomeDAODemo;
 import kea.motorhome.motorhomesite.daodemo.ReservationDAODemo;
 import kea.motorhome.motorhomesite.models.Reservation;
-import kea.motorhome.motorhomesite.util.DateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.time.ZoneId;
 
 @Controller // annotation
 public class EmployeeReservationController
@@ -26,18 +20,10 @@ public class EmployeeReservationController
         reservationDAO = new ReservationDAODemo(); // notice demo DAO
     }
 
-    @GetMapping("/reservation/newreservation")
+    @GetMapping("/reservation/")
     public String employeeMakeReservation()
     {
-        return "reservation/newreservation";
-    }
-
-    @GetMapping("/reservation/read")
-    @ResponseBody
-    public String readReservation(@RequestParam String id)
-    {
-        return "You followed /reservation/read " + id;
-
+        return "reservation/landing";
     }
 
     @PostMapping("/lookup")
@@ -55,6 +41,13 @@ public class EmployeeReservationController
         model.addAttribute("dateB",dateB);
 
         return "reservation/lookup";
+    }
+
+    @GetMapping("/reservation/read")
+    @ResponseBody
+    public String readReservation(@RequestParam String id)
+    {
+        return "You followed /reservation/read " + id;
 
     }
 

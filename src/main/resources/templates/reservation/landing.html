@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
 
-    <!--    Google fonts stylesheet -->
-    <link href="https://fonts.googleapis.com/css2?family=Squada+One&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
-
     <title>Create a New Reservation :: Employee</title>
 </head>
 <body>
+
+<!--    styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
 <!--    Navbar - fragment replacement for consistent navbars -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 <!-- Main container-->
