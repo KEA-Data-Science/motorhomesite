@@ -16,9 +16,20 @@
 
 <div class="body container">
 
+
+
     <h1 class="hl">Customer and Mobilehome</h1>
     <div class="body container">
 
+        <form action="/new" method="post">
+            <input type="hidden" id="customerID" name="customerID" th:value="${customer.getDriversLicence()}">
+            <input type="hidden" id="motorhomeID" name="motorhomeID" th:value="${motorhome.getMotorhomeID()}">
+            <input type="hidden" id="dateA" name="dateA" th:value="${dateA}">
+            <input type="hidden" id="dateB" name="dateB" th:value="${dateB}">
+            <span align>
+                    <input class="button deep-green" type="submit" value="Create Reservation!" name="reservationID">
+        </span>
+        </form>
         <!-- Customer info segment -->
         <h3 class="hl">Customer: </h3>
         <table>
@@ -30,11 +41,11 @@
             </tr>
             <tr>
                 <td class="center">
-<!--                    Setting customer image depending on customer approval status -->
+                    <!--                    Setting customer image depending on customer approval status -->
                     <div th:switch="${customer.isApproved()}">
-                        <img class="customer-approval-img" th:case="true" src="/img/man-the-product-black-200x220.png"
+                        <img th:case="true" class="customer-approval-img" src="/img/man-the-product-black-200x220.png"
                              alt="Customer Approved"/>
-                        <img class="customer-approval-img" th:case="false" src="/img/man-unaproved-black-132x200.png"
+                        <img th:case="false" class="customer-approval-img" src="/img/man-unaproved-black-132x200.png"
                              alt="Customer Not Approved"/>
                     </div>
                     <div class="center" th:text="${customer.isApproved()? 'Approved': 'Not Approved' }"></div>

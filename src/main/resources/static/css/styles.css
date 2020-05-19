@@ -1,3 +1,8 @@
+/* simply colours */
+.deep-green{
+    color: #2b7735;
+}
+/* */
 body {
     background-color: #373740;
     background-color: lightgrey;
@@ -13,6 +18,11 @@ font-family: "Arial Rounded MT Bold";
 
 .container95{
     width: 95%;
+}
+
+.content-auto-margins{
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #logotext{
@@ -143,7 +153,6 @@ justify-items: center;
     display: inline-block;
     font-size:14px;
     margin: 4px 2px;
-
 }
 
 .border-8px{

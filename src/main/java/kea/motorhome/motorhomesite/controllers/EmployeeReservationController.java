@@ -26,7 +26,7 @@ public class EmployeeReservationController
         return "reservation/landing";
     }
 
-    @PostMapping("/lookup")
+    @PostMapping("/lookup") //
     public String lookupCustomerAndVehicle(@RequestParam String customerID,
                                            @RequestParam Integer motorhomeID,
                                            @RequestParam java.sql.Date dateA,
@@ -49,6 +49,21 @@ public class EmployeeReservationController
     {
         return "You followed /reservation/read " + id;
 
+    }
+
+    @GetMapping("reservation/new")
+    public String newReservation(@RequestParam String customerID,
+                                 @RequestParam Integer motorhomeID,
+                                 @RequestParam java.sql.Date dateA,
+                                 @RequestParam java.sql.Date dateB,
+                                 Model model){
+        model.addAttribute("motorhome", new MotorhomeDAODemo().read(motorhomeID));
+        model.addAttribute("customer",new CustomerDAODemo().read(customerID));
+
+        model.addAttribute("dateA",dateA);
+        model.addAttribute("dateB",dateB);
+
+        return "reservation/new";
     }
 
 }
