@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <!--    Google fonts stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Squada+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
+
+    <title>Create a New Reservation :: Employee</title>
+</head>
+<body>
+<!--    Navbar - fragment replacement for consistent navbars -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+<!-- Main container-->
+<div class="body container95">
+    <h1 id="headline"> Reservation :: Create or Find</h1>
+    <div class="body container">
+        <h3 class="hl">Customer ID and Vehicle ID</h3>
+        <div class="body container95">
+            <form class="padded-blue-area" action="/lookup" method="post">
+                <table>
+                    <tr>
+                        <td><p>
+                            <img src="/img/transparent-200-10.png"/><img src="/img/transparent-200-10.png"/>
+                        </p></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/img/man-the-product-white-200x220.png"
+                                 height="50"/><span>Customer ID:</span>
+                        </td>
+                        <td>
+                            <input type="text" name="customerID">
+                        </td>
+                    <tr>
+                        <td>
+                            <img src="/img/mobilehome_transparent_icon.png" height="50"/><span>Motorhome ID:</span>
+                        </td>
+                        <td>
+                            <input type="number" name="motorhomeID">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p></p>
+                            <h3>Desired Period:</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <input type="date" name="dateA">
+                        </td>
+                        <td align="center">
+                            <input type="date" name="dateB">
+                        </td>
+                    </tr>
+                </table>
+                <p></p>
+                <span><img src="../img/transparent-200-10.png"/><input class="button" type="submit"
+                                                                       value="Check availability!"
+                                                                       name="newReservation"></span>
+            </form>
+            <p></p>
+        </div>
+
+        <!--            Segment for option to enter reservation number directly -->
+        <h3 class="hl">Reservation ID:</h3>
+        <div class="body container95">
+            <form class="padded-blue-area" action="/show" method="post">
+                <table>
+                    <tr>
+                        <td><p><img src="/img/transparent-200-10.png"/><img src="/img/transparent-200-10.png"/></p></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/img/man-the-product-white-200x220.png" height="50"/>
+                            <img src="/img/mobilehome_transparent_icon.png" height="50"/>
+                            <span>Reservation ID:</span>
+                        </td>
+                        <td>
+                            <input type="number" name="reservationID">
+                        </td>
+                    </tr>
+                </table>
+                <p></p>
+                <span><img src="../img/transparent-200-10.png"/>    <input class="button" type="submit"
+                                                                           value="Look it up!"
+                                                                           name="reservationID"></span>
+            </form>
+        </div>
+    </div>
+</div>
+<p></p>
+<p></p>
+<p></p>
+<h1 class="hl " style="text-align: center">
+    home ahead
+    <img class="mobilehome-icon" src="/img/mobilehome_transparent_icon.png">
+    get rolling
+</h1>
+
+</body>
+</html>

@@ -3,7 +3,7 @@ package kea.motorhome.motorhomesite.models;
 import kea.motorhome.motorhomesite.util.DateUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date; // java.util.Dates can be used with class because
 import java.util.Objects;
 
@@ -17,13 +17,13 @@ public class Period
     private int periodID;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime start;
+    private LocalDate start;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime end;
+    private LocalDate end;
     public Period(){ }
 
-    public Period(LocalDateTime startDate, LocalDateTime endDate)
+    public Period(LocalDate startDate, LocalDate endDate)
     {
         this.start = startDate;
         this.end = endDate;
@@ -46,10 +46,10 @@ public class Period
      exactly one parameterless public and one fully parameterized constructor)
     */
     /** Method returns an initialized Period object */
-    public static Period periodfromDates(Date startDate, Date endDate)
+    public static Period periodfromDates(java.sql.Date startDate, java.sql.Date endDate)
     {
-        return new Period(DateUtil.convertToLocalDateTime(startDate),
-                          DateUtil.convertToLocalDateTime(endDate));
+        return new Period(startDate.toLocalDate(),
+                          endDate.toLocalDate());
     }
 
     /**
@@ -81,7 +81,7 @@ public class Period
     /**
      * Method returns true if supplied date is before start or after end of period.
      */
-    public boolean dateOverlapsWithPeriod(LocalDateTime date)
+    public boolean dateOverlapsWithPeriod(LocalDate date)
     {
         return !(date.isBefore(start) || date.isAfter(end));
     }
@@ -91,17 +91,17 @@ public class Period
         return DateUtil.isPeriodConsistent(start, end);
     }
 
-    public LocalDateTime getStart(){ return start; }
+    public LocalDate getStart(){ return start; }
 
-    public void setStart(LocalDateTime start){ this.start = start; }
+    public void setStart(LocalDate start){ this.start = start; }
 
     public Date getStartAsDate(){return DateUtil.convertToDate(start);}
 
-    public LocalDateTime getEnd(){ return end; }
+    public LocalDate getEnd(){ return end; }
 
     public Date getEndAsDate(){return DateUtil.convertToDate(end);}
 
-    public void setEnd(LocalDateTime end){ this.end = end; }
+    public void setEnd(LocalDate end){ this.end = end; }
 
 
     @Override

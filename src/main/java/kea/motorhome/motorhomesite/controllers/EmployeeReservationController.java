@@ -2,27 +2,34 @@ package kea.motorhome.motorhomesite.controllers;
 
 
 import kea.motorhome.motorhomesite.dao.IDAO;
+import kea.motorhome.motorhomesite.daodemo.CustomerDAODemo;
+import kea.motorhome.motorhomesite.daodemo.MotorhomeDAODemo;
 import kea.motorhome.motorhomesite.daodemo.ReservationDAODemo;
 import kea.motorhome.motorhomesite.models.Reservation;
+import kea.motorhome.motorhomesite.util.DateUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.time.ZoneId;
 
 @Controller // annotation
 public class EmployeeReservationController
 {
     private IDAO<Reservation, Integer> reservationDAO;
 
-    public EmployeeReservationController(){
+    public EmployeeReservationController()
+    {
         reservationDAO = new ReservationDAODemo(); // notice demo DAO
     }
 
-    @GetMapping("/reservation/create")
-    @ResponseBody
+    @GetMapping("/reservation/newreservation")
     public String employeeMakeReservation()
     {
-        return "You followed /reservation/create";
+        return "reservation/newreservation";
     }
 
     @GetMapping("/reservation/read")
@@ -30,6 +37,25 @@ public class EmployeeReservationController
     public String readReservation(@RequestParam String id)
     {
         return "You followed /reservation/read " + id;
+
+    }
+
+    @PostMapping("/lookup")
+    public String lookupCustomerAndVehicle(@RequestParam String customerID,
+                                           @RequestParam Integer motorhomeID,
+                                           @RequestParam java.sql.Date dateA,
+                                           @RequestParam java.sql.Date dateB,
+                                           Model model
+                                          )
+    {
+        model.addAttribute("motorhome", new MotorhomeDAODemo().read(motorhomeID));
+        model.addAttribute("customer",new CustomerDAODemo().read(customerID));
+
+        model.addAttribute("dateA",dateA);
+        model.addAttribute("dateB",dateB);
+
+        return "reservation/lookup";
+
     }
 
 }

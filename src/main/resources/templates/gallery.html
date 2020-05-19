@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
 
+<!--    Google fonts stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Squada+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
@@ -11,27 +15,8 @@
 </head>
 <body>
 
-<!--    Navbar -->
-<div class="navbar-top">
-    <table width="100%">
-        <tr>
-            <td>
-                <a href=""> Nordic Motorhome <img class="mobilehome-icon" src="img/mobilehome_transparent_icon.png">
-                </a>
-            </td>
-            <td>
-                <a href="">Allergic Customer Service Center</a>
-                <a href="">Webshop</a>
-                <a href="">About</a>
-            <td>
-            <td style="text-align: right">
-                <a href="" id="buttkick">
-                    <img class="travel-icon" src="img/travel_icon.png">
-                    Login</a>
-            </td>
-        </tr>
-    </table>
-</div>
+<!--    Navbar - fragment replacement for consistent navbars -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
 
 <!-- Main area of page -->
 <div class="body container">
@@ -50,10 +35,6 @@
                             <div th:text="${'Production year: '+mobileHome.productionYear}"></div>
                             <div th:text="${'Price per day: ' + mobileHome.getPerDayPrice() + ' kroner'}"></div>
                             <div th:text="${'Minimum rental period: ' + mobileHome.getMinimumDaysOfRental() + ' days'}"></div>
-                            <button class="collapsible">Description:
-                                <span th:text="${mobileHome.getDescription().substring(0,15) + '...'}"></span>
-                            </button>
-                            <div class="collapsible-content" th:text="${mobileHome.getDescription()}"></div>
                         </td>
                         <td>
                             <div>
@@ -68,6 +49,10 @@
                         </td>
                     </tr>
                 </table>
+                <button class="collapsible">Description:
+                    <span th:text="${mobileHome.getDescription().substring(0,15) + '...'}"></span>
+                </button>
+                <div class="collapsible-content" th:text="${mobileHome.getDescription()}"></div>
             </div>
         </div>
     </div>

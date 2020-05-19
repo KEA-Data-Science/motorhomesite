@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Customer and Motorhome - Lookup</title>
+    <!--    Navbar -->
+</head>
+<body>
+<!--    styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+<!-- navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+<div class="body container">
+
+
+    <h1 class="hl">Customer and Mobilehome</h1>
+        <div class="body container">
+    <!-- Customer info segment -->
+    <h3 class="hl">Customer: </h3>
+
+    <table>
+        <tr>
+            <td>
+                <div class="fuel-type"
+                     th:text="${customer.getPerson().getFirstName() +' ' +  customer.getPerson().getLastName()}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <img src="/img/man-the-product-black-200x220.png" />
+                    <span>                        </span>
+                </div>
+            </td>
+            <td>
+                <span class="model-name">Address </span><img src="/img/transparent-100-10.png"/>
+                <div th:text="${'Road: '}"></div>
+                <div class="" th:text="${'Area-code: '}" }></div>
+                <div class="" th:text="${'Country: '}"></div>
+            </td>
+            <td>
+                <div class="model-name" th:text="${'?'}" th:alt="${'Information about the poor bloke.'}"></div>
+                <div th:text="${customer.getPerson().getAddress().getRoadName() + ' ' +customer.getPerson().getAddress().getHouseNumber() }"></div>
+                <div class="" th:text="${customer.getPerson().getAddress().getPostCode() }"></div>
+                <div class="" th:text="${customer.getPerson().getAddress().getCountry() }"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="model-name"> Driver's Licence Number: </span>
+            </td>
+            <td></td>
+            <td>
+                <span class="model-name" style="color: #ff5533" th:text="${'[ '+customer.getDriversLicence() +' ]'}"></span>
+            </td>
+        </tr>
+    </table>
+
+    <!--    Motorhome info segment -->
+    <h3 id="headline">Motorhome: </h3>
+
+    <div class="fuel-type" th:text="${motorhome.getLicensePlate()}"></div>
+<div class="wrapper350">
+    <div class="box350">
+        <img class="thumbnail" th:src="@{${motorhome.imageURL}}" alt="Image Coming Up!"/>
+    </div>
+    <div class="box350">
+        <!-- Reservation Period Segment-->
+        <div class="padded-blue-area">
+            <table>
+                <tr>
+                    <td>
+                        <img src="/img/transparent-200-10.png"/>
+                    </td>
+                    <td>
+                        Period
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Start:
+                    </td>
+                    <td>
+                        <div class="" th:text="${dateA}"></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        End:
+                    </td>
+                    <td>
+                        <div class="" th:text="${dateB}"></div>
+                    </td>
+                </tr>
+            </table>
+
+
+
+        </div>
+    </div>
+</div>
+    <table>
+        <tr>
+            <td class="item-description">
+                <div class="model-name" th:text="${motorhome.getModel()}"></div>
+                <div class="" th:text="${'Winter daily charge: '+motorhome.getSeasonalDailyCharge()[0]}"></div>
+                <div class="" th:text="${'Spring daily charge: '+motorhome.getSeasonalDailyCharge()[1]}"></div>
+                <div class="" th:text="${'Summber daily charge: '+motorhome.getSeasonalDailyCharge()[2]}"></div>
+                <div class="" th:text="${'Autumn daily charge: '+motorhome.getSeasonalDailyCharge()[3]}"></div>
+            </td>
+            <td>
+                <div>
+                    <button class="button animate border-8px"><span>Details </span></button>
+                </div>
+                <div>
+                    <button class="button animate border-8px"><span>Status </span></button>
+                </div>
+                <div>
+                    <button class="button animate border-8px"><span>Action</span></button>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="fuel-type" th:text="${motorhome.getLicensePlate()}"></div>
+    <button class="collapsible">Description:
+        <span th:text="${motorhome.getNotes().substring(0,5) + '...'}"></span>
+    </button>
+    <div class="collapsible-content" th:text="${motorhome.getNotes()}"></div>
+</div>
+</div>
+<p></p>
+<p></p>
+<p></p>
+<h1 class="hl " style="text-align: center"> Nordic Motorhome <img class="mobilehome-icon"
+                                                                  src="/img/mobilehome_transparent_icon.png"></h1>
+
+<!-- javascript -->
+<script>
+    <!--    script adds an event listener to all elements with class name collapsible -->
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active"); // defaults to false
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

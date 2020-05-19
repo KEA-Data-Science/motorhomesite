@@ -1,8 +1,7 @@
 package kea.motorhome.motorhomesite.util;
 // KCN
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -15,7 +14,7 @@ public class DateUtil
      * A period is characterized by one date/time being earlier than another:
      * Method returns true is first date in parameter list is earlier than second date in list.
      */
-    public static boolean isPeriodConsistent(LocalDateTime earlierDate, LocalDateTime laterDate)
+    public static boolean isPeriodConsistent(LocalDate earlierDate, LocalDate laterDate)
     {
         if(earlierDate == null || laterDate == null){return false;}
         return earlierDate.isBefore(laterDate);
@@ -24,8 +23,8 @@ public class DateUtil
     /**
      * Method returns true if a periods, AA & AB and BA & BB, have no overlapping dates.
      */
-    public static boolean doPeriodsOverlap(LocalDateTime periodAA, LocalDateTime periodAB,
-                                           LocalDateTime periodBA, LocalDateTime periodBB)
+    public static boolean doPeriodsOverlap(LocalDate periodAA, LocalDate periodAB,
+                                           LocalDate periodBA, LocalDate periodBB)
     {
         // null check, with return true if null found; true usually indicates a no-go situation when
         if(periodAA == null || periodAB == null || periodBA == null || periodBB == null)
@@ -45,19 +44,19 @@ public class DateUtil
      * object (time zone set to system default) and converting this Instance object
      * into a Date object.
      */
-    public static Date convertToDate(LocalDateTime localDateTime)
+    public static Date convertToDate(LocalDate localDateTime)
     {
-        return Date.from(localDateTime.
-                atZone(ZoneId.systemDefault()).
-                toInstant());
+        return java.sql.Date.valueOf(localDateTime);
     }
 
-    public static LocalDateTime convertToLocalDateTime(Date date)
+    public static LocalDate convertToLocalDateTime(java.sql.Date date)
     {
-        return date.
-                toInstant().
-                atZone(ZoneId.systemDefault()).
-                toLocalDateTime();
+        return date.toLocalDate();
+
+//        return date.
+//                toInstant().
+//                atZone(ZoneId.systemDefault()).
+//                toLocalDateTime();
     }
 
 }

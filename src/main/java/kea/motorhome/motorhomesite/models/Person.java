@@ -2,6 +2,7 @@ package kea.motorhome.motorhomesite.models;
 
 import kea.motorhome.motorhomesite.enums.SiteRole;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -11,14 +12,14 @@ public class Person {
 	private String firstName;
 	private String lastName;
 	private Address address;
-	private LocalDateTime birthDate;
+	private LocalDate birthDate;
 
 	private SiteRole userType;
-	private LocalDateTime joinDate;
+	private LocalDate joinDate;
 
 	public Person()	{	}
 
-	public Person(int personID, String firstName, String lastName, Address address, LocalDateTime birthDate, SiteRole userType, LocalDateTime joinDate)
+	public Person(int personID, String firstName, String lastName, Address address, LocalDate birthDate, SiteRole userType, LocalDate joinDate)
 	{
 		this.personID = personID;
 		this.firstName = firstName;
@@ -69,12 +70,12 @@ public class Person {
 		this.address = address;
 	}
 
-	public LocalDateTime getBirthDate()
+	public LocalDate getBirthDate()
 	{
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDateTime birthDate)
+	public void setBirthDate(LocalDate birthDate)
 	{
 		this.birthDate = birthDate;
 	}
@@ -89,12 +90,12 @@ public class Person {
 		this.userType = userType;
 	}
 
-	public LocalDateTime getJoinDate()
+	public LocalDate getJoinDate()
 	{
 		return joinDate;
 	}
 
-	public void setJoinDate(LocalDateTime joinDate)
+	public void setJoinDate(LocalDate joinDate)
 	{
 		this.joinDate = joinDate;
 	}
