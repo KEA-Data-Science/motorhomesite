@@ -117,7 +117,13 @@ justify-items: center;
     display: block;
     color: white;
     background-color: #4183ff;
-    padding: 5px 35px;
+    padding: 8px 35px;
+}
+
+/* Margin for boxes! */
+.box-margin{
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 /* Styling used model name displayed as a sort of headline */
