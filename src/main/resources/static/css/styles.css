@@ -57,7 +57,7 @@ font-family: "Arial Rounded MT Bold";
     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
     grid-gap: 15px;
 
-justify-items: center;
+    justify-items: center;
     align-items: center;
     justify-content: space-evenly;
 }

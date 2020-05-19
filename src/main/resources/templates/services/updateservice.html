@@ -1,0 +1,49 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>Create service</title>
+</head>
+
+<body>
+<!--    styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!--    Navbar -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<div id="form">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <form th:action="@{/services/performUpdate}" method="post">
+        <table>
+            <tr>
+                <td>Id</td>
+                <td><input id="serviceID" name="serviceID" type="number" th:value="${service.getServiceID()}" readonly></td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><input id="name" name="name" type="text" th:value="${service.getName()}"></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td><input id="description" name="description" type="text" th:value="${service.getDescription()}"></td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td><input id="unitPrice" name="unitPrice" type="number" th:value="${service.getUnitPrice()}"></td>
+            </tr>
+            <tr>
+                <td><input type="submit"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

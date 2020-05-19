@@ -5,19 +5,21 @@ import java.util.Objects;
 public class Service {
 
 	private int serviceID;
-
 	private String description;
 	private float unitPrice;
+	private String name;
+
 
 	public Service()
 	{
 	}
 
-	public Service(int serviceID, String description, float unitPrice)
+	public Service(int serviceID, String description, float unitPrice, String name)
 	{
 		this.serviceID = serviceID;
 		this.description = description;
 		this.unitPrice = unitPrice;
+		this.name = name;
 	}
 
 	public int getServiceID()
@@ -50,6 +52,14 @@ public class Service {
 		this.unitPrice = unitPrice;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public boolean equals(Object o)
 	{
@@ -73,7 +83,8 @@ public class Service {
 		return "Service{" +
 			   "serviceID=" + serviceID +
 			   ", description='" + description + '\'' +
-			   ", unitPrice=" + unitPrice +
+			   ", unitPrice=" + unitPrice
+			   + ", name='" + name +
 			   '}';
 	}
 }
