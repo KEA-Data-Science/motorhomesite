@@ -32,9 +32,7 @@
                             <button class="collapsible">Description: ...
                             </button>
                             <div class="collapsible-content" th:text="${service.getDescription()}"></div>
-
                         </td>
-
                         <td>
                             <div>
                                 <a th:href="@{/services/showupdateservice(id=${service.serviceID})}"> <button class="button animate border-8px"><span>Update </span></button></a>
@@ -44,7 +42,6 @@
                             </div>
                         </td>
                     </tr>
-
                 </table>
             </div>
         </div>

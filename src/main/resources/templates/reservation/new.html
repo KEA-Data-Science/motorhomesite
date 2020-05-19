@@ -12,5 +12,49 @@
 <!-- navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
+<!-- Reservation(s) displayed -->
+<div class="container content-auto-margins">
+    <h1 id="headline" class="content-auto-margins">New Reservation</h1>
+    <div class="container95 content-auto-margins">
+        <div th:each="reservation : ${reservations}">
+            <div class="fuel-type" th:text="${'Reservation ID: '+ reservation.getReservationID()}"></div>
+            <div class="hl"><h3>Period</h3></div>
+            <table>
+                <tr>
+                    <td><h4>Start Date</h4></td>
+                    <td><img src="/img/transparent-100-10.png"/></td>
+                    <td><h4>End Date</h4></td>
+                </tr>
+                <tr>
+                    <td th:text="${reservation.getPeriod().getStartAsDate()}"></td>
+                    <td><img src="/img/transparent-100-10.png"/></td>
+                    <td th:text="${reservation.getPeriod().getEndAsDate()}"></td>
+                </tr>
+                <tr>
+                    <td th:text="${priceCalculator.getDateUtil().determineSeasonOfDate(reservation.getPeriod().getStart())+' Season'}"></td>
+                    <td><img src="/img/transparent-100-10.png"/></td>
+                    <td th:text="${priceCalculator.getDateUtil().determineSeasonOfDate(reservation.getPeriod().getEnd())+' Season'}"></td>
+                </tr>
+                <tr>
+                    <div class="padded-blue-area">Duration of reservation:</div>
+                </tr>
+                <td>
+<!--                    måned og år bliver kun vist hvis de er relevante -->
+                    <div th:text="${'Total duration of rental : '+
+                    reservation.getPeriod().duration()[0] +' days ' +
+                    (reservation.getPeriod().duration()[1]==0? '': reservation.getPeriod().duration()[1] +' months ')+
+                    (reservation.getPeriod().duration()[2]==0? '': reservation.getPeriod().duration()[2] +' year')}"></div>
+                </td>
+                <tr>
+                    <td> Base price for rental of vehicle in period:</td>
+                    <td th:text="${priceCalculator.calculatePriceOfPeriod(reservation.getMotorhome(),reservation.getPeriod())}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<
+
 </body>
 </html>

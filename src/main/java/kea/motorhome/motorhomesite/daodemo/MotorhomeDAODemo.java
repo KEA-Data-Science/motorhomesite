@@ -16,17 +16,13 @@ public class MotorhomeDAODemo implements IDAO<Motorhome, Integer>
 
         motorhomes = new ArrayList<>();
 
-        motorhomes.add(new Motorhome(1, "Chrysler Faiz", "BAD#444", new float[]{23.3f, 23.3f, 0f, 0f}, "Notes are" +
-                                                                                                       " meant to" +
-                                                                                                       " please " +
-                                                                                                       "the soul," +
-                                                                                                       " not " +
-                                                                                                       "cause " +
-                                                                                                       "angaish",
+        motorhomes.add(new Motorhome(1, "Chrysler Faiz", "ZT-56-005", new float[]{140.3f, 193.3f, 290f},
+                                     "Notes are meant to please the soul, not cause angaish",
                                      "/img/MH1.jpg", new ArrayList<Service>()));
-        motorhomes.add(new Motorhome(2, "Ponzeyer Faiz", "BAD#443", new float[]{23.3f, 23.3f, 0f, 0f}, "NA", "/img/MH2.jpg", new ArrayList<Service>()));
-        motorhomes.add(new Motorhome(3, "Gadleler Faiz", "BAD#442", new float[]{23.3f, 23.3f, 0f, 0f}, "NA", "/img/MH3.jpg", new ArrayList<Service>()));
-        motorhomes.add(new Motorhome(4, "R'ysler Faiz", "BAD#441", new float[]{23.3f, 23.3f, 0f, 0f}, "NA", "/img/MH4.jpg", new ArrayList<Service>()));
+        motorhomes.add(new Motorhome(2, "Ponzeyer Faiz", "BAD#443", new float[]{120.3f, 193.3f, 290f}, "NA", "/img/MH2.jpg", new ArrayList<Service>()));
+        motorhomes.add(new Motorhome(3, "Gadleler Faiz", "BAD#442", new float[]{150.3f, 203.3f, 340f}, "NA", "/img/MH3.jpg", new ArrayList<Service>()));
+        motorhomes.add(new Motorhome(4, "R'ysler Faiz", "BAD#441", new float[] {143.3f, 183.3f, 290f}, "NA"
+                , "/img/MH4.jpg", new ArrayList<Service>()));
     }
 
     @Override

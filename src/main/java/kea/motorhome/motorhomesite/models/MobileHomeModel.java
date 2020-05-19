@@ -1,5 +1,7 @@
 package kea.motorhome.motorhomesite.models;
-
+/// Note til overvejelse; jeg ser en rigtig farlig glidning i at blande denne demo-klasse ind imellem de
+// andre modeller: ingen andre typer relaterer til den, og der er allerede en model for fartøjerne, Motorhome
+// Min anbefaling er at fjerne MobileHomeModel klassen ASAP, så vi undgår forvirring
 public class MobileHomeModel
 {
     private int catalogueId;
