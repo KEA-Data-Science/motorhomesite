@@ -1,0 +1,70 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>Employees</title>
+</head>
+
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<!-- Main area of page -->
+<div class="body container">
+    <!--   Car Fleet grid layout -->
+    <h1 id="headline">Employees</h1>
+    <div><a href="/employees/new"><button id="create">Create New Employee</button></a> </div>
+    <div class="wrapper">
+        <div th:each="employee:${employees}">
+            <div class="box">
+                <table>
+                    <tr>
+                        <td class="item-description">
+                            <div th:text="${'First Name: ' + employee.getPerson().getFirstName()}"></div>
+                            <div th:text="${'Last Name: '+ employee.getPerson().getLastName()}"></div>
+                            <div th:text="${'Job: '+ employee.getPerson().getUserType()}"></div>
+                        </td>
+                        <td>
+                            <div>
+                                <a th:href="@{/employees/details(id=${employee.getEmployeeID()})}"><button class="button animate border-8px"><span>Details</span></button></a>
+                            </div>
+                            <div>
+                                <a th:href="@{/employees/edit(id=${employee.getEmployeeID()})}"><button class="button animate border-8px"><span>Update</span></button></a>
+                            </div>
+                            <div>
+                                <a th:href="@{/employees/delete(id=${employee.getEmployeeID()})}"><button class="button animate border-8px"><span>Delete</span></button></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- javascript -->
+<script>
+    <!--    script adds an event listener to all elements with class name collapsible -->
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active"); // defaults to false
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+</body>
+</html>
+<!-- Sources of knowledge and template code: -->
+<!-- https://www.w3schools.com/howto/howto_js_collapsible.asp -->

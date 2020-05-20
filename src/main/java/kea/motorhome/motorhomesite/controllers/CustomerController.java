@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
         public CustomerController() { customerDAO = new CustomerDAODemo(); } // Notice if demo or actual DAO
 
         @GetMapping("/customers/customers")
-        public String index(Model model){
+        public String customersPage(Model model){
             model.addAttribute("customers" , customerDAO.readall());
             return "customers/customers";
         }
@@ -42,13 +42,13 @@ import org.springframework.web.bind.annotation.*;
             return "customers/new";
         }
 
-        @RequestMapping(value ="/save", method = RequestMethod.POST)
+        @RequestMapping(value ="/savecustomer", method = RequestMethod.POST)
         public String createCustomer(@ModelAttribute("customer") Customer customer) {
             customerDAO.create(customer);
             return "redirect:/customers/customers";
         }
 
-        @RequestMapping(value ="/update", method = RequestMethod.POST)
+        @RequestMapping(value ="/updatecustomer", method = RequestMethod.POST)
         public String updateCustomer(@ModelAttribute("customer") Customer customer) {
             customerDAO.update(customer);
             return "redirect:/customers/customers";

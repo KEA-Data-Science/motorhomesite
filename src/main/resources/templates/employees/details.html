@@ -1,0 +1,81 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>Employee Details</title>
+</head>
+
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<br/><br/><br/><br/>
+
+<h1>Employee Details</h1>
+
+<table>
+    <tr>
+        <td>Employee ID</td>
+        <td th:text="${employee.getEmployeeID()}"></td>
+    </tr>
+    <tr>
+        <td>Person ID</td>
+        <td th:text="${employee.getPerson().getPersonID()}"></td>
+    </tr>
+    <tr>
+        <td>First Name</td>
+        <td th:text="${employee.getPerson().getFirstName()}"></td>
+    </tr>
+    <tr>
+        <td>Last Name</td>
+        <td th:text="${employee.getPerson().getLastName()}"></td>
+    </tr>
+    <tr>
+        <td>Address ID</td>
+        <td th:text="${employee.getPerson().getAddress().getAddressID()}"></td>
+    </tr>
+    <tr>
+        <td>Road Name</td>
+        <td th:text="${employee.getPerson().getAddress().getRoadName()}"></td>
+    </tr>
+    <tr>
+        <td>House Number</td>
+        <td th:text="${employee.getPerson().getAddress().getHouseNumber()}"></td>
+    </tr>
+    <tr>
+        <td>Post Code</td>
+        <td th:text="${employee.getPerson().getAddress().getPostCode()}"></td>
+    </tr>
+    <tr>
+        <td>Country</td>
+        <td th:text="${employee.getPerson().getAddress().getCountry()}"></td>
+    </tr>
+    <tr>
+        <td>Birth Date</td>
+        <td th:text="${employee.getPerson().getBirthDate()}"></td>
+    </tr>
+    <tr>
+        <td>Join Date</td>
+        <td th:text="${employee.getPerson().getBirthDate()}"></td>
+    </tr>
+    <tr>
+        <td>Site Role</td>
+        <td th:text="${employee.getPerson().getUserType()}"></td>
+    </tr>
+    <tr>
+        <td>Accountancy ID Bluff</td>
+        <td th:text="${employee.getAccountancyID_bluff()}"></td>
+    </tr>
+</table>
+<div>
+    <a th:href="@{/employees/edit(id=${employee.getEmployeeID()})}"><button class="button animate border-8px"><span>Update</span></button></a>
+</div>
+<div>
+    <a href="/employees/employees"><button class="button animate border-8px"><span>Back</span></button></a>
+</div>
+</body>
+</html>
