@@ -24,7 +24,7 @@
                 <table>
                     <tr>
                         <td class="item-description">
-                            <div class="model-name" th:text="${mobileHome.modelName}"></div>
+                            <div class="model-name" th:text="${mobileHome.getModel().getModelName()}"></div>
                             <div th:text="${'Production year: '+mobileHome.productionYear}"></div>
                             <div th:text="${'Price per day: ' + mobileHome.getPerDayPrice() + ' kroner'}"></div>
                             <div th:text="${'Minimum rental period: ' + mobileHome.getMinimumDaysOfRental() + ' days'}"></div>

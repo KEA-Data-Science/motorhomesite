@@ -119,7 +119,7 @@
         <table>
             <tr>
                 <td class="item-description">
-                    <div class="model-name" th:text="${motorhome.getModel()}"></div>
+                    <div class="model-name" th:text="${motorhome.getModel().getModelName()}"></div>
                     <div class="" th:text="'Winter daily charge:'+${motorhome.getSeasonalDailyCharge()[0]}"></div>
                     <div class="" th:text="'Spring daily charge: '+${motorhome.getSeasonalDailyCharge()[1]}"></div>
                     <div class="" th:text="'Summber daily charge: '+${motorhome.getSeasonalDailyCharge()[2]}"></div>
