@@ -31,7 +31,6 @@ public class CustomerDAODemo implements IDAO<Customer, String>
         Person person2 = new Person(2, "Bubbi", "Bipbup", address2, LocalDate.now().minusYears(4),
                 SiteRole.CUSTOMER,
                 LocalDate.now());
-
         customers.add(new Customer("1234-1234-1235", 2,person2,true));
     }
 

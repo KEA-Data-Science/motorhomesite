@@ -1,6 +1,7 @@
 package kea.motorhome.motorhomesite.models;
 
 import kea.motorhome.motorhomesite.enums.SiteRole;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,9 +13,11 @@ public class Person {
 	private String firstName;
 	private String lastName;
 	private Address address;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthDate;
 
 	private SiteRole userType;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate joinDate;
 
 	public Person()	{	}

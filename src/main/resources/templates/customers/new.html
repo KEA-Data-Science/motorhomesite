@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
 
     <title>New Customer</title>
 </head>
 
 <body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
 
-<!-- Navbar -->
+<!-- Navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
     <br/><br/><br/><br/>
@@ -21,6 +19,42 @@
 
     <form action="#" th:action="@{/save}" th:object="${customer}" method="post">
         <table>
+            <tr>
+                <td>First Name</td>
+                <td><input type="text" th:field="*{person.firstName}" /></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input type="text" th:field="*{person.lastName}" /></td>
+            </tr>
+            <tr>
+                <td>Road Name</td>
+                <td><input type="text" th:field="*{person.address.roadName}" /></td>
+            </tr>
+            <tr>
+                <td>House Number</td>
+                <td><input type="text" th:field="*{person.address.houseNumber}" /></td>
+            </tr>
+            <tr>
+                <td>Post Code</td>
+                <td><input type="text" th:field="*{person.address.postCode}" /></td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td><input type="text" th:field="*{person.address.country}" /></td>
+            </tr>
+            <tr>
+                <td>Birth Date</td>
+                <td><input type="date" th:field="*{person.birthDate}" /></td>
+            </tr>
+            <tr>
+                <td>Join Date</td>
+                <td><input type="date" th:field="*{person.joinDate}" /></td>
+            </tr>
+            <tr>
+                <td>Site Role</td>
+                <td th:text="Customer" name="person.userType" value="customer"></td>
+            </tr>
             <tr>
                 <td>Drivers License Number</td>
                 <td><input type="text" th:field="*{driversLicence}" /></td>
@@ -39,10 +73,9 @@
                 <td><input type="number" th:field="*{cardID}" /></td>
             </tr>
             <tr>
-                <td colspan="2"><button class="button" type="submit">Save</button></td>
+                <td colspan="2"><button class="button animate border-8px" type="submit">Save</button></td>
             </tr>
         </table>
     </form>
-
 </body>
 </html>
