@@ -8,44 +8,41 @@
 <body>
 <!--    styling fragment -->
 <div th:replace="fragments/styling.html :: styling"></div>
-<!--    Navbar - fragment replacement for consistent navbars -->
+
+<!--    Navbar -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
+
 
 <!-- Main area of page -->
 <div class="body container">
-
     <!--   Car Fleet grid layout -->
-    <h1 id="headline">Company Fleet Overview</h1>
+    <h1 id="headline">Availible services</h1>
+    <div><a href="/services/showcreateservice"><button id="create"> Create</button></a> </div>
     <div class="wrapper">
-        <div th:each="mobileHome:${mobileHomes}">
+        <div th:each="service:${services}">
             <div class="box">
-                <div class="fuel-type" th:text="${mobileHome.getFuelType()}"></div>
-                <img class="thumbnail" th:src="@{${mobileHome.imageURL}}" alt="Image Coming Up!"/>
+                <!-- <div class="fuel-type" th:text="${mobileHome.getFuelType()}"></div>
+                <img class="thumbnail" th:src="@{${mobileHome.imageURL}}" alt="Image Coming Up!"/> -->
                 <table>
                     <tr>
                         <td class="item-description">
-                            <div class="model-name" th:text="${mobileHome.getModel().getModelName()}"></div>
-                            <div th:text="${'Production year: '+mobileHome.productionYear}"></div>
-                            <div th:text="${'Price per day: ' + mobileHome.getPerDayPrice() + ' kroner'}"></div>
-                            <div th:text="${'Minimum rental period: ' + mobileHome.getMinimumDaysOfRental() + ' days'}"></div>
+                            <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                            <div th:text="${'Name: '+service.getName()}"></div>
+                            <div th:text="${'Unit price: '+service.unitPrice}"></div>
+                            <button class="collapsible">Description: ...
+                            </button>
+                            <div class="collapsible-content" th:text="${service.getDescription()}"></div>
                         </td>
                         <td>
                             <div>
-                                <button class="button animate border-8px"><span>Details </span></button>
+                                <a th:href="@{/services/showupdateservice(id=${service.serviceID})}"> <button class="button animate border-8px"><span>Update </span></button></a>
                             </div>
                             <div>
-                                <button class="button animate border-8px"><span>Status </span></button>
-                            </div>
-                            <div>
-                                <button class="button animate border-8px"><span>Action</span></button>
+                                <a th:href="@{/services/deleteservice(id=${service.serviceID})}"> <button class="button animate border-8px"><span>Delete </span></button></a>
                             </div>
                         </td>
                     </tr>
                 </table>
-                <button class="collapsible">Description:
-                    <span th:text="${mobileHome.getDescription().substring(0,15) + '...'}"></span>
-                </button>
-                <div class="collapsible-content" th:text="${mobileHome.getDescription()}"></div>
             </div>
         </div>
     </div>

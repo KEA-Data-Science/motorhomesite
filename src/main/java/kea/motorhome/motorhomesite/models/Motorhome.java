@@ -7,16 +7,35 @@ import java.util.Objects;
 public class Motorhome {
 
 	private int motorhomeID;
-	private String model;
+	private CarModel model;
 	private String licensePlate;
 	private float[] seasonalDailyCharge;
 	private String notes;
 	private String imageURL;
 	private List<Service> serviceAvailable;
+	private int catalogueId;
+	private String modelName;
+	private int productionYear;
+	private String description;
+	private float perDayPrice;
+	private int minimumDaysOfRental;
+	private String fuelType = "Oil";
 
 	public Motorhome() {}
 
-	public Motorhome(int motorhomeID, String model, String licensePlate, float[] seasonalDailyCharge, String notes, String imageURL, List<Service> serviceAvailable) {
+	public Motorhome(int catalogueId, CarModel carModel, int productionYear, String description,
+						   float perDayPrice, int minimumDaysOfRental, String imageURL)
+	{
+		this.catalogueId = catalogueId;
+		this.model = carModel;
+		this.productionYear = productionYear;
+		this.description = description;
+		this.perDayPrice = perDayPrice;
+		this.minimumDaysOfRental = minimumDaysOfRental;
+		this.imageURL = imageURL;
+	}
+
+	public Motorhome(int motorhomeID, CarModel model, String licensePlate, float[] seasonalDailyCharge, String notes, String imageURL, List<Service> serviceAvailable) {
 		this.motorhomeID = motorhomeID;
 		this.model = model;
 		this.licensePlate = licensePlate;
@@ -34,11 +53,11 @@ public class Motorhome {
 		this.motorhomeID = motorhomeID;
 	}
 
-	public String getModel() {
+	public CarModel getModel() {
 		return model;
 	}
 
-	public void setModel(String model) {
+	public void setModel(CarModel model) {
 		this.model = model;
 	}
 
@@ -81,6 +100,64 @@ public class Motorhome {
 	public void setServiceAvailable(List<Service> serviceAvailable) {
 		this.serviceAvailable = serviceAvailable;
 	}
+
+	public int getCatalogueId() {
+		return catalogueId;
+	}
+
+	public void setCatalogueId(int catalogueId) {
+		this.catalogueId = catalogueId;
+	}
+
+	public String getModelName() {
+		return modelName;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+	public int getProductionYear() {
+		return productionYear;
+	}
+
+	public void setProductionYear(int productionYear) {
+		this.productionYear = productionYear;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public float getPerDayPrice() {
+		return perDayPrice;
+	}
+
+	public void setPerDayPrice(float perDayPrice) {
+		this.perDayPrice = perDayPrice;
+	}
+
+	public int getMinimumDaysOfRental() {
+		return minimumDaysOfRental;
+	}
+
+	public void setMinimumDaysOfRental(int minimumDaysOfRental) {
+		this.minimumDaysOfRental = minimumDaysOfRental;
+	}
+
+	public String getFuelType() {
+		return fuelType;
+	}
+
+	public void setFuelType(String fuelType) {
+		this.fuelType = fuelType;
+	}
+
+
 
 	@Override
 	public boolean equals(Object o) {

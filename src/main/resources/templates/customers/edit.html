@@ -1,0 +1,92 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>Edit Customer</title>
+</head>
+
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+    <br/><br/><br/><br/>
+
+    <h1>Edit Customer</h1>
+
+    <form action="#" th:action="@{/update}" th:object="${customer}" method="post">
+        <table>
+            <tr>
+                <td>Person ID</td>
+                <td><input type="text" th:field="*{person.personID}" name="person.personID" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td><input type="text" th:field="*{person.firstName}" name="person.firstName" /></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input type="text" th:field="*{person.lastName}" name="person.lastName" /></td>
+            </tr>
+            <tr>
+                <td>Address ID</td>
+                <td><input type="text" th:field="*{person.address.addressID}" name="person.address.addressID" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <td>Road Name</td>
+                <td><input type="text" th:field="*{person.address.roadName}" name="person.address.roadName" /></td>
+            </tr>
+            <tr>
+                <td>House No.</td>
+                <td><input type="text" th:field="*{person.address.houseNumber}" name="person.address.houseNumber" /></td>
+            </tr>
+            <tr>
+                <td>Post Code</td>
+                <td><input type="text" th:field="*{person.address.postCode}" name="person.address.postCode" /></td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td><input type="text" th:field="*{person.address.country}" name="person.address.country" /></td>
+            </tr>
+            <tr>
+                <td>Birth Date</td>
+                <td><input type="date" th:field="*{person.birthDate}" name="person.birthDate" /></td>
+            </tr>
+            <tr>
+                <td>Join Date</td>
+                <td><input type="date" th:field="*{person.joinDate}" name="person.joinDate" /></td>
+            </tr>
+            <tr>
+                <td>Site Role</td>
+                <td><input type="text" th:field="*{person.userType}" name="userType" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <td>Driver's License No.</td>
+                <td><input type="text" th:field="*{driversLicence}" name="driversLicence" /></td>
+            </tr>
+            <tr>
+                <td>Driver's License Status</td>
+                <td>
+                    <input type="radio" id="true" th:field="*{approved}" value="true" name="approved" />
+                    <label for="true">Approved</label>
+                    <input type="radio" id="false" th:field="*{approved}" value="false" name="approved"/>
+                    <label for="true">Not Approved</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Credit Card No.</td>
+                <td><input type="number" th:field="*{cardID}" name="cardID" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button class="button" type="submit">Save</button></td>
+            </tr>
+        </table>
+    </form>
+<div>
+    <a href="/customers/customers"><button class="button animate border-8px"><span>Back</span></button></a>
+</div>
+</body>
+</html>

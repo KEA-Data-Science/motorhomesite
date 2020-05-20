@@ -13,7 +13,6 @@ import java.util.Objects;
  */
 public class Period
 {
-
     private int periodID;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -27,8 +26,6 @@ public class Period
     {
         this.start = startDate;
         this.end = endDate;
-
-
     }
 
     public int getPeriodID()
@@ -85,6 +82,22 @@ public class Period
     {
         return !(date.isBefore(start) || date.isAfter(end));
     }
+    /**
+     * Return an int[3], where index 0 = day, 1 = months, 2 = years */
+    public int[] duration(){
+
+        int[] result = new int[3];
+
+        java.time.Period javaPeriod = start.until(end);
+
+        result[0] = javaPeriod.getDays();
+        result[1] = javaPeriod.getMonths();
+        result[2] = javaPeriod.getYears();
+
+        return result;
+    }
+
+
 
     public boolean isPeriodConsistent()
     {

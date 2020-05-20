@@ -3,16 +3,22 @@ package kea.motorhome.motorhomesite.models;
 
 import kea.motorhome.motorhomesite.enums.ReservationStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Class model the reservation of a single vehicle by a single customer.
+ * Notes: the getters and setters of this class follow the builder-style experimentally;
+ * All setters return 'this' class instance
+ */
 public class Reservation
 {
     private ReservationStatus status;
 
     private int reservationID;
-    private int customerID;
-    private int employeeID;
+    private Customer customer;
+    private Employee employee;
     private Period period;
     private Motorhome motorhome;
     private List<Service> services;
@@ -21,59 +27,66 @@ public class Reservation
 
     private List<Appointment> appointments;
 
-    public Reservation(){ }
-
-    public Reservation(int reservationID, int customerID, int employeeID, Period period,
-                       Motorhome motorhome, List<Service> services, String notes, String internalNotes,
-                       ReservationStatus status)
+    public Reservation()
     {
+    }
+
+    public Reservation(ReservationStatus status, int reservationID, Customer customer, Employee employee, Period period, Motorhome motorhome, List<Service> services, String notes, String internalNotes, List<Appointment> appointments)
+    {
+        this.status = status;
         this.reservationID = reservationID;
-        this.customerID = customerID;
-        this.employeeID = employeeID;
+        this.customer = customer;
+        this.employee = employee;
         this.period = period;
         this.motorhome = motorhome;
         this.services = services;
         this.notes = notes;
         this.internalNotes = internalNotes;
-        this.status = status;
+        this.appointments = appointments;
     }
 
-    public ReservationStatus getStatus(){ return status; }
+    public ReservationStatus getStatus()
+    {
+        return status;
+    }
 
-    public void setStatus(ReservationStatus status){ this.status = status; }
-
-    public List<Appointment> getAppointments(){ return appointments; }
-
-    public void setAppointments(List<Appointment> appointments){ this.appointments = appointments; }
+    public Reservation setStatus(ReservationStatus status)
+    {
+        this.status = status;
+        return this;
+    }
 
     public int getReservationID()
     {
         return reservationID;
     }
 
-    public void setReservationID(int reservationID)
+    public Reservation setReservationID(int reservationID)
     {
         this.reservationID = reservationID;
+        return this;
     }
 
-    public int getCustomerID()
+    public Customer getCustomer()
     {
-        return customerID;
+        return customer;
     }
 
-    public void setCustomerID(int customerID)
+    public Reservation setCustomer(Customer customer)
     {
-        this.customerID = customerID;
+        this.customer = customer;
+        return this;
     }
 
-    public int getEmployeeID()
+    public Employee getEmployee()
     {
-        return employeeID;
+        return employee;
     }
 
-    public void setEmployeeID(int employeeID)
+    public Reservation setEmployee(Employee employee)
     {
-        this.employeeID = employeeID;
+        this.employee = employee;
+        return this;
     }
 
     public Period getPeriod()
@@ -81,9 +94,10 @@ public class Reservation
         return period;
     }
 
-    public void setPeriod(Period period)
+    public Reservation setPeriod(Period period)
     {
         this.period = period;
+        return this;
     }
 
     public Motorhome getMotorhome()
@@ -91,9 +105,10 @@ public class Reservation
         return motorhome;
     }
 
-    public void setMotorhome(Motorhome motorhome)
+    public Reservation setMotorhome(Motorhome motorhome)
     {
         this.motorhome = motorhome;
+        return this;
     }
 
     public List<Service> getServices()
@@ -101,9 +116,10 @@ public class Reservation
         return services;
     }
 
-    public void setServices(List<Service> services)
+    public Reservation setServices(List<Service> services)
     {
         this.services = services;
+        return this;
     }
 
     public String getNotes()
@@ -111,9 +127,10 @@ public class Reservation
         return notes;
     }
 
-    public void setNotes(String notes)
+    public Reservation setNotes(String notes)
     {
         this.notes = notes;
+        return this;
     }
 
     public String getInternalNotes()
@@ -121,27 +138,21 @@ public class Reservation
         return internalNotes;
     }
 
-    public void setInternalNotes(String internalNotes)
+    public Reservation setInternalNotes(String internalNotes)
     {
         this.internalNotes = internalNotes;
+        return this;
     }
 
-
-    @Override
-    public String toString()
+    public List<Appointment> getAppointments()
     {
-        return "Reservation{" +
-               "status=" + status +
-               ", reservationID=" + reservationID +
-               ", customerID=" + customerID +
-               ", employeeID=" + employeeID +
-               ", period=" + period +
-               ", motorhome=" + motorhome +
-               ", services=" + services +
-               ", notes='" + notes + '\'' +
-               ", internalNotes='" + internalNotes + '\'' +
-               ", appointments=" + appointments +
-               '}';
+        return appointments;
+    }
+
+    public Reservation setAppointments(List<Appointment> appointments)
+    {
+        this.appointments = appointments;
+        return this;
     }
 
     @Override
@@ -151,9 +162,9 @@ public class Reservation
         if(!(o instanceof Reservation)) return false;
         Reservation that = (Reservation)o;
         return getReservationID() == that.getReservationID() &&
-               getCustomerID() == that.getCustomerID() &&
-               getEmployeeID() == that.getEmployeeID() &&
                getStatus() == that.getStatus() &&
+               Objects.equals(getCustomer(), that.getCustomer()) &&
+               Objects.equals(getEmployee(), that.getEmployee()) &&
                Objects.equals(getPeriod(), that.getPeriod()) &&
                Objects.equals(getMotorhome(), that.getMotorhome()) &&
                Objects.equals(getServices(), that.getServices()) &&
@@ -165,6 +176,24 @@ public class Reservation
     @Override
     public int hashCode()
     {
-        return Objects.hash(getStatus(), getReservationID(), getCustomerID(), getEmployeeID(), getPeriod(), getMotorhome(), getServices(), getNotes(), getInternalNotes(), getAppointments());
+        return Objects.hash(getStatus(), getReservationID(), getCustomer(), getEmployee(), getPeriod(), getMotorhome(), getServices(), getNotes(), getInternalNotes(), getAppointments());
     }
+
+    @Override
+    public String toString()
+    {
+        return "Reservation{" +
+               "status=" + status +
+               ", reservationID=" + reservationID +
+               ", customer=" + customer +
+               ", employee=" + employee +
+               ", period=" + period +
+               ", motorhome=" + motorhome +
+               ", services=" + services +
+               ", notes='" + notes + '\'' +
+               ", internalNotes='" + internalNotes + '\'' +
+               ", appointments=" + appointments +
+               '}';
+    }
+
 }

@@ -1,51 +1,47 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
 
-    <title>Mobile Home Gallery</title>
+
+    <title>Customers</title>
 </head>
+
 <body>
-<!--    styling fragment -->
+<!-- Styling fragment -->
 <div th:replace="fragments/styling.html :: styling"></div>
-<!--    Navbar - fragment replacement for consistent navbars -->
+
+<!-- Navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
 <!-- Main area of page -->
 <div class="body container">
-
     <!--   Car Fleet grid layout -->
-    <h1 id="headline">Company Fleet Overview</h1>
+    <h1 id="headline">Customers</h1>
+    <div><a href="/customers/new"><button id="create">Create New Customer</button></a> </div>
     <div class="wrapper">
-        <div th:each="mobileHome:${mobileHomes}">
+        <div th:each="customer:${customers}">
             <div class="box">
-                <div class="fuel-type" th:text="${mobileHome.getFuelType()}"></div>
-                <img class="thumbnail" th:src="@{${mobileHome.imageURL}}" alt="Image Coming Up!"/>
                 <table>
                     <tr>
                         <td class="item-description">
-                            <div class="model-name" th:text="${mobileHome.getModel().getModelName()}"></div>
-                            <div th:text="${'Production year: '+mobileHome.productionYear}"></div>
-                            <div th:text="${'Price per day: ' + mobileHome.getPerDayPrice() + ' kroner'}"></div>
-                            <div th:text="${'Minimum rental period: ' + mobileHome.getMinimumDaysOfRental() + ' days'}"></div>
+                            <div th:text="${'First Name: ' + customer.getPerson().getFirstName()}"></div>
+                            <div th:text="${'Last Name: '+customer.getPerson().getLastName()}"></div>
+                            <div th:text="${'Drivers License No.: '+customer.getDriversLicence()}"></div>
+                            <div th:text="${'Drivers License Status: '+customer.isApproved()}"></div>
                         </td>
                         <td>
                             <div>
-                                <button class="button animate border-8px"><span>Details </span></button>
+                                <a th:href="@{/customers/details(id=${customer.getDriversLicence()})}"><button class="button animate border-8px"><span>Details</span></button></a>
                             </div>
                             <div>
-                                <button class="button animate border-8px"><span>Status </span></button>
+                                <a th:href="@{/customers/edit(id=${customer.getDriversLicence()})}"><button class="button animate border-8px"><span>Update</span></button></a>
                             </div>
                             <div>
-                                <button class="button animate border-8px"><span>Action</span></button>
+                                <a th:href="@{/customers/delete(id=${customer.getDriversLicence()})}"><button class="button animate border-8px"><span>Delete</span></button></a>
                             </div>
                         </td>
                     </tr>
                 </table>
-                <button class="collapsible">Description:
-                    <span th:text="${mobileHome.getDescription().substring(0,15) + '...'}"></span>
-                </button>
-                <div class="collapsible-content" th:text="${mobileHome.getDescription()}"></div>
             </div>
         </div>
     </div>

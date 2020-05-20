@@ -16,17 +16,14 @@
 
 <div class="body container">
 
-
-
     <h1 class="hl">Customer and Mobilehome</h1>
     <div class="body container">
-
-        <form action="/new" method="post">
+        <form action="/reservation/new" method="post">
             <input type="hidden" id="customerID" name="customerID" th:value="${customer.getDriversLicence()}">
             <input type="hidden" id="motorhomeID" name="motorhomeID" th:value="${motorhome.getMotorhomeID()}">
             <input type="hidden" id="dateA" name="dateA" th:value="${dateA}">
             <input type="hidden" id="dateB" name="dateB" th:value="${dateB}">
-            <span align>
+            <span class="center">
                     <input class="button deep-green" type="submit" value="Create Reservation!" name="reservationID">
         </span>
         </form>
@@ -122,11 +119,10 @@
         <table>
             <tr>
                 <td class="item-description">
-                    <div class="model-name" th:text="${motorhome.getModel()}"></div>
-                    <div class="" th:text="${'Winter daily charge: '+motorhome.getSeasonalDailyCharge()[0]}"></div>
-                    <div class="" th:text="${'Spring daily charge: '+motorhome.getSeasonalDailyCharge()[1]}"></div>
-                    <div class="" th:text="${'Summber daily charge: '+motorhome.getSeasonalDailyCharge()[2]}"></div>
-                    <div class="" th:text="${'Autumn daily charge: '+motorhome.getSeasonalDailyCharge()[3]}"></div>
+                    <div class="model-name" th:text="${motorhome.getModel().getModelName()}"></div>
+                    <div class="" th:text="'Winter daily charge:'+${motorhome.getSeasonalDailyCharge()[0]}"></div>
+                    <div class="" th:text="'Spring daily charge: '+${motorhome.getSeasonalDailyCharge()[1]}"></div>
+                    <div class="" th:text="'Summber daily charge: '+${motorhome.getSeasonalDailyCharge()[2]}"></div>
                 </td>
                 <td>
                     <div>
