@@ -52,9 +52,10 @@ public class ReservationDAODemo implements IDAO<Reservation, Integer>
     {
         for(int i = 0; i < reservations.size(); i++)
         {
-            if(reservations.get(i).getReservationID() == thing.getCustomerID())
+            if(reservations.get(i).getReservationID() == thing.getReservationID())
             {
                 reservations.set(i, thing);
+                return true;
             }
         }
 

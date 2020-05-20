@@ -1,3 +1,8 @@
+/* simply colours */
+.deep-green{
+    color: #2b7735;
+}
+/* */
 body {
     background-color: #373740;
     background-color: lightgrey;
@@ -13,6 +18,11 @@ font-family: "Arial Rounded MT Bold";
 
 .container95{
     width: 95%;
+}
+
+.content-auto-margins{
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #logotext{
@@ -47,7 +57,7 @@ font-family: "Arial Rounded MT Bold";
     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
     grid-gap: 15px;
 
-justify-items: center;
+    justify-items: center;
     align-items: center;
     justify-content: space-evenly;
 }
@@ -117,7 +127,13 @@ justify-items: center;
     display: block;
     color: white;
     background-color: #4183ff;
-    padding: 5px 35px;
+    padding: 8px 35px;
+}
+
+/* Margin for boxes! */
+.box-margin{
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 /* Styling used model name displayed as a sort of headline */
@@ -137,7 +153,6 @@ justify-items: center;
     display: inline-block;
     font-size:14px;
     margin: 4px 2px;
-
 }
 
 .border-8px{
