@@ -4,12 +4,8 @@
 }
 /* */
 body {
-    background-color: #373740;
     background-color: lightgrey;
-    padding: 20px;
-    margin: 10px;
-/*font-family: "Roboto Medium", sans-serif;*/
-font-family: "Arial Rounded MT Bold";
+    font-family: "Roboto Medium", Arial Rounded MT Bold, sans-serif;
 }
 
 .container{
@@ -242,7 +238,7 @@ justify-items: center;
 }
 
 /* Persistent Top Navbar stuff*/
-.navbar-top {
+/* .navbar-top {
     overflow: hidden;
     background-color: #2b7735;
     position: fixed;
@@ -278,7 +274,7 @@ justify-items: center;
 #buttkick {
     text-shadow: #2b7735;
 }
-/* Segment defines css that will reveal content with a jump */
+Segment defines css that will reveal content with a jump
 #nav-link-a{
     display: inline-block;
 }
@@ -289,6 +285,7 @@ justify-items: center;
 #nav-link-a-connected{
     display: none;
 }
+*/
 /* general styling */
 .center{
     text-align:center;
