@@ -7,13 +7,13 @@ import java.util.Objects;
 public class Invoice {
 
 	private int invoiceID;
-	private int customerID;
+	private String customerID;
 	private Period billPeriod;
 	private List<Service> services;
 
 	public Invoice() {}
 
-	public Invoice(int invoiceID, int customerID, Period billPeriod, List<Service> services) {
+	public Invoice(int invoiceID, String customerID, Period billPeriod, List<Service> services) {
 		this.invoiceID = invoiceID;
 		this.customerID = customerID;
 		this.billPeriod = billPeriod;
@@ -28,11 +28,11 @@ public class Invoice {
 		this.invoiceID = invoiceID;
 	}
 
-	public int getCustomerID() {
+	public String getCustomerID() {
 		return customerID;
 	}
 
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
 
