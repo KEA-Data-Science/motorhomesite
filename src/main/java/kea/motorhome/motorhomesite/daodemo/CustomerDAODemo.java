@@ -19,19 +19,6 @@ public class CustomerDAODemo implements IDAO<Customer, String>
     public CustomerDAODemo()
     {
         customers = new ArrayList<>();
-
-        Address address1 = new Address(1, "Danmark", "Margovej","15B","5432");
-        Person person1 = new Person(1, "Alfred", "Boolan", address1, LocalDate.now().minusYears(2),
-                                    SiteRole.CUSTOMER,
-                                    LocalDate.now());
-
-                                    customers.add(new Customer("1234-1234-1234", 1,person1,true));
-
-        Address address2 = new Address(2, "Danmark", "Vej","Nr.","2332");
-        Person person2 = new Person(2, "Bubbi", "Bipbup", address2, LocalDate.now().minusYears(4),
-                SiteRole.CUSTOMER,
-                LocalDate.now());
-        customers.add(new Customer("1234-1234-1235", 2,person2,true));
     }
 
     @Override

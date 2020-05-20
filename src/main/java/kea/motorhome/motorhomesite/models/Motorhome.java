@@ -4,192 +4,190 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class Motorhome {
+public class Motorhome
+{
 
-	private int motorhomeID;
-	private CarModel model;
-	private String licensePlate;
-	private float[] seasonalDailyCharge;
-	private String notes;
-	private String imageURL;
-	private List<Service> serviceAvailable;
-	private int catalogueId;
-	private String modelName;
-	private int productionYear;
-	private String description;
-	private float perDayPrice;
-	private int minimumDaysOfRental;
-	private String fuelType = "Oil";
+    private int motorhomeID;
+    private CarModel model;
+    private String licensePlate;
+    private float[] seasonalDailyCharge;
+    private String notes;
+    private String imageURL;
+    private List<Service> servicesAvailable;
+    private int productionYear;
+    private String description;
+    private int minimumDaysOfRental;
+    private String fuelType = "Oil";
 
-	public Motorhome() {}
+    public Motorhome(){}
 
-	public Motorhome(int catalogueId, CarModel carModel, int productionYear, String description,
-						   float perDayPrice, int minimumDaysOfRental, String imageURL)
-	{
-		this.catalogueId = catalogueId;
-		this.model = carModel;
-		this.productionYear = productionYear;
-		this.description = description;
-		this.perDayPrice = perDayPrice;
-		this.minimumDaysOfRental = minimumDaysOfRental;
-		this.imageURL = imageURL;
-	}
+    public Motorhome(int motorhomeID, CarModel model, String licensePlate, float[] seasonalDailyCharge, String notes, String imageURL, List<Service> servicesAvailable, int productionYear, String description, int minimumDaysOfRental, String fuelType)
+    {
+        this.motorhomeID = motorhomeID;
+        this.model = model;
+        this.licensePlate = licensePlate;
+        this.seasonalDailyCharge = seasonalDailyCharge;
+        this.notes = notes;
+        this.imageURL = imageURL;
+        this.servicesAvailable = servicesAvailable;
+        this.productionYear = productionYear;
+        this.description = description;
+        this.minimumDaysOfRental = minimumDaysOfRental;
+        this.fuelType = fuelType;
+    }
 
-	public Motorhome(int motorhomeID, CarModel model, String licensePlate, float[] seasonalDailyCharge, String notes, String imageURL, List<Service> serviceAvailable) {
-		this.motorhomeID = motorhomeID;
-		this.model = model;
-		this.licensePlate = licensePlate;
-		this.seasonalDailyCharge = seasonalDailyCharge;
-		this.notes = notes;
-		this.imageURL = imageURL;
-		this.serviceAvailable = serviceAvailable;
-	}
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o) return true;
+        if(!(o instanceof Motorhome)) return false;
+        Motorhome motorhome = (Motorhome)o;
+        return getMotorhomeID() == motorhome.getMotorhomeID() &&
+               getProductionYear() == motorhome.getProductionYear() &&
+               getMinimumDaysOfRental() == motorhome.getMinimumDaysOfRental() &&
+               Objects.equals(getModel(), motorhome.getModel()) &&
+               Objects.equals(getLicensePlate(), motorhome.getLicensePlate()) &&
+               Arrays.equals(getSeasonalDailyCharge(), motorhome.getSeasonalDailyCharge()) &&
+               Objects.equals(getNotes(), motorhome.getNotes()) &&
+               Objects.equals(getImageURL(), motorhome.getImageURL()) &&
+               Objects.equals(getServicesAvailable(), motorhome.getServicesAvailable()) &&
+               Objects.equals(getDescription(), motorhome.getDescription()) &&
+               Objects.equals(getFuelType(), motorhome.getFuelType());
+    }
 
-	public int getMotorhomeID() {
-		return motorhomeID;
-	}
+    public int getMotorhomeID()
+    {
+        return motorhomeID;
+    }
 
-	public void setMotorhomeID(int motorhomeID) {
-		this.motorhomeID = motorhomeID;
-	}
+    public void setMotorhomeID(int motorhomeID)
+    {
+        this.motorhomeID = motorhomeID;
+    }
 
-	public CarModel getModel() {
-		return model;
-	}
+    public int getProductionYear()
+    {
+        return productionYear;
+    }
 
-	public void setModel(CarModel model) {
-		this.model = model;
-	}
+    public void setProductionYear(int productionYear)
+    {
+        this.productionYear = productionYear;
+    }
 
-	public String getLicensePlate() {
-		return licensePlate;
-	}
+    public int getMinimumDaysOfRental()
+    {
+        return minimumDaysOfRental;
+    }
 
-	public void setLicensePlate(String licensePlate) {
-		this.licensePlate = licensePlate;
-	}
+    public CarModel getModel()
+    {
+        return model;
+    }
 
-	public float[] getSeasonalDailyCharge() {
-		return seasonalDailyCharge;
-	}
+    public void setModel(CarModel model)
+    {
+        this.model = model;
+    }
 
-	public void setSeasonalDailyCharge(float[] seasonalDailyCharge) {
-		this.seasonalDailyCharge = seasonalDailyCharge;
-	}
+    public String getLicensePlate()
+    {
+        return licensePlate;
+    }
 
-	public String getNotes() {
-		return notes;
-	}
+    public void setLicensePlate(String licensePlate)
+    {
+        this.licensePlate = licensePlate;
+    }
 
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
+    public float[] getSeasonalDailyCharge()
+    {
+        return seasonalDailyCharge;
+    }
 
-	public String getImageURL() {
-		return imageURL;
-	}
+    public void setSeasonalDailyCharge(float[] seasonalDailyCharge)
+    {
+        this.seasonalDailyCharge = seasonalDailyCharge;
+    }
 
-	public void setImageURL(String imageURL) {
-		this.imageURL = imageURL;
-	}
+    public String getNotes()
+    {
+        return notes;
+    }
 
-	public List<Service> getServiceAvailable() {
-		return serviceAvailable;
-	}
+    public void setNotes(String notes)
+    {
+        this.notes = notes;
+    }
 
-	public void setServiceAvailable(List<Service> serviceAvailable) {
-		this.serviceAvailable = serviceAvailable;
-	}
+    public String getImageURL()
+    {
+        return imageURL;
+    }
 
-	public int getCatalogueId() {
-		return catalogueId;
-	}
+    public void setImageURL(String imageURL)
+    {
+        this.imageURL = imageURL;
+    }
 
-	public void setCatalogueId(int catalogueId) {
-		this.catalogueId = catalogueId;
-	}
+    public List<Service> getServicesAvailable()
+    {
+        return servicesAvailable;
+    }
 
-	public String getModelName() {
-		return modelName;
-	}
+    public void setServicesAvailable(List<Service> servicesAvailable)
+    {
+        this.servicesAvailable = servicesAvailable;
+    }
 
-	public void setModelName(String modelName) {
-		this.modelName = modelName;
-	}
+    public String getDescription()
+    {
+        return description;
+    }
 
-	public int getProductionYear() {
-		return productionYear;
-	}
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
 
-	public void setProductionYear(int productionYear) {
-		this.productionYear = productionYear;
-	}
+    public String getFuelType()
+    {
+        return fuelType;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setFuelType(String fuelType)
+    {
+        this.fuelType = fuelType;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setMinimumDaysOfRental(int minimumDaysOfRental)
+    {
+        this.minimumDaysOfRental = minimumDaysOfRental;
+    }
 
-	public float getPerDayPrice() {
-		return perDayPrice;
-	}
+    @Override
+    public int hashCode()
+    {
+        int result = Objects.hash(getMotorhomeID(), getModel(), getLicensePlate(), getNotes(), getImageURL(), getServicesAvailable(), getProductionYear(), getDescription(), getMinimumDaysOfRental(), getFuelType());
+        result = 31 * result + Arrays.hashCode(getSeasonalDailyCharge());
+        return result;
+    }
 
-	public void setPerDayPrice(float perDayPrice) {
-		this.perDayPrice = perDayPrice;
-	}
-
-	public int getMinimumDaysOfRental() {
-		return minimumDaysOfRental;
-	}
-
-	public void setMinimumDaysOfRental(int minimumDaysOfRental) {
-		this.minimumDaysOfRental = minimumDaysOfRental;
-	}
-
-	public String getFuelType() {
-		return fuelType;
-	}
-
-	public void setFuelType(String fuelType) {
-		this.fuelType = fuelType;
-	}
-
-
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Motorhome motorhome = (Motorhome) o;
-		return motorhomeID == motorhome.motorhomeID &&
-				Objects.equals(model, motorhome.model) &&
-				Objects.equals(licensePlate, motorhome.licensePlate) &&
-				Arrays.equals(seasonalDailyCharge, motorhome.seasonalDailyCharge) &&
-				Objects.equals(notes, motorhome.notes) &&
-				Objects.equals(imageURL, motorhome.imageURL) &&
-				Objects.equals(serviceAvailable, motorhome.serviceAvailable);
-	}
-
-	@Override
-	public int hashCode() {
-		int result = Objects.hash(motorhomeID, model, licensePlate, notes, imageURL, serviceAvailable);
-		result = 31 * result + Arrays.hashCode(seasonalDailyCharge);
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		return "Motorhome{" +
-				"motorhomeID=" + motorhomeID +
-				", model='" + model + '\'' +
-				", licensePlate='" + licensePlate + '\'' +
-				", seasonalDailyCharge=" + Arrays.toString(seasonalDailyCharge) +
-				", notes='" + notes + '\'' +
-				", imageURL='" + imageURL + '\'' +
-				", serviceAvailable=" + serviceAvailable +
-				'}';
-	}
+    @Override
+    public String toString()
+    {
+        return "Motorhome{" +
+               "motorhomeID=" + motorhomeID +
+               ", model=" + model +
+               ", licensePlate='" + licensePlate + '\'' +
+               ", seasonalDailyCharge=" + Arrays.toString(seasonalDailyCharge) +
+               ", notes='" + notes + '\'' +
+               ", imageURL='" + imageURL + '\'' +
+               ", servicesAvailable=" + servicesAvailable +
+               ", productionYear=" + productionYear +
+               ", description='" + description + '\'' +
+               ", minimumDaysOfRental=" + minimumDaysOfRental +
+               ", fuelType='" + fuelType + '\'' +
+               '}';
+    }
 }

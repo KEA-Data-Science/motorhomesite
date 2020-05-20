@@ -3,6 +3,7 @@ package kea.motorhome.motorhomesite.models;
 
 import kea.motorhome.motorhomesite.enums.ReservationStatus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +13,7 @@ import java.util.Objects;
  * Notes: the getters and setters of this class follow the builder-style experimentally;
  * All setters return 'this' class instance
  */
-public class Reservation
+public class Reservation implements Serializable
 {
     private ReservationStatus status;
 
@@ -45,6 +46,29 @@ public class Reservation
         this.appointments = appointments;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o) return true;
+        if(!(o instanceof Reservation)) return false;
+        Reservation that = (Reservation)o;
+        return getReservationID() == that.getReservationID() &&
+               getStatus() == that.getStatus() &&
+               Objects.equals(getCustomer(), that.getCustomer()) &&
+               Objects.equals(getEmployee(), that.getEmployee()) &&
+               Objects.equals(getPeriod(), that.getPeriod()) &&
+               Objects.equals(getMotorhome(), that.getMotorhome()) &&
+               Objects.equals(getServices(), that.getServices()) &&
+               Objects.equals(getNotes(), that.getNotes()) &&
+               Objects.equals(getInternalNotes(), that.getInternalNotes()) &&
+               Objects.equals(getAppointments(), that.getAppointments());
+    }
+
+    public int getReservationID()
+    {
+        return reservationID;
+    }
+
     public ReservationStatus getStatus()
     {
         return status;
@@ -53,17 +77,6 @@ public class Reservation
     public Reservation setStatus(ReservationStatus status)
     {
         this.status = status;
-        return this;
-    }
-
-    public int getReservationID()
-    {
-        return reservationID;
-    }
-
-    public Reservation setReservationID(int reservationID)
-    {
-        this.reservationID = reservationID;
         return this;
     }
 
@@ -113,6 +126,8 @@ public class Reservation
 
     public List<Service> getServices()
     {
+        if(services == null) {services = new ArrayList<>();}
+
         return services;
     }
 
@@ -155,22 +170,10 @@ public class Reservation
         return this;
     }
 
-    @Override
-    public boolean equals(Object o)
+    public Reservation setReservationID(int reservationID)
     {
-        if(this == o) return true;
-        if(!(o instanceof Reservation)) return false;
-        Reservation that = (Reservation)o;
-        return getReservationID() == that.getReservationID() &&
-               getStatus() == that.getStatus() &&
-               Objects.equals(getCustomer(), that.getCustomer()) &&
-               Objects.equals(getEmployee(), that.getEmployee()) &&
-               Objects.equals(getPeriod(), that.getPeriod()) &&
-               Objects.equals(getMotorhome(), that.getMotorhome()) &&
-               Objects.equals(getServices(), that.getServices()) &&
-               Objects.equals(getNotes(), that.getNotes()) &&
-               Objects.equals(getInternalNotes(), that.getInternalNotes()) &&
-               Objects.equals(getAppointments(), that.getAppointments());
+        this.reservationID = reservationID;
+        return this;
     }
 
     @Override

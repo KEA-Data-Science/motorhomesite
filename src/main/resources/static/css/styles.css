@@ -25,6 +25,10 @@ font-family: "Arial Rounded MT Bold";
     margin-right: auto;
 }
 
+.center-text{
+    text-align: center;
+}
+
 #logotext{
     font-family: 'Squada One', cursive;
     font-size: 20px;

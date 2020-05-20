@@ -13,7 +13,8 @@ public class Invoice {
 
 	public Invoice() {}
 
-	public Invoice(int invoiceID, String customerID, Period billPeriod, List<Service> services) {
+	public Invoice(int invoiceID, String customerID, Period billPeriod, List<Service> services)
+	{
 		this.invoiceID = invoiceID;
 		this.customerID = customerID;
 		this.billPeriod = billPeriod;

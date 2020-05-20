@@ -6,14 +6,14 @@ public class Employee {
 
 	private int employeeID;
 	private Person person;
-	private int accountancyID_bluff;
+	private int accountancyID;
 
 	public Employee() {}
 
 	public Employee(int employeeID, Person person, int accountancyID_bluff) {
 		this.employeeID = employeeID;
 		this.person = person;
-		this.accountancyID_bluff = accountancyID_bluff;
+		this.accountancyID = accountancyID_bluff;
 	}
 
 	public int getEmployeeID() {
@@ -32,12 +32,12 @@ public class Employee {
 		this.person = person;
 	}
 
-	public int getAccountancyID_bluff() {
-		return accountancyID_bluff;
+	public int getAccountancyID() {
+		return accountancyID;
 	}
 
-	public void setAccountancyID_bluff(int accountancyID_bluff) {
-		this.accountancyID_bluff = accountancyID_bluff;
+	public void setAccountancyID(int accountancyID) {
+		this.accountancyID = accountancyID;
 	}
 
 	@Override
@@ -46,21 +46,21 @@ public class Employee {
 		if (o == null || getClass() != o.getClass()) return false;
 		Employee employee = (Employee) o;
 		return employeeID == employee.employeeID &&
-				accountancyID_bluff == employee.accountancyID_bluff &&
-				Objects.equals(person, employee.person);
+			   accountancyID == employee.accountancyID &&
+			   Objects.equals(person, employee.person);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(employeeID, person, accountancyID_bluff);
+		return Objects.hash(employeeID, person, accountancyID);
 	}
 
 	@Override
 	public String toString() {
 		return "Employee{" +
-				"employeeID=" + employeeID +
-				", person=" + person +
-				", accountancyID_bluff=" + accountancyID_bluff +
-				'}';
+			   "employeeID=" + employeeID +
+			   ", person=" + person +
+			   ", accountancyID_bluff=" + accountancyID +
+			   '}';
 	}
 }
