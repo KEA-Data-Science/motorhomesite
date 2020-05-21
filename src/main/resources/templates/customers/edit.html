@@ -77,8 +77,24 @@
                 </td>
             </tr>
             <tr>
+                <td>Credit Card ID</td>
+                <td><input type="number" th:field="*{payCard.cardID}" name="payCard.cardID" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <td>Credit Card Type</td>
+                <td><input type="text" th:field="*{payCard.cardType}" name="payCard.cardType"/></td>
+            </tr>
+            <tr>
                 <td>Credit Card No.</td>
-                <td><input type="number" th:field="*{cardID}" name="cardID" /></td>
+                <td><input type="text" th:field="*{payCard.cardNumber}" name="payCard.cardNumber"/></td>
+            </tr>
+            <tr>
+                <td>Credit Card Expiration Date</td>
+                <td><input type="date" th:field="*{payCard.expirationDate}" name="payCard.expirationDate"/></td>
+            </tr>
+            <tr>
+                <td>Credit Card Security Digits</td>
+                <td><input type="number" th:field="*{payCard.securityDigits}" name="payCard.cardSecurityDigits"/></td>
             </tr>
             <tr>
                 <td colspan="2"><button class="button animate border-8px" type="submit">Save</button></td>

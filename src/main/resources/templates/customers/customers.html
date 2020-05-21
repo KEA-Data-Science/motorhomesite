@@ -27,7 +27,10 @@
                             <div th:text="${'First Name: ' + customer.getPerson().getFirstName()}"></div>
                             <div th:text="${'Last Name: '+customer.getPerson().getLastName()}"></div>
                             <div th:text="${'Drivers License No.: '+customer.getDriversLicence()}"></div>
-                            <div th:text="${'Drivers License Status: '+customer.isApproved()}"></div>
+                            <div th:switch="${customer.isApproved()}">
+                                <div th:case="true">Drivers License Status: Approved</div>
+                                <div th:case="false">Drivers License Status: Not Approved</div>
+                            </div>
                         </td>
                         <td>
                             <div>

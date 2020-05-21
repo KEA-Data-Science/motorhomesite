@@ -1,6 +1,7 @@
 package kea.motorhome.motorhomesite.controllers;
 
 import kea.motorhome.motorhomesite.dao.IDAO;
+import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.daodemo.EmployeeDAODemo;
 import kea.motorhome.motorhomesite.models.*;
 import org.springframework.stereotype.Controller;
@@ -10,19 +11,20 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class EmployeeController
 {
-    private IDAO employeeDAO;
 
-    public EmployeeController() { employeeDAO = new EmployeeDAODemo(); } // Notice if demo or actual DAO
+    private SiteDAOCollection dao;
+
+    public EmployeeController() { dao = SiteDAOCollection.getInstance(); }
 
     @GetMapping("/employees/employees")
     public String employeesPage(Model model){
-        model.addAttribute("employees" , employeeDAO.readall());
+        model.addAttribute("employees" , dao.employeeDAO().readall());
         return "employees/employees";
     }
 
     @GetMapping("/employees/details")
     public String getEmployeeByParameter(Model model, @RequestParam int id) {
-        model.addAttribute("employee", employeeDAO.read(id));
+        model.addAttribute("employee", dao.employeeDAO().read(id));
         return "employees/details";
     }
 
@@ -41,25 +43,25 @@ public class EmployeeController
 
     @RequestMapping(value ="/saveemployee", method = RequestMethod.POST)
     public String createEmployee(@ModelAttribute("employee") Employee employee) {
-        employeeDAO.create(employee);
+        dao.employeeDAO().create(employee);
         return "redirect:/employees/employees";
     }
 
     @RequestMapping(value ="/updateemployee", method = RequestMethod.POST)
     public String updateEmployee(@ModelAttribute("employee") Employee employee) {
-        employeeDAO.update(employee);
+        dao.employeeDAO().update(employee);
         return "redirect:/employees/employees";
     }
 
     @GetMapping("/employees/edit")
     public String showEditEmployeeForm(Model model, @RequestParam int id) {
-        model.addAttribute("employee", employeeDAO.read(id));
+        model.addAttribute("employee", dao.employeeDAO().read(id));
         return "employees/edit";
     }
 
     @RequestMapping("employees/delete")
     public String deleteEmployee(@RequestParam int id) {
-        employeeDAO.delete(id);
+        dao.employeeDAO().delete(id);
         return "redirect:/employees/employees";
     }
 }

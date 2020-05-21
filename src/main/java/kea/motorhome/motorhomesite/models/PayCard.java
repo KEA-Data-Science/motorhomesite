@@ -1,5 +1,8 @@
 package kea.motorhome.motorhomesite.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -8,12 +11,13 @@ public class PayCard {
 	private int cardID;
 	private String cardType;
 	private String cardNumber;
-	private LocalDateTime expirationDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate expirationDate;
 	private int securityDigits;
 
 	public PayCard()	{	}
 
-	public PayCard(int cardID, String cardType, String cardNumber, LocalDateTime expirationDate, int securityDigits)
+	public PayCard(int cardID, String cardType, String cardNumber, LocalDate expirationDate, int securityDigits)
 	{
 		this.cardID = cardID;
 		this.cardType = cardType;
@@ -52,12 +56,12 @@ public class PayCard {
 		this.cardNumber = cardNumber;
 	}
 
-	public LocalDateTime getExpirationDate()
+	public LocalDate getExpirationDate()
 	{
 		return expirationDate;
 	}
 
-	public void setExpirationDate(LocalDateTime expirationDate)
+	public void setExpirationDate(LocalDate expirationDate)
 	{
 		this.expirationDate = expirationDate;
 	}

@@ -7,6 +7,7 @@ import kea.motorhome.motorhomesite.enums.SiteRole;
 import kea.motorhome.motorhomesite.models.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,19 +31,38 @@ public class DemoData
         dao.serviceDAO().readall().add(service3);
 
         /* Customers */
-
+        PayCard payCard1 = new PayCard(1,"Visa Elektron",
+                "1111-1111-1111-1111", LocalDate.now().plusYears(1),1111);
         Address address1 = new Address(1, "Danmark", "Margovej", "15B", "5432");
         Person person1 = new Person(1, "Alfred", "Boolan",
                                     address1, LocalDate.now().minusYears(2), "aBool@mail.com",
                                     SiteRole.CUSTOMER, LocalDate.now());
         System.out.println("1111-1234-1234 was added");
-        dao.customerDAO().readall().add(new Customer("1111-1234-1234", 1, person1, true));
+        dao.customerDAO().readall().add(new Customer("1111-1234-1234", payCard1, person1, true));
 
+        PayCard payCard2 = new PayCard(2,"Visa Infinite",
+                "2222-2222-2222-2222", LocalDate.now().plusYears(2),2222);
         Address address2 = new Address(2, "Danmark", "Vej", "Nr.", "2332");
         Person person2 = new Person(2, "Bubbi", "Bipbup", address2, LocalDate.now().minusYears(4),
                                     "buBool@mail.com", SiteRole.CUSTOMER,
                                     LocalDate.now());
-        dao.customerDAO().readall().add(new Customer("1234-1234-1235", 2, person2, true));
+        dao.customerDAO().readall().add(new Customer("1234-1234-1235", payCard2, person2, true));
+
+        /* Employees */
+        Address address3 = new Address(1, "Danmark", "Kastrupvej","15B","1900");
+        Person person3 = new Person(3, "Anna", "Adminsen", address1, LocalDate.now().minusYears(2),
+                "anna@nmh.dk",
+                SiteRole.ADMIN,
+                LocalDate.now());
+
+        dao.employeeDAO().readall().add(new Employee(1, person1,1111));
+
+        Address address4 = new Address(2, "Danmark", "Brønshøjvej","Nr 1.","2600");
+        Person person4 = new Person(4, "Søren", "Sælgersen", address2, LocalDate.now().minusYears(4),
+                "sørensælger@trixxxster.org",
+                SiteRole.SALES,
+                LocalDate.now());
+        dao.employeeDAO().readall().add(new Employee(2, person2,2222));
 
         /* Invoices */
         Invoice invoice1 = new Invoice(1, "1234-1234-1235", new Period(LocalDate.of(2020, 5, 1),

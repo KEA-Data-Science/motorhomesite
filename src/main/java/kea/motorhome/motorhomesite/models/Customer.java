@@ -5,15 +5,15 @@ import java.util.Objects;
 public class Customer {
 
 	private String driversLicence;
-	private int cardID; // nb. skal byttes ud til et PayCard-object
+	private PayCard payCard; // nb. skal byttes ud til et PayCard-object
 	private Person person;
 	private boolean approved;
 
 	public Customer() {}
 
-	public Customer(String driversLicence, int cardID, Person person, boolean approved) {
+	public Customer(String driversLicence, PayCard payCard, Person person, boolean approved) {
 		this.driversLicence = driversLicence;
-		this.cardID = cardID;
+		this.payCard = payCard;
 		this.person = person;
 		this.approved = approved;
 	}
@@ -26,12 +26,12 @@ public class Customer {
 		this.driversLicence = driversLicence;
 	}
 
-	public int getCardID() {
-		return cardID;
+	public PayCard getPayCard() {
+		return payCard;
 	}
 
-	public void setCardID(int cardID) {
-		this.cardID = cardID;
+	public void setPayCard(PayCard payCard) {
+		this.payCard = payCard;
 	}
 
 	public Person getPerson() {
@@ -55,7 +55,7 @@ public class Customer {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Customer customer = (Customer) o;
-		return cardID == customer.cardID &&
+		return payCard == customer.payCard &&
 				approved == customer.approved &&
 				Objects.equals(driversLicence, customer.driversLicence) &&
 				Objects.equals(person, customer.person);
@@ -63,14 +63,14 @@ public class Customer {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(driversLicence, cardID, person, approved);
+		return Objects.hash(driversLicence, payCard, person, approved);
 	}
 
 	@Override
 	public String toString() {
 		return "Customer{" +
 				"driversLicence='" + driversLicence + '\'' +
-				", cardID=" + cardID +
+				", cardID=" + payCard +
 				", person=" + person +
 				", approved=" + approved +
 				'}';

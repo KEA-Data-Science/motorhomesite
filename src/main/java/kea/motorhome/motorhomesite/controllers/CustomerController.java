@@ -1,12 +1,9 @@
 package kea.motorhome.motorhomesite.controllers;
 
-import kea.motorhome.motorhomesite.dao.IDAO;
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
-import kea.motorhome.motorhomesite.daodemo.CustomerDAODemo;
 import kea.motorhome.motorhomesite.models.Address;
 import kea.motorhome.motorhomesite.models.Customer;
 import kea.motorhome.motorhomesite.models.Person;
-import kea.motorhome.motorhomesite.models.Service;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

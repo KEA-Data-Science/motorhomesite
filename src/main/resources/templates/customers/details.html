@@ -61,13 +61,30 @@
         <td>Driver's License No.</td>
         <td th:text="${customer.getDriversLicence()}"></td>
     </tr>
-    <tr>
+    <tr th:switch="${customer.isApproved()}">
         <td>Driver's License Status</td>
-        <td th:text="${customer.isApproved()}"></td>
+        <td th:case="true">Approved</td>
+        <td th:case="false">Approved</td>
+    </tr>
+    <tr>
+        <td>Credit Card ID</td>
+        <td th:text="${customer.getPayCard().getCardID()}"></td>
+    </tr>
+    <tr>
+        <td>Credit Card Type</td>
+        <td th:text="${customer.getPayCard().getCardType()}"></td>
     </tr>
     <tr>
         <td>Credit Card No.</td>
-        <td th:text="${customer.getCardID()}"></td>
+        <td th:text="${customer.getPayCard().getCardNumber()}"></td>
+    </tr>
+    <tr>
+        <td>Credit Card Expiration Date</td>
+        <td th:text="${customer.getPayCard().getExpirationDate()}"></td>
+    </tr>
+    <tr>
+        <td>Credit Card Security Digits</td>
+        <td th:text="${customer.getPayCard().getSecurityDigits()}"></td>
     </tr>
 </table>
 <div>
