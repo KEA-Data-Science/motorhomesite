@@ -17,7 +17,7 @@
 <div class="body container">
     <!--   Car Fleet grid layout -->
     <h1 id="headline">Availible services</h1>
-    <div><a href="/services/showcreateservice"><button id="create"> Create</button></a> </div>
+    <div><a href="/createservice"><button id="create"> Create</button></a> </div>
     <div class="wrapper">
         <div th:each="service:${services}">
             <div class="box">
@@ -35,10 +35,10 @@
                         </td>
                         <td>
                             <div>
-                                <a th:href="@{/services/showupdateservice(id=${service.serviceID})}"> <button class="button animate border-8px"><span>Update </span></button></a>
+                                <a th:href="@{/updateservice(id=${service.serviceID})}"> <button class="button animate border-8px"><span>Update </span></button></a>
                             </div>
                             <div>
-                                <a th:href="@{/services/deleteservice(id=${service.serviceID})}"> <button class="button animate border-8px"><span>Delete </span></button></a>
+                                <a th:href="@{/deleteservice(id=${service.serviceID})}"> <button class="button animate border-8px"><span>Delete </span></button></a>
                             </div>
                         </td>
                     </tr>

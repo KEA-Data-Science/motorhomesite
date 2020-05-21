@@ -1,5 +1,6 @@
 package kea.motorhome.motorhomesite.controllers;
 
+import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.daodemo.ServiceDAODemo;
 import kea.motorhome.motorhomesite.models.Service;
 import org.springframework.stereotype.Controller;
@@ -12,54 +13,54 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ServiceController {
 
-    ServiceDAODemo serviceDAODemo;
+    SiteDAOCollection dao;
 
     public ServiceController()
     {
-        serviceDAODemo = new ServiceDAODemo();
+        dao = SiteDAOCollection.getInstance();
 //        serviceDAODemo.addServices();
 
     }
-    @GetMapping("/services/services")
+    @GetMapping("/services")
     public String showServices(Model model)
     {
-        model.addAttribute("services", serviceDAODemo.readall());
+        model.addAttribute("services", dao.serviceDAO().readall());
         return "/services/services";
     }
 
-    @GetMapping("/services/showcreateservice")
+    @GetMapping("/createservice")
     public String createService()
     {
-        return "/services/createservice";
+        return "/services/new";
     }
 
     @PostMapping("/services/getdata")
     public String getData(@ModelAttribute Service service)
     {
-        service.setServiceID(serviceDAODemo.readall().size());
-        serviceDAODemo.create(service);
-        return "redirect:/services/services";
+        service.setServiceID(dao.serviceDAO().readall().size());
+        dao.serviceDAO().create(service);
+        return "redirect:/services";
     }
 
-    @GetMapping("/services/showupdateservice")
+    @GetMapping("/updateservice")
     public String showUpdateService(@RequestParam int id, Model model)
     {
-        model.addAttribute("service", serviceDAODemo.read(id));
-        return "/services/updateservice";
+        model.addAttribute("service", dao.serviceDAO().read(id));
+        return "/services/edit";
     }
 
-    @PostMapping("/services/performUpdate")
+    @PostMapping("/performUpdate")
     public String performUpdate(@ModelAttribute Service service)
     {
-        serviceDAODemo.update(service);
+        dao.serviceDAO().update(service);
         System.out.println(service);
-        return "redirect:/services/services";
+        return "redirect:/services";
     }
 
-    @GetMapping("/services/deleteservice")
+    @GetMapping("/deleteservice")
     public String deleteService(@RequestParam int id)
     {
-        serviceDAODemo.delete(id);
-        return "redirect:/services/services";
+        dao.serviceDAO().delete(id);
+        return "redirect:/services";
     }
 }
