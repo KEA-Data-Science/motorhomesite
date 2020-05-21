@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservations :: How would you like to list them?</title>
+</head>
+<body>
+
+<!-- styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+
+<h1 class="hl">Reservation :: Search </h1>
+
+<!-- List section -->
+<!---->
+<div th:unless="${reservations.isEmpty()}">
+    <div class="container95">
+
+
+        <div th:each="reservation:${reservations}">
+
+            <div class="container border-8px">
+                <table class="container95">
+                    <tr>
+                        <th class="box-margin">Reservation ID</th>
+                        <th class="box-margin">Customer Driver's Licence</th>
+                        <th class="box-margin">Employee ID</th>
+                    </tr>
+                    <tr>
+                        <td th:text="${reservation.getReservationID()}"></td>
+                        <td th:text="${reservation.getCustomer().getDriversLicence()}"></td>
+                        <td th:text="${reservation.getEmployee().getEmployeeID()}"></td>
+                    </tr>
+                </table>
+
+                <table class="container95">
+                    <tr>
+                        <th class="box-margin">Period Start</th>
+                        <th class="box-margin">Period End</th>
+                        <th class="box-margin">Motorhome ID</th>
+                    </tr>
+                    <tr>
+                        <td th:text="${reservation.getPeriod().getStart()}"></td>
+                        <td th:text="${reservation.getPeriod().getEnd()}"></td>
+                        <td th:text="${reservation.getMotorhome().getMotorhomeID()}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:if="${reservations.isEmpty()}">
+    <div class="wrapper350">
+        <div class="padded-blue-area "><h2>No reservations returned yet.</h2></div>
+    </div>
+</div>
+
+
+<!-- footer -->
+<div th:replace="fragments/footer.html :: footer"></div>
+
+</body>
+</html>

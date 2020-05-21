@@ -208,69 +208,73 @@
         <!--            Area showing combined price of period and services -->
         <h4 class="hl">Reservation Price Total </h4>
         <div class="wrapper350">
-            <table class="container95">
-                <tr>
-                    <th>Services:</th>
-                    <td th:text="${priceCalculator.calculatePriceOfService(reservation.getServices())} + ' kr'"></td>
-                </tr>
-                <tr>
-                    <th>Period charge:</th>
-                    <td th:text="${priceCalculator.calculatePriceOfPeriod(reservation.getMotorhome(), reservation.getPeriod())} + ' kr'"></td>
-                </tr>
-                <tr class="padded-blue-area">
-                    <th>Reservation total:</th>
-                    <td th:text="${priceCalculator.calculatePriceOfPeriod(reservation.getMotorhome(), reservation.getPeriod())
+            <div class="container95">
+                <table class="container95">
+                    <tr>
+                        <th>Services:</th>
+                        <td th:text="${priceCalculator.calculatePriceOfService(reservation.getServices())} + ' kr'"></td>
+                    </tr>
+                    <tr>
+                        <th>Period charge:</th>
+                        <td th:text="${priceCalculator.calculatePriceOfPeriod(reservation.getMotorhome(), reservation.getPeriod())} + ' kr'"></td>
+                    </tr>
+                    <tr class="padded-blue-area">
+                        <th>Reservation total:</th>
+                        <td th:text="${priceCalculator.calculatePriceOfPeriod(reservation.getMotorhome(), reservation.getPeriod())
                     +priceCalculator.calculatePriceOfService(reservation.getServices())} + ' kr'"></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <!-- Place to enter notes -->
-
-    <div class="container95">
-    <div class="wrapper350">
-
-        <div class="box">
-            <div class="hl">Notes for reservation</div>
-            <textarea name="notes" form="confirm"> Room for comments. </textarea>
-        </div>
-        <div class="box">
-            <div class="hl">EmployeeID:</div>
-            <input type="number" name="employeeID" form="confirm"> Employee ID </input>
+                    </tr>
+                </table>
+            </div>
         </div>
 
+
+        <!-- Notes and Employee Segment -->
+        <h4 class="hl">Notes for reservation</h4>
+        <div class="wrapper350">
+            <div class="container95">
+
+                    <textarea class="container" name="notes" form="confirm" > Room for comments. </textarea>
+
+                    <div class="hl">EmployeeID:</div>
+                    <input type="number" name="employeeID" form="confirm" value="0"> Employee ID </input>
+
+            </div>
+
+            <!--    Accept Reservation Segment-->
+            <div class="container95">
+                <h1 class="hl">Accept Reservation</h1>
+                <form action="/reservation/confirm" method="post" id="confirm">
+                    <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
+                    <h1>
+                        <button class="deep-green button">Confirm Reservation</button>
+                    </h1>
+                </form>
+            </div>
+            <!--        </div>-->
+        </div>
+        </div>
     </div>
 
-    <!--    Accept Reservation Segment-->
-    <h1 class="hl">Accept Reservation</h1>
-    <div class="wrapper350">
-        <form action="/reservation/confirm" method="post" id="confirm">
-            <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
-            <button class="deep-green button">Confirm Reservation</button>
-        </form>
-    </div>
+    <!-- footer -->
+    <div th:replace="fragments/footer.html :: footer"></div>
+    <!-- javascript -->
+    <script>
+        <!--    script adds an event listener to all elements with class name collapsible -->
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
 
-</div>
-<!--</div>-->
-
-<!-- javascript -->
-<script>
-    <!--    script adds an event listener to all elements with class name collapsible -->
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-            this.classList.toggle("active"); // defaults to false
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        });
-    }
-</script>
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active"); // defaults to false
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>

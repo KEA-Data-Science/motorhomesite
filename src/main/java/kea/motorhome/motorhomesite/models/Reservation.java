@@ -30,6 +30,8 @@ public class Reservation implements Serializable
 
     public Reservation()
     {
+        services = new ArrayList<>();
+        appointments = new ArrayList<>();
     }
 
     public Reservation(ReservationStatus status, int reservationID, Customer customer, Employee employee, Period period, Motorhome motorhome, List<Service> services, String notes, String internalNotes, List<Appointment> appointments)

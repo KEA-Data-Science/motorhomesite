@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller // annotation marking class as controller class
 public class EmployeeReservationController
@@ -33,7 +32,7 @@ public class EmployeeReservationController
         return "reservation/landing";
     }
 
-    @PostMapping("/lookup") //
+    @PostMapping("reservation/lookup") //
     public String lookupCustomerAndVehicle(@RequestParam String customerID,
                                            @RequestParam Integer motorhomeID,
                                            @RequestParam java.sql.Date dateA,
@@ -46,7 +45,7 @@ public class EmployeeReservationController
         model.addAttribute("dateA", dateA);
         model.addAttribute("dateB", dateB);
 
-        return "reservation/lookup";
+        return "reservation/mockup";
     }
 
     @GetMapping("/reservation/read")
@@ -70,6 +69,8 @@ public class EmployeeReservationController
         Customer customer = dao.customerDAO().read(customerID);
         Motorhome motorhome = dao.motorhomeDAO().read(motorhomeID);
 
+        // skal lige have bygget en fail-safe her
+
         Reservation reservation = // nb. some fields are yet unknown
                 new Reservation().
                         setStatus(ReservationStatus.Initialized).
@@ -77,8 +78,8 @@ public class EmployeeReservationController
                         setCustomer(customer).
                         setMotorhome(motorhome).
                         setPeriod(new Period(dateA.toLocalDate(), dateB.toLocalDate())).
-                        setAppointments(new ArrayList<>())
-                        .setInternalNotes("Reservation was placed on:" + LocalDate.now());
+                        setEmployee(dao.employeeDAO().read(1)).
+                        setInternalNotes("Reservation was placed on:" + LocalDate.now());
 
         System.out.println(reservation);
 
@@ -103,13 +104,20 @@ public class EmployeeReservationController
 
         Employee employee = dao.employeeDAO().read(employeeID);
 
-        if(employee != null){ reservation.setEmployee(employee);}
+        if(employee != null)
+        {
+            reservation.setEmployee(employee);
+        } else
+        { // in case of bad employee ID, Employee ID 1 is used
+            employee = dao.employeeDAO().read(1);
+            reservation.setEmployee(employee);
+        }
+
         if(notes != null){ reservation.setNotes(notes);}
 
         System.out.println(reservation);
 
         dao.reservationDAO().update(reservation);
-
 
         model.addAttribute("reservation", reservation);
 
@@ -154,6 +162,33 @@ public class EmployeeReservationController
         model.addAttribute("priceCalculator", new PriceCalculator());
 
         return "reservation/new";
+    }
+
+    @GetMapping("reservation/list")
+    public String listReservationOptions(Model model)
+    {
+        model.addAttribute("reservations", dao.reservationDAO().readall());
+
+        return "reservation/list";
+    }
+
+    @PostMapping("reservation/list-res-id")
+    public String searchReservationsForID(@RequestParam int reservationID,
+                                          Model model)
+    {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        for(Reservation reservation : dao.reservationDAO().readall())
+        {
+            if(reservation.getReservationID() == reservationID)
+            {
+                reservations.add(reservation);
+            }
+        }
+
+        model.addAttribute("reservations", reservations);
+
+        return "reservation/list";
     }
 
 }
