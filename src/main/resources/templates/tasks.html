@@ -12,28 +12,19 @@
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
 <!-- Main area of page -->
-<div class="body container">
+<div class="container">
     <h1 class="hl">Tasks</h1>
     <div class="box-margin padded-blue-area">
         <h2>Reservations</h2>
-        <a href="#"><button class="button animate border-8px"><span>Create</span></button></a>
-        <a href="#"><button class="button animate border-8px"><span>Read</span></button></a>
-        <a href="#"><button class="button animate border-8px"><span>Update</span></button></a>
-        <a href="#"><button class="button animate border-8px"><span>Delete</span></button></a>
+        <a href="/reservation/"><button class="button animate border-8px"><span>Reserve Vehicle</span></button></a>
     </div>
     <div class="box-margin padded-blue-area">
         <h2>Motorhomes</h2>
-        <a href="#"><button class="button animate border-8px"><span>Create</span></button></a>
-        <a href="#"><button class="button animate border-8px"><span>Read</span></button></a>
-        <a href="#"><button class="button animate border-8px"><span>Update</span></button></a>
-        <a href="#"><button class="button animate border-8px"><span>Delete</span></button></a>
+        <a href="/gallery"><button class="button animate border-8px"><span>View Gallery</span></button></a>
     </div>
     <div class="box-margin padded-blue-area">
         <h2>Services</h2>
-        <a href="#"><button class="button animate border-8px"><span>Create</span></button></a>
-        <a href="#"><button class="button animate border-8px"><span>Read</span></button></a>
-        <a href="#"><button class="button animate border-8px"><span>Update</span></button></a>
-        <a href="#"><button class="button animate border-8px"><span>Delete</span></button></a>
+        <a href="/services/services/"><button class="button animate border-8px"><span>Show Services</span></button></a>
     </div>
     <div class="box-margin padded-blue-area">
         <h2>Invoices</h2>
@@ -44,18 +35,17 @@
     </div>
     <div class="box-margin padded-blue-area">
         <h2>Customers</h2>
-        <a href="/customers/customers"><button class="button animate border-8px"><span>Create</span></button></a>
-        <a href="/customers/customers"><button class="button animate border-8px"><span>Read</span></button></a>
-        <a href="/customers/customers"><button class="button animate border-8px"><span>Update</span></button></a>
-        <a href="/customers/customers"><button class="button animate border-8px"><span>Delete</span></button></a>
+        <a href="/customers/customers/"><button class="button animate border-8px"><span>Show Customers</span></button></a>
+        <a href="/customers/new/"><button class="button animate border-8px"><span>Create New Customer</span></button></a>
     </div>
     <div class="box-margin padded-blue-area">
         <h2>Employees</h2>
-        <a href="/employees/employees"><button class="button animate border-8px"><span>Create</span></button></a>
-        <a href="/employees/employees"><button class="button animate border-8px"><span>Read</span></button></a>
-        <a href="/employees/employees"><button class="button animate border-8px"><span>Update</span></button></a>
-        <a href="/employees/employees"><button class="button animate border-8px"><span>Delete</span></button></a>
+        <a href="#"><button class="button animate border-8px"><span>Create</span></button></a>
+        <a href="#"><button class="button animate border-8px"><span>Read</span></button></a>
+        <a href="#"><button class="button animate border-8px"><span>Update</span></button></a>
+        <a href="#"><button class="button animate border-8px"><span>Delete</span></button></a>
     </div>
 </div>
+    <div th:replace="fragments/footer.html :: footer"></div>
 </body>
 </html>
