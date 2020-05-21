@@ -25,27 +25,33 @@
                 <img class="thumbnail" th:src="@{${mobileHome.imageURL}}" alt="Image Coming Up!"/> -->
                 <table>
                     <tr>
-                        <td class="item-description">
-                            <div th:text="${'Invoice ID: '+invoice.getInvoiceID()}"></div>
-                            <div th:text="${'Customer: '+invoice.getCustomerID()}"></div>
-                            <div th:text="${'Start date: '+invoice.getBillPeriod().getStartAsDate()}"></div>
-                            <div th:text="${'Start date: '+invoice.getBillPeriod().getEndAsDate()}"></div>
+                        <td class="invoice-information">
+                            <div class="period-item">
+                                <div th:text="${'Invoice ID: '+invoice.getInvoiceID()}"></div>
+                                <br />
+                                <div th:text="${'Customer: '+invoice.getCustomerID()}"></div>
+                                <div th:text="${'Start date: '+invoice.getBillPeriod().getStartAsDate()}"></div>
+                                <div th:text="${'Start date: '+invoice.getBillPeriod().getEndAsDate()}"></div>
+                                <div th:text="${'Motorhome: '+invoice.getMotorhome().getModel().getModelName()}"></div>
+                                <div th:text="${'Price for period: '+calculator.calculatePriceOfPeriod(invoice.getMotorhome(), invoice.getBillPeriod())}"></div>
 
-                            <button class="collapsible">Services: ...
-                            </button>
-                            <div class="collapsible-content">
-                                <div class="service-content" th:each="service:${invoice.getServices()}">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <div th:text="${'Service ID: '+service.getServiceID()}"></div>
-                                                <div th:text="${'Name: '+service.getName()}"></div>
-                                                <div th:text="${'Unit price: '+service.unitPrice}"></div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
                             </div>
+                            <br />
+                            <p>Services</p>
+                            <div class="service-item" th:each="service:${invoice.getServices()}">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                                            <div th:text="${'Name: '+service.getName()}"></div>
+                                            <div th:text="${'Unit price: '+service.unitPrice}"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br />
+                            </div>
+                            <div class="total-price" th:text="${'Total price: ' + calculator.calculateTotalPriceOfInvoice(invoice)}"></div>
+
                         </td>
                         <td>
                             <div>

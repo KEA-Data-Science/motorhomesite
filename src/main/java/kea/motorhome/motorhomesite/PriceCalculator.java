@@ -1,7 +1,9 @@
 package kea.motorhome.motorhomesite;
 
+import kea.motorhome.motorhomesite.models.Invoice;
 import kea.motorhome.motorhomesite.models.Motorhome;
 import kea.motorhome.motorhomesite.models.Period;
+import kea.motorhome.motorhomesite.models.Service;
 import kea.motorhome.motorhomesite.util.DateUtil;
 
 import java.time.LocalDate;
@@ -59,6 +61,18 @@ public class PriceCalculator
         System.out.println("Returned total amount for period: " + result);
 
         return result;
+    }
+
+    public float calculateTotalPriceOfInvoice(Invoice invoice)
+    {
+        float totalPrice = calculatePriceOfPeriod(invoice.getMotorhome(), invoice.getBillPeriod());
+
+        for (Service service: invoice.getServices())
+        {
+            totalPrice += service.getUnitPrice();
+        }
+
+        return totalPrice;
     }
 
     public DateUtil getDateUtil(){ return dateUtil; }
