@@ -16,52 +16,54 @@
 <div class="container content-auto-margins">
     <h1 id="headline" class="content-auto-margins">New Reservation</h1>
     <div class="container95 content-auto-margins">
-        <div th:each="reservation : ${reservations}">
-            <div class="fuel-type" th:text="${'Reservation ID: '+ reservation.getReservationID()}"></div>
-            <p></p>
-            <!--            Motorhome overview, collapsible -->
-            <button class="collapsible">
-                <span>Motorhome details.</span>
-                <img src="/img/transparent-100-10.png" style="display: inline-block">
-                <span th:text="${'Licence plate: ['+reservation.getMotorhome().getLicensePlate()+ ']'}"></span>
-                <img src="/img/transparent-100-10.png" style="display: inline-block">
 
-                <span th:text="${'Model: '+reservation.getMotorhome().getModel().getModelName()}"></span>
-            </button>
-            <div class="collapsible-content">
-                <img class="thumbnail" th:src="@{${reservation.getMotorhome().imageURL}}" alt="Image Coming Up!"/>
-                <table>
-                    <tr>
-                        <td class="item-description">
-                            <div class="model-name" th:text="${reservation.getMotorhome().getModel()}"></div>
-                            <div class=""
-                                 th:text="'Winter daily charge:'+${reservation.getMotorhome().getSeasonalDailyCharge()[0]}"></div>
-                            <div class=""
-                                 th:text="'Spring daily charge: '+${reservation.getMotorhome().getSeasonalDailyCharge()[1]}"></div>
-                            <div class=""
-                                 th:text="'Summber daily charge: '+${reservation.getMotorhome().getSeasonalDailyCharge()[2]}"></div>
-                        </td>
-                        <td>
-                            <div>
-                                <!--                                Details link should open details page in a separate window -->
-                                <button class="button animate border-8px"><span>Details </span></button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+        <div class="fuel-type" th:text="${'Reservation ID: '+ reservation.getReservationID()}"></div>
+        <p></p>
 
-            <!--            Period of reservation -->
-            <div class="hl"><h3>Period</h3></div>
-            <span class="fuel-type">Duration of reservation:
-                <!--                    måned og år bliver kun vist hvis de er relevante -->
+        <!--            Motorhome overview, collapsible -->
+        <button class="collapsible">
+            <span>Motorhome details.</span>
+            <img src="/img/transparent-100-10.png" style="display: inline-block">
+            <span th:text="${'Licence plate: ['+reservation.getMotorhome().getLicensePlate()+ ']'}"></span>
+            <img src="/img/transparent-100-10.png" style="display: inline-block">
+
+            <span th:text="${'Model: '+reservation.getMotorhome().getModel().getModelName()}"></span>
+        </button>
+        <div class="collapsible-content">
+            <img class="thumbnail" th:src="@{${reservation.getMotorhome().imageURL}}" alt="Image Coming Up!"/>
+            <table>
+                <tr>
+                    <td class="item-description">
+                        <div class="model-name" th:text="${reservation.getMotorhome().getModel()}"></div>
+                        <div class=""
+                             th:text="'Winter daily charge:'+${reservation.getMotorhome().getSeasonalDailyCharge()[0]}"></div>
+                        <div class=""
+                             th:text="'Spring daily charge: '+${reservation.getMotorhome().getSeasonalDailyCharge()[1]}"></div>
+                        <div class=""
+                             th:text="'Summber daily charge: '+${reservation.getMotorhome().getSeasonalDailyCharge()[2]}"></div>
+                    </td>
+                    <td>
+                        <div>
+                            <!--                                Details link should open details page in a separate window -->
+                            <button class="button animate border-8px"><span>Details </span></button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--            Period of reservation -->
+        <div class="hl"><h3>Period</h3></div>
+        <div class="wrapper350">
+        <span class="fuel-type">Duration of reservation:
+            <!--                    måned og år bliver kun vist hvis de er relevante -->
                 <span th:text="${reservation.getPeriod().duration()[0] +' days ' +
                     (reservation.getPeriod().duration()[1]==0? '': reservation.getPeriod().duration()[1] +' months ')+
                     (reservation.getPeriod().duration()[2]==0? '': reservation.getPeriod().duration()[2] +' year')}">
                 </span>
             </span>
             <div>
-                <table class="content-auto-margins">
+                <table class="container95 content-auto-margins">
                     <tr>
                         <td class="center-text">Start Date</td>
                         <td><img src="/img/transparent-100-10.png"/></td>
@@ -80,101 +82,176 @@
                             th:text="${priceCalculator.getDateUtil().determineSeasonOfDate(reservation.getPeriod().getEnd())+' Season'}"></td>
                     </tr>
                 </table>
-                <!-- Base price -->
-                <div class="hl"><h3>Base price</h3></div>
-                <table>
-                    <tr>
-                        <td>Low Season Daily Price:</td>
-                        <td>
-                            <div th:text="'' + ${reservation.getMotorhome().getSeasonalDailyCharge()[0]}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Medium Season Daily Price:</td>
-                        <td>
-                            <div th:text="'' + ${reservation.getMotorhome().getSeasonalDailyCharge()[1]}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>High Season Daily Price:</td>
-                        <td>
-                            <div th:text="'' + ${reservation.getMotorhome().getSeasonalDailyCharge()[2]}"></div>
-                        </td>
-                    </tr>
-                </table>
-                <div>
-                    <div class="fuel-type">
-                        <span> Base price for rental of vehicle in period: </span>
-                        <span th:text="${priceCalculator.calculatePriceOfPeriod(reservation.getMotorhome(),reservation.getPeriod())}"></span>
-                    </div>
-                </div>
+            </div>
+        </div>
 
-                <!--                available services -->
-                <div class="wrapper" id="servicesavailable">
-
-                    <div th:each="service:${reservation.getMotorhome().getServicesAvailable()}">
-
-                            <div class="box">
-                                <table>
-                                    <tr>
-                                        <td class="item-description">
-                                            <div th:text="${'Service ID: '+service.getServiceID()}"></div>
-                                            <div th:text="${'Name: '+service.getName()}"></div>
-                                            <div th:text="${'Unit price: '+service.unitPrice}"></div>
-
-                                            <button class="collapsible">Description: ...</button>
-                                            <div class="collapsible-content" th:text="${service.getDescription()}"></div>
-                                        </td>
-                                        <td>
-                                            <form action="/reservation/addservice#servicesavailable" method="post" th:id="${'availableS'+service.getServiceID()}">
-                                                <input type="hidden"  name="serviceID" th:value="${service.getServiceID()}">
-                                                <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
-                                            <div>
-                                                <button class="animate border-8px" th:form="${'availableS'+service.getServiceID()}">Add Service</button>
-                                            </div>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                    </div>
-                </div>
-                <!--                Services offered for vehicle -->
-                <div class="hl" id="serviceschosen">Services Chosen</div>
-                <div class="wrapper">
-
-                    <div th:each="service:${reservation.getServices()}">
-
-                            <div class="box">
-                                <table>
-                                    <tr>
-                                        <td class="item-description">
-                                            <div th:text="${'Service ID: '+service.getServiceID()}"></div>
-                                            <div th:text="${'Name: '+service.getName()}"></div>
-                                            <div th:text="${'Unit price: '+service.unitPrice}"></div>
-                                            <button class="collapsible">Description: ...</button>
-                                            <div class="collapsible-content" th:text="${service.getDescription()}"></div>
-                                        </td>
-                                        <td>
-                                            <form action="/reservation/removeservice#serviceschosen" method="post" th:id="${'chosenS'+service.getServiceID()}">
-                                                <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
-                                                <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
-                                                <div>
-                                                    <button class="animate border-8px" th:form="${'chosenS'+service.getServiceID()}">Remove Service</button>
-                                                </div>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                    </div>
-
+        <!-- Base price -->
+        <div class="hl"><h3>Base price</h3></div>
+        <div class="wrapper350">
+            <table class="container95">
+                <tr>
+                    <td>Low Season Daily Price:</td>
+                    <td>
+                        <div th:text="'' + ${reservation.getMotorhome().getSeasonalDailyCharge()[0]}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Medium Season Daily Price:</td>
+                    <td>
+                        <div th:text="'' + ${reservation.getMotorhome().getSeasonalDailyCharge()[1]}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>High Season Daily Price:</td>
+                    <td>
+                        <div th:text="'' + ${reservation.getMotorhome().getSeasonalDailyCharge()[2]}"></div>
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <div class="fuel-type">
+                    <span> Base price for rental of vehicle in period: </span>
+                    <span th:text="${priceCalculator.calculatePriceOfPeriod(reservation.getMotorhome(),reservation.getPeriod())}"></span>
                 </div>
             </div>
         </div>
+
+        <!--                Available services -->
+        <div class="hl">Services Available</div>
+        <div class="wrapper350" id="servicesavailable">
+
+            <div th:each="service:${reservation.getMotorhome().getServicesAvailable()}">
+
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td class="item-description">
+                                <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                                <div th:text="${'Name: '+service.getName()}"></div>
+                                <div th:text="${'Unit price: '+service.unitPrice}"></div>
+
+                                <button class="collapsible">Description: ...</button>
+                                <div class="collapsible-content" th:text="${service.getDescription()}"></div>
+                            </td>
+                            <td>
+                                <form action="/reservation/addservice#servicesavailable" method="post"
+                                      th:id="${'availableS'+service.getServiceID()}">
+                                    <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
+                                    <input type="hidden" name="reservationID"
+                                           th:value="${reservation.getReservationID()}">
+                                    <div>
+                                        <button class="animate border-8px"
+                                                th:form="${'availableS'+service.getServiceID()}">Add Service
+                                        </button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!--                Services offered for vehicle -->
+        <div class="hl" id="serviceschosen">Services chosen for this Reservation</div>
+        <div class="wrapper350">
+
+            <div th:each="service:${reservation.getServices()}">
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td class="item-description">
+                                <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                                <div th:text="${'Name: '+service.getName()}"></div>
+                                <div th:text="${'Unit price: '+service.unitPrice}"></div>
+                                <button class="collapsible">Description: ...</button>
+                                <div class="collapsible-content" th:text="${service.getDescription()}"></div>
+                            </td>
+                            <td>
+                                <form action="/reservation/removeservice#serviceschosen" method="post"
+                                      th:id="${'chosenS'+service.getServiceID()}">
+                                    <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
+                                    <input type="hidden" name="reservationID"
+                                           th:value="${reservation.getReservationID()}">
+                                    <div>
+                                        <button class="animate border-8px"
+                                                th:form="${'chosenS'+service.getServiceID()}">Remove Service
+                                        </button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Area showing combined cost of services-->
+        <h4 class="hl">Cost of Services</h4>
+        <div class="wrapper350">
+            <table class="container95">
+                <tr>
+                    <th>Service</th>
+                    <th>Price</th>
+                </tr>
+                <tr th:each="service:${reservation.getServices()}">
+                    <td th:text="${service.getName()}"></td>
+                    <td th:text="${service.getUnitPrice()}"></td>
+                </tr>
+                <tr class="padded-blue-area">
+                    <th>Services price:</th>
+                    <td th:text="${priceCalculator.calculatePriceOfService(reservation.getServices())} + ' kr'"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!--            Area showing combined price of period and services -->
+        <h4 class="hl">Reservation Price Total </h4>
+        <div class="wrapper350">
+            <table class="container95">
+                <tr>
+                    <th>Services:</th>
+                    <td th:text="${priceCalculator.calculatePriceOfService(reservation.getServices())} + ' kr'"></td>
+                </tr>
+                <tr>
+                    <th>Period charge:</th>
+                    <td th:text="${priceCalculator.calculatePriceOfPeriod(reservation.getMotorhome(), reservation.getPeriod())} + ' kr'"></td>
+                </tr>
+                <tr class="padded-blue-area">
+                    <th>Reservation total:</th>
+                    <td th:text="${priceCalculator.calculatePriceOfPeriod(reservation.getMotorhome(), reservation.getPeriod())
+                    +priceCalculator.calculatePriceOfService(reservation.getServices())} + ' kr'"></td>
+                </tr>
+            </table>
+        </div>
     </div>
+    <!-- Place to enter notes -->
+
+    <div class="container95">
+    <div class="wrapper350">
+
+        <div class="box">
+            <div class="hl">Notes for reservation</div>
+            <textarea name="notes" form="confirm"> Room for comments. </textarea>
+        </div>
+        <div class="box">
+            <div class="hl">EmployeeID:</div>
+            <input type="number" name="employeeID" form="confirm"> Employee ID </input>
+        </div>
+
+    </div>
+
+    <!--    Accept Reservation Segment-->
+    <h1 class="hl">Accept Reservation</h1>
+    <div class="wrapper350">
+        <form action="/reservation/confirm" method="post" id="confirm">
+            <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
+            <button class="deep-green button">Confirm Reservation</button>
+        </form>
+    </div>
+
 </div>
+<!--</div>-->
 
 <!-- javascript -->
 <script>

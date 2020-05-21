@@ -53,7 +53,7 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
     grid-gap: 15px;
 
-justify-items: center;
+    justify-items: center;
     align-items: center;
     justify-content: space-evenly;
 }
@@ -272,9 +272,11 @@ justify-items: center;
 }
 
 #buttkick {
+
+
     text-shadow: #2b7735;
 }
-Segment defines css that will reveal content with a jump
+Segment defines css that will reveal content with a jump*/
 #nav-link-a{
     display: inline-block;
 }
@@ -285,7 +287,7 @@ Segment defines css that will reveal content with a jump
 #nav-link-a-connected{
     display: none;
 }
-*/
+
 /* general styling */
 .center{
     text-align:center;
