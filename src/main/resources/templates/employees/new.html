@@ -20,12 +20,20 @@
 <form action="#" th:action="@{/saveemployee}" th:object="${employee}" method="post">
     <table>
         <tr>
+            <td>Person ID</td>
+            <td><input type="text" th:field="*{person.personID}" readonly="readonly"/></td>
+        </tr>
+        <tr>
             <td>First Name</td>
             <td><input type="text" th:field="*{person.firstName}" /></td>
         </tr>
         <tr>
             <td>Last Name</td>
             <td><input type="text" th:field="*{person.lastName}" /></td>
+        </tr>
+        <tr>
+            <td>Address ID</td>
+            <td><input type="text" th:field="*{person.address.addressID}" readonly="readonly"/></td>
         </tr>
         <tr>
             <td>Road Name</td>
@@ -63,6 +71,14 @@
                 <input type="radio" id="mechanic" th:field="*{person.userType}" value="MECHANIC" />
                 <label for="mechanic">Mechanic</label>
             </td>
+        </tr>
+        <tr>
+            <td>Employee ID</td>
+            <td><input type="text" th:field="*{employeeID}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td>Accountancy ID</td>
+            <td><input type="text" th:field="*{accountancyID}" readonly="readonly"/></td>
         </tr>
         <tr>
             <td colspan="2"><button class="button animate border-8px" type="submit"><span>Save</span></button></td>

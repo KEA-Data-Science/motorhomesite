@@ -3,6 +3,7 @@ package kea.motorhome.motorhomesite.controllers;
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.models.Address;
 import kea.motorhome.motorhomesite.models.Customer;
+import kea.motorhome.motorhomesite.models.PayCard;
 import kea.motorhome.motorhomesite.models.Person;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +15,7 @@ public class CustomerController
 
     private SiteDAOCollection dao;
 
-    public CustomerController()
-    {
-        dao = SiteDAOCollection.getInstance();
-
-    }
+    public CustomerController() { dao = SiteDAOCollection.getInstance(); }
 
     @GetMapping("/customers/customers")
     public String customersPage(Model model)
@@ -40,11 +37,17 @@ public class CustomerController
         Customer customer = new Customer();
         Person person = new Person();
         customer.setPerson(person);
+        // TODO: Set personID (see issue with Persons in class DemoData)
         Address address = new Address();
+        address.setAddressID(dao.addressDAO().readall().size()+1);
         customer.getPerson().setAddress(address);
+        PayCard payCard = new PayCard();
+        payCard.setCardID(dao.paycardDAO().readall().size()+1);
+        customer.setPayCard(payCard);
         model.addAttribute("customer", customer);
         model.addAttribute("person", person);
         model.addAttribute("address", address);
+        model.addAttribute("paycard", payCard);
         return "customers/new";
     }
 

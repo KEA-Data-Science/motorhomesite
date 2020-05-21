@@ -31,9 +31,13 @@ public class EmployeeController
     @GetMapping("/employees/new")
     public String showNewEmployeeForm(Model model) {
         Employee employee = new Employee();
+        employee.setEmployeeID(dao.employeeDAO().readall().size()+1);
+        employee.setAccountancyID(dao.employeeDAO().readall().size()+1);
         Person person = new Person();
         employee.setPerson(person);
+        // TODO: Set personID (see issue with Persons in class DemoData)
         Address address = new Address();
+        address.setAddressID(dao.addressDAO().readall().size()+1);
         employee.getPerson().setAddress(address);
         model.addAttribute("employee", employee);
         model.addAttribute("person", person);

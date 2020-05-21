@@ -19,10 +19,6 @@
 
 <table>
     <tr>
-        <td>Employee ID</td>
-        <td th:text="${employee.getEmployeeID()}"></td>
-    </tr>
-    <tr>
         <td>Person ID</td>
         <td th:text="${employee.getPerson().getPersonID()}"></td>
     </tr>
@@ -67,8 +63,12 @@
         <td th:text="${employee.getPerson().getUserType()}"></td>
     </tr>
     <tr>
-        <td>Accountancy ID Bluff</td>
-        <td th:text="${employee.getAccountancyID_bluff()}"></td>
+        <td>Employee ID</td>
+        <td th:text="${employee.getEmployeeID()}"></td>
+    </tr>
+    <tr>
+        <td>Accountancy ID</td>
+        <td th:text="${employee.getAccountancyID()}"></td>
     </tr>
 </table>
 <div>

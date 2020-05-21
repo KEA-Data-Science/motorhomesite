@@ -28,6 +28,10 @@
                 <td><input type="text" th:field="*{person.lastName}" /></td>
             </tr>
             <tr>
+                <td>Address ID</td>
+                <td><input type="text" th:field="*{person.address.addressID}" name="person.address.addressID" readonly="readonly"/></td>
+            </tr>
+            <tr>
                 <td>Road Name</td>
                 <td><input type="text" th:field="*{person.address.roadName}" /></td>
             </tr>
@@ -67,6 +71,10 @@
                     <input type="radio" id="false" th:field="*{approved}" value="false" />
                     <label for="true">Not Approved</label>
                 </td>
+            </tr>
+            <tr>
+                <td>Credit Card ID</td>
+                <td><input type="number" th:field="*{payCard.cardID}" readonly="readonly"/></td>
             </tr>
             <tr>
                 <td>Credit Card Type</td>

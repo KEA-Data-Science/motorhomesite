@@ -24,10 +24,6 @@
             <td><input type="text" th:field="*{person.personID}" name="person.personID" readonly="readonly"/></td>
         </tr>
         <tr>
-            <td>Person ID</td>
-            <td><input type="text" th:field="*{employeeID}" name="employeeID" readonly="readonly"/></td>
-        </tr>
-        <tr>
             <td>First Name</td>
             <td><input type="text" th:field="*{person.firstName}" name="person.firstName"/></td>
         </tr>
@@ -77,8 +73,12 @@
             </td>
         </tr>
         <tr>
-            <td>Accountancy ID Bluff</td>
-            <td><input type="text" th:field="*{AccountancyID_bluff}" name="AccountancyID_bluff"/></td>
+            <td>Employee ID</td>
+            <td><input type="text" th:field="*{employeeID}" name="employeeID" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td>Accountancy ID</td>
+            <td><input type="text" th:field="*{accountancyID}" name="accountancyID" readonly="readonly"/></td>
         </tr>
         <tr>
             <td colspan="2"><button class="button animate border-8px" type="submit">Save</button></td>
