@@ -110,8 +110,7 @@
                 </div>
 
                 <!--                available services -->
-                <div class="hl">Services Available</div>
-                <div class="wrapper">
+                <div class="wrapper" id="servicesavailable">
 
                     <div th:each="service:${reservation.getMotorhome().getServicesAvailable()}">
 
@@ -127,7 +126,7 @@
                                             <div class="collapsible-content" th:text="${service.getDescription()}"></div>
                                         </td>
                                         <td>
-                                            <form action="/reservation/addservice" method="post" th:id="${'availableS'+service.getServiceID()}">
+                                            <form action="/reservation/addservice#servicesavailable" method="post" th:id="${'availableS'+service.getServiceID()}">
                                                 <input type="hidden"  name="serviceID" th:value="${service.getServiceID()}">
                                                 <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
                                             <div>
@@ -138,11 +137,10 @@
                                     </tr>
                                 </table>
                             </div>
-
                     </div>
                 </div>
                 <!--                Services offered for vehicle -->
-                <div class="hl">Services Chosen</div>
+                <div class="hl" id="serviceschosen">Services Chosen</div>
                 <div class="wrapper">
 
                     <div th:each="service:${reservation.getServices()}">
@@ -158,7 +156,7 @@
                                             <div class="collapsible-content" th:text="${service.getDescription()}"></div>
                                         </td>
                                         <td>
-                                            <form action="/reservation/removeservice" method="post" th:id="${'chosenS'+service.getServiceID()}">
+                                            <form action="/reservation/removeservice#serviceschosen" method="post" th:id="${'chosenS'+service.getServiceID()}">
                                                 <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
                                                 <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
                                                 <div>

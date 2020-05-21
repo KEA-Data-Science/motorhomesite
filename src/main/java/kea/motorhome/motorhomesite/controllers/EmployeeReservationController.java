@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller // annotation marking class as controller class
 public class EmployeeReservationController
@@ -124,8 +125,7 @@ public class EmployeeReservationController
             }
         }
 
-        ArrayList<Reservation> reservations = new ArrayList<>();
-        reservations.add(reservation);
+        List<Reservation> reservations = dao.reservationDAO().readall();
 
         model.addAttribute("reservations", reservations);
         model.addAttribute("priceCalculator", new PriceCalculator());
