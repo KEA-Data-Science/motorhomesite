@@ -7,6 +7,7 @@ public class CarModel
     int horsePower;
     int beds;
 
+    // jeg synes flere felter :D + kan nok være kreativ selv ;)
 
     public CarModel(String modelName, String modelnumber, int horsePower, int beds) {
         this.modelName = modelName;

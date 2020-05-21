@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <title>List of invoices</title>
+</head>
+<body>
+<!--    styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!--    Navbar -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+
+<!-- Main area of page -->
+<div class="body container">
+    <!--   Car Fleet grid layout -->
+    <h1 id="headline">Availible invoices</h1>
+    <div><a href="/showcreateinvoice"><button id="create"> Create</button></a> </div>
+    <div class="wrapper">
+        <div th:each="invoice:${invoices}">
+            <div class="box">
+                <!-- <div class="fuel-type" th:text="${mobileHome.getFuelType()}"></div>
+                <img class="thumbnail" th:src="@{${mobileHome.imageURL}}" alt="Image Coming Up!"/> -->
+                <table>
+                    <tr>
+                        <td class="item-description">
+                            <div th:text="${'Invoice ID: '+invoice.getInvoiceID()}"></div>
+                            <div th:text="${'Customer: '+invoice.getCustomerID()}"></div>
+                            <div th:text="${'Start date: '+invoice.getBillPeriod().getStartAsDate()}"></div>
+                            <div th:text="${'Start date: '+invoice.getBillPeriod().getEndAsDate()}"></div>
+
+                            <button class="collapsible">Services: ...
+                            </button>
+                            <div class="collapsible-content">
+                                <div class="service-content" th:each="service:${invoice.getServices()}">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                                                <div th:text="${'Name: '+service.getName()}"></div>
+                                                <div th:text="${'Unit price: '+service.unitPrice}"></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <a th:href="@{/services/showupdateservice(id=${invoice.getInvoiceID()})}"> <button class="button animate border-8px"><span>Update </span></button></a>
+                            </div>
+                            <div>
+                                <a th:href="@{/services/deleteservice(id=${invoice.getInvoiceID()})}"> <button class="button animate border-8px"><span>Delete </span></button></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- javascript -->
+<script>
+    <!--    script adds an event listener to all elements with class name collapsible -->
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active"); // defaults to false
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+</body>
+</html>
+<!-- Sources of knowledge and template code: -->
+<!-- https://www.w3schools.com/howto/howto_js_collapsible.asp -->>

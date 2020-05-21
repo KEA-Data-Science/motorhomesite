@@ -22,11 +22,13 @@
                 <div class="fuel-type" th:text="${mobileHome.getFuelType()}"></div>
                 <img class="thumbnail" th:src="@{${mobileHome.imageURL}}" alt="Image Coming Up!"/>
                 <table>
-                    <tr>
+                       <tr>
                         <td class="item-description">
                             <div class="model-name" th:text="${mobileHome.getModel().getModelName()}"></div>
                             <div th:text="${'Production year: '+mobileHome.productionYear}"></div>
-                            <div th:text="${'Price per day: ' + mobileHome.getPerDayPrice() + ' kroner'}"></div>
+                            <div th:text="${'LOW Price per day: ' + mobileHome.getSeasonalDailyCharge()[0] + ' kroner'}"></div>
+                            <div th:text="${'MEDIUM Price per day: ' + mobileHome.getSeasonalDailyCharge()[1] + ' kroner'}"></div>
+                            <div th:text="${'HIGH per day: ' + mobileHome.getSeasonalDailyCharge()[2] + ' kroner'}"></div>
                             <div th:text="${'Minimum rental period: ' + mobileHome.getMinimumDaysOfRental() + ' days'}"></div>
                         </td>
                         <td>

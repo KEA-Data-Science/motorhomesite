@@ -16,19 +16,24 @@ public class Person {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthDate;
 
+	private String email;
+
 	private SiteRole userType;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate joinDate;
 
-	public Person()	{	}
+	public Person()
+	{
+	}
 
-	public Person(int personID, String firstName, String lastName, Address address, LocalDate birthDate, SiteRole userType, LocalDate joinDate)
+	public Person(int personID, String firstName, String lastName, Address address, LocalDate birthDate, String email, SiteRole userType, LocalDate joinDate)
 	{
 		this.personID = personID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
 		this.birthDate = birthDate;
+		this.email = email;
 		this.userType = userType;
 		this.joinDate = joinDate;
 	}
@@ -83,6 +88,16 @@ public class Person {
 		this.birthDate = birthDate;
 	}
 
+	public String getEmail()
+	{
+		return email;
+	}
+
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
+
 	public SiteRole getUserType()
 	{
 		return userType;
@@ -114,6 +129,7 @@ public class Person {
 			   Objects.equals(getLastName(), person.getLastName()) &&
 			   Objects.equals(getAddress(), person.getAddress()) &&
 			   Objects.equals(getBirthDate(), person.getBirthDate()) &&
+			   Objects.equals(getEmail(), person.getEmail()) &&
 			   getUserType() == person.getUserType() &&
 			   Objects.equals(getJoinDate(), person.getJoinDate());
 	}
@@ -121,6 +137,21 @@ public class Person {
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(getPersonID(), getFirstName(), getLastName(), getAddress(), getBirthDate(), getUserType(), getJoinDate());
+		return Objects.hash(getPersonID(), getFirstName(), getLastName(), getAddress(), getBirthDate(), getEmail(), getUserType(), getJoinDate());
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Person{" +
+			   "personID=" + personID +
+			   ", firstName='" + firstName + '\'' +
+			   ", lastName='" + lastName + '\'' +
+			   ", address=" + address +
+			   ", birthDate=" + birthDate +
+			   ", email='" + email + '\'' +
+			   ", userType=" + userType +
+			   ", joinDate=" + joinDate +
+			   '}';
 	}
 }

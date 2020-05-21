@@ -6,7 +6,7 @@ import kea.motorhome.motorhomesite.models.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// demo klasse
 public class MobileHomeModelDAODemo implements IDAO<MobileHomeModel, Integer> {
 
     List<MobileHomeModel> mobilehomeModels;
@@ -79,15 +79,15 @@ public class MobileHomeModelDAODemo implements IDAO<MobileHomeModel, Integer> {
         return false;
     }
 
-    public void addMobilehomeModels()
-    {
-        MobileHomeModel model1 = new MobileHomeModel(1, "SuperCamper", 2002, "Big comfortable camper", 200, 10, "/img");
-        MobileHomeModel model2 = new MobileHomeModel(2, "BigTraveler", 2016, "With full toilet, oven and flatscreen + 4G internet", 500, 15, "/img");
-        MobileHomeModel model3 = new MobileHomeModel(3, "EcoHome", 1996, "Comes with everything you need", 90, 8, "/img");
-        mobilehomeModels.add(model1);
-        mobilehomeModels.add(model2);
-        mobilehomeModels.add(model3);
-
-
-    }
+//    public void addMobilehomeModels()
+//    {
+//        MobileHomeModel model1 = new MobileHomeModel(1, "SuperCamper", 2002, "Big comfortable camper", 200, 10, "/img");
+//        MobileHomeModel model2 = new MobileHomeModel(2, "BigTraveler", 2016, "With full toilet, oven and flatscreen + 4G internet", 500, 15, "/img");
+//        MobileHomeModel model3 = new MobileHomeModel(3, "EcoHome", 1996, "Comes with everything you need", 90, 8, "/img");
+//        mobilehomeModels.add(model1);
+//        mobilehomeModels.add(model2);
+//        mobilehomeModels.add(model3);
+//
+//
+//    }
 }

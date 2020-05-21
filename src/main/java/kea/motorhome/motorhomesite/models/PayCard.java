@@ -13,8 +13,6 @@ public class PayCard {
 
 	public PayCard()	{	}
 
-
-
 	public PayCard(int cardID, String cardType, String cardNumber, LocalDateTime expirationDate, int securityDigits)
 	{
 		this.cardID = cardID;

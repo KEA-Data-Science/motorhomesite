@@ -17,7 +17,7 @@ public class ServiceController {
     public ServiceController()
     {
         serviceDAODemo = new ServiceDAODemo();
-        serviceDAODemo.addServices();
+//        serviceDAODemo.addServices();
 
     }
     @GetMapping("/services/services")

@@ -17,7 +17,7 @@
 
     <h1>Edit Customer</h1>
 
-    <form action="#" th:action="@{/update}" th:object="${customer}" method="post">
+    <form action="#" th:action="@{/updatecustomer}" th:object="${customer}" method="post">
         <table>
             <tr>
                 <td>Person ID</td>
@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <td>Site Role</td>
-                <td><input type="text" th:field="*{person.userType}" name="userType" readonly="readonly"/></td>
+                <td><input type="text" th:field="*{person.userType}" name="person.userType" readonly="readonly"/></td>
             </tr>
             <tr>
                 <td>Driver's License No.</td>
@@ -81,7 +81,7 @@
                 <td><input type="number" th:field="*{cardID}" name="cardID" /></td>
             </tr>
             <tr>
-                <td colspan="2"><button class="button" type="submit">Save</button></td>
+                <td colspan="2"><button class="button animate border-8px" type="submit">Save</button></td>
             </tr>
         </table>
     </form>

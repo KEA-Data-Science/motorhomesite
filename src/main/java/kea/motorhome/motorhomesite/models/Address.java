@@ -12,7 +12,8 @@ public class Address {
 
 	public Address() {}
 
-	public Address(int addressID, String country, String roadName, String houseNumber, String postCode) {
+	public Address(int addressID, String country, String roadName, String houseNumber, String postCode)
+	{
 		this.addressID = addressID;
 		this.country = country;
 		this.roadName = roadName;

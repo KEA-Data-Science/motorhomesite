@@ -19,6 +19,10 @@
 
 <table>
     <tr>
+        <td>Person ID</td>
+        <td th:text="${customer.getPerson().getPersonID()}"></td>
+    </tr>
+    <tr>
         <td>First Name</td>
         <td th:text="${customer.getPerson().getFirstName()}"></td>
     </tr>
@@ -26,11 +30,31 @@
         <td>Last Name</td>
         <td th:text="${customer.getPerson().getLastName()}"></td>
     </tr>
-    <td>Address</td>
-    <td th:text="${customer.getPerson().getAddress().getRoadName() + ' ' + customer.getPerson().getAddress().getHouseNumber() + ', ' +
-        customer.getPerson().getAddress().getPostCode() + ' ' + customer.getPerson().getAddress().getCountry()}"></td>
     <tr>
+        <td>Address ID</td>
+        <td th:text="${customer.getPerson().getAddress().getAddressID()}"></td>
+    </tr>
+    <tr>
+        <td>Road Name</td>
+        <td th:text="${customer.getPerson().getAddress().getRoadName()}"></td>
+    </tr>
+    <tr>
+        <td>House Number</td>
+        <td th:text="${customer.getPerson().getAddress().getHouseNumber()}"></td>
+    </tr>
+    <tr>
+        <td>Post Code</td>
+        <td th:text="${customer.getPerson().getAddress().getPostCode()}"></td>
+    </tr>
+    <tr>
+        <td>Country</td>
+        <td th:text="${customer.getPerson().getAddress().getCountry()}"></td>
+    </tr>
         <td>Birth Date</td>
+        <td th:text="${customer.getPerson().getBirthDate()}"></td>
+    </tr>
+    <tr>
+        <td>Join Date</td>
         <td th:text="${customer.getPerson().getBirthDate()}"></td>
     </tr>
     <tr>

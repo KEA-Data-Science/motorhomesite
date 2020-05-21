@@ -82,15 +82,13 @@ public class ServiceDAODemo implements IDAO<Service, Integer>
         return false;
     }
 
-    public void addServices()
-    {
-        Service service1 = new Service(0, "Cleaning", 20, "Cleaning");
-        Service service2 = new Service(1, "Repairing", 100, "Repairing");
-        Service service3 = new Service(2, "Extra space", 45, "Extra space");
-        services.add(service1);
-        services.add(service2);
-        services.add(service3);
-
-
-    }
+//    public void addServices()
+//    {
+//        Service service1 = new Service(0, "Cleaning", 20, "Cleaning");
+//        Service service2 = new Service(1, "Repairing", 100, "Repairing");
+//        Service service3 = new Service(2, "Extra space", 45, "Extra space");
+//        services.add(service1);
+//        services.add(service2);
+//        services.add(service3);
+//    }
 }

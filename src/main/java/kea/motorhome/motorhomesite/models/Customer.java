@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Customer {
 
 	private String driversLicence;
-	private int cardID;
+	private int cardID; // nb. skal byttes ud til et PayCard-object
 	private Person person;
 	private boolean approved;
 

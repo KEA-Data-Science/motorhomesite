@@ -14,8 +14,7 @@ public class MobileHomeModel
     private String fuelType = "Oil";
     private String imageURL;
 
-    public MobileHomeModel(int catalogueId, String modelName, int productionYear, String description,
-                           float perDayPrice, int minimumDaysOfRental, String imageURL)
+    public MobileHomeModel(int catalogueId, String modelName, int productionYear, String description, float perDayPrice, int minimumDaysOfRental, String fuelType, String imageURL)
     {
         this.catalogueId = catalogueId;
         this.modelName = modelName;
@@ -23,6 +22,7 @@ public class MobileHomeModel
         this.description = description;
         this.perDayPrice = perDayPrice;
         this.minimumDaysOfRental = minimumDaysOfRental;
+        this.fuelType = fuelType;
         this.imageURL = imageURL;
     }
 
