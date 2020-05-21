@@ -44,6 +44,20 @@ public class DemoData
                                     LocalDate.now());
         dao.customerDAO().readall().add(new Customer("1234-1234-1235", 2, person2, true));
 
+        /* Invoices */
+        Invoice invoice1 = new Invoice(1, "1234-1234-1235", new Period(LocalDate.of(2020, 5, 1),
+                LocalDate.of(2020, 5, 22)), dao.serviceDAO().readall());
+
+        Invoice invoice2 = new Invoice(2, "1234-1234-1235", new Period(LocalDate.of(2020, 1, 1),
+                LocalDate.of(2020, 1, 21)), dao.serviceDAO().readall());
+
+        Invoice invoice3  = new Invoice(3, "1234-1234-1235", new Period(LocalDate.of(2020, 2, 2),
+                LocalDate.of(2020, 3, 5)), dao.serviceDAO().readall());
+
+        dao.invoiceDAO().readall().add(invoice1);
+        dao.invoiceDAO().readall().add(invoice2);
+        dao.invoiceDAO().readall().add(invoice3);
+
         /*motorhomes*/
         List<Service> servicesAvailable = dao.serviceDAO().readall();
 
