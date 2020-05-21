@@ -23,12 +23,14 @@ public class DemoData
     {
 
         /*services*/
-        Service service1 = new Service(0, "Cleaning", 20, "Cleaning");
-        Service service2 = new Service(1, "Repairing", 100, "Repairing");
-        Service service3 = new Service(2, "Extra space", 45, "Extra space");
-        dao.serviceDAO().readall().add(service1);
+        Service service2 = new Service(2, "Repairing", 100, "Repairing");
+        Service service3 = new Service(3, "Extra space", 45, "Extra space");
+        Service service1 = new Service(1, "Cleaning", 88, "Cleaning");
+
         dao.serviceDAO().readall().add(service2);
         dao.serviceDAO().readall().add(service3);
+        dao.serviceDAO().readall().add(service1);
+
 
         /* Addresses */
         Address address1 = new Address(1, "Danmark", "Margovej", "15B", "5432");
@@ -109,14 +111,20 @@ public class DemoData
                 5, "Money"));
 
         /* Invoices */
+
+        List<Service> servicelist = new ArrayList<>();
+
+        servicelist.add(service2);
+        servicelist.add(service3);
+        servicelist.add(service1);
         Invoice invoice1 = new Invoice(1, "1234-1234-1235", new Period(LocalDate.of(2020, 5, 1),
-                LocalDate.of(2020, 5, 22)), dao.motorhomeDAO().read(1), dao.serviceDAO().readall());
+                LocalDate.of(2020, 5, 22)), dao.motorhomeDAO().read(1), servicelist);
 
         Invoice invoice2 = new Invoice(2, "1234-1234-1235", new Period(LocalDate.of(2020, 1, 1),
-                LocalDate.of(2020, 1, 21)), dao.motorhomeDAO().read(2), dao.serviceDAO().readall());
+                LocalDate.of(2020, 1, 21)), dao.motorhomeDAO().read(2), servicelist);
 
         Invoice invoice3  = new Invoice(3, "1234-1234-1235", new Period(LocalDate.of(2020, 2, 2),
-                LocalDate.of(2020, 3, 5)), dao.motorhomeDAO().read(3), dao.serviceDAO().readall());
+                LocalDate.of(2020, 3, 5)), dao.motorhomeDAO().read(3), servicelist);
 
         dao.invoiceDAO().readall().add(invoice1);
         dao.invoiceDAO().readall().add(invoice2);

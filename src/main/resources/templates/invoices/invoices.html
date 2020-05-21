@@ -31,7 +31,7 @@
                                 <br />
                                 <div th:text="${'Customer: '+invoice.getCustomerID()}"></div>
                                 <div th:text="${'Start date: '+invoice.getBillPeriod().getStartAsDate()}"></div>
-                                <div th:text="${'Start date: '+invoice.getBillPeriod().getEndAsDate()}"></div>
+                                <div th:text="${'End date: '+invoice.getBillPeriod().getEndAsDate()}"></div>
                                 <div th:text="${'Motorhome: '+invoice.getMotorhome().getModel().getModelName()}"></div>
                                 <div th:text="${'Price for period: '+calculator.calculatePriceOfPeriod(invoice.getMotorhome(), invoice.getBillPeriod())}"></div>
 
