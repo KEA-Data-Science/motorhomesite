@@ -1,15 +1,17 @@
 package kea.motorhome.motorhomesite.controllers;
 
 
-import kea.motorhome.motorhomesite.PriceCalculator;
+import kea.motorhome.motorhomesite.util.DateUtil;
+import kea.motorhome.motorhomesite.util.PriceCalculator;
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
+import kea.motorhome.motorhomesite.enums.ReservationStatus;
 import kea.motorhome.motorhomesite.models.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller // annotation marking class as controller class
 public class EmployeeReservationController
@@ -31,7 +33,7 @@ public class EmployeeReservationController
         return "reservation/landing";
     }
 
-    @PostMapping("/lookup") //
+    @PostMapping("reservation/lookup") //
     public String lookupCustomerAndVehicle(@RequestParam String customerID,
                                            @RequestParam Integer motorhomeID,
                                            @RequestParam java.sql.Date dateA,
@@ -41,11 +43,10 @@ public class EmployeeReservationController
     {
         model.addAttribute("motorhome", dao.motorhomeDAO().read(motorhomeID));
         model.addAttribute("customer", dao.customerDAO().read(customerID));
-
         model.addAttribute("dateA", dateA);
         model.addAttribute("dateB", dateB);
 
-        return "reservation/lookup";
+        return "reservation/mockup";
     }
 
     @GetMapping("/reservation/read")
@@ -58,7 +59,6 @@ public class EmployeeReservationController
     /**
      * Controller returns a new reservation object,
      * based on the customer and motorhome id supplied
-     * wrapped in a list to maximize utility of new.html
      */
     @PostMapping("reservation/new")
     public String newReservation(@RequestParam String customerID,
@@ -70,24 +70,61 @@ public class EmployeeReservationController
         Customer customer = dao.customerDAO().read(customerID);
         Motorhome motorhome = dao.motorhomeDAO().read(motorhomeID);
 
+        // skal lige have bygget en fail-safe her
+
         Reservation reservation = // nb. some fields are yet unknown
                 new Reservation().
+                        setStatus(ReservationStatus.Initialized).
                         setReservationID(pseudoID++).
                         setCustomer(customer).
                         setMotorhome(motorhome).
-                        setPeriod(new Period(dateA.toLocalDate(), dateB.toLocalDate()));
+                        setPeriod(new Period(dateA.toLocalDate(), dateB.toLocalDate())).
+                        setEmployee(dao.employeeDAO().read(1)).
+                        setInternalNotes("Reservation was placed on:" + LocalDate.now());
 
-        /*   fordi html/thymeleaf kan håndtere flere   reservationer  */
-        ArrayList<Reservation> reservations = new ArrayList<>();
-        reservations.add(reservation);
+        System.out.println(reservation);
 
-        model.addAttribute("reservations", reservations);
+        model.addAttribute("reservation", reservation);
         model.addAttribute("priceCalculator", new PriceCalculator());
 
         dao.reservationDAO().create(reservation);
 
         return "reservation/new";
     }
+
+
+    @PostMapping("reservation/confirm")
+    public String addReservationToSystem(@RequestParam int reservationID,
+                                         @RequestParam String notes,
+                                         @RequestParam int employeeID,
+                                         Model model)
+    {
+        Reservation reservation = dao.reservationDAO().read(reservationID);
+
+        reservation.setStatus(ReservationStatus.Accepted);
+
+        Employee employee = dao.employeeDAO().read(employeeID);
+
+        if(employee != null)
+        {
+            reservation.setEmployee(employee);
+        } else
+        { // in case of bad employee ID, Employee ID 1 is used
+            employee = dao.employeeDAO().read(1);
+            reservation.setEmployee(employee);
+        }
+
+        if(notes != null){ reservation.setNotes(notes);}
+
+        System.out.println(reservation);
+
+        dao.reservationDAO().update(reservation);
+
+        model.addAttribute("reservation", reservation);
+
+        return "reservation/confirm";
+    }
+
 
     @PostMapping("reservation/addservice")
     public String addServiceToReservation(@RequestParam int reservationID,
@@ -96,15 +133,12 @@ public class EmployeeReservationController
     {
         Reservation reservation = dao.reservationDAO().read(reservationID);
 
-        Service service = dao.serviceDAO().read(serviceID);
+        Service service = dao.serviceDAO().read(serviceID); //
 
         reservation.getServices().add(service); // multiple copies of the same service is possible on 1 res.
 
-        ArrayList<Reservation> reservations = new ArrayList<>();
-        reservations.add(reservation);
-
-        model.addAttribute("reservations", reservations);
-        model.addAttribute("priceCalculator", new PriceCalculator());
+        model.addAttribute("reservation", reservation);
+        addStandardAttributes(model);
 
         return "reservation/new";
     }
@@ -116,7 +150,7 @@ public class EmployeeReservationController
     {
         Reservation reservation = dao.reservationDAO().read(reservationID);
 
-        for(int i=0; i< reservation.getServices().size();i++)
+        for(int i = 0; i < reservation.getServices().size(); i++)
         {
             if(reservation.getServices().get(i).getServiceID() == serviceID)
             {
@@ -125,12 +159,98 @@ public class EmployeeReservationController
             }
         }
 
-        List<Reservation> reservations = dao.reservationDAO().readall();
-
-        model.addAttribute("reservations", reservations);
-        model.addAttribute("priceCalculator", new PriceCalculator());
+        model.addAttribute("reservation", reservation);
+        addStandardAttributes(model);
 
         return "reservation/new";
+    }
+
+    /**
+     * Returns a view with search option and list
+     */
+    @GetMapping("reservation/list")
+    public String listReservationOptions(Model model)
+    {
+        model.addAttribute("reservations", dao.reservationDAO().readall());
+        addStandardAttributes(model);
+
+        return "reservation/list";
+    }
+
+    @PostMapping("reservation/list-res-id")
+    public String searchReservationsForID(@RequestParam int reservationID, Model model)
+    {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        for(Reservation reservation : dao.reservationDAO().readall())
+        {
+            if(reservation.getReservationID() == reservationID)
+            {
+                reservations.add(reservation);
+            }
+        }
+
+        model.addAttribute("reservations", reservations);
+
+        addStandardAttributes(model);
+
+        return "reservation/list";
+    }
+
+    /**
+     * Returns a view with a list of reservations matching queried employeeID
+     */
+    @PostMapping("/reservation/searchByEmployeeID")
+    public String searchByEmployeeID(@RequestParam int employeeID, Model model)
+    {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        for(Reservation reservation : dao.reservationDAO().readall())
+        {
+            if(reservation.getEmployee().getEmployeeID() == employeeID)
+            {
+                reservations.add(reservation);
+            }
+        }
+
+        model.addAttribute("reservations", reservations);
+
+        addStandardAttributes(model);
+
+        return "reservation/list";
+    }
+
+    /**
+     * Returns a view with a list of reservations matching queries driver's licence / customer id
+     */
+    @PostMapping("/reservation/searchByCustomerID")
+    public String searchByCustomerID(@RequestParam String driversLicence, Model model)
+    {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        for(Reservation reservation : dao.reservationDAO().readall())
+        {
+            if(reservation.getCustomer().getDriversLicence().toLowerCase().contentEquals(driversLicence.toLowerCase()))
+            {
+                reservations.add(reservation);
+            }
+        }
+
+        model.addAttribute("reservations", reservations);
+
+        addStandardAttributes(model);
+
+        return "reservation/list";
+    }
+
+    private Model addStandardAttributes(Model model)
+    {
+        model.addAttribute("errorMessage");
+
+        model.addAttribute("dateUtil",new DateUtil());
+        model.addAttribute("priceCalculator", new PriceCalculator());
+
+        return model;
     }
 
 }

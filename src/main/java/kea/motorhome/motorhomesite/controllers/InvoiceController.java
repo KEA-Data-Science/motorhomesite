@@ -1,6 +1,6 @@
 package kea.motorhome.motorhomesite.controllers;
 
-import kea.motorhome.motorhomesite.PriceCalculator;
+import kea.motorhome.motorhomesite.util.PriceCalculator;
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.daodemo.InvoiceDAODemo;
 import kea.motorhome.motorhomesite.models.*;

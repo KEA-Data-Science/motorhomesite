@@ -162,6 +162,11 @@ public class DateUtil
         lowSeasonB.setEnd(lowSeasonB.getEnd().withYear(year));
     }
 
+    /**
+     * Returns the current date (system local time)
+     */
+    public LocalDate getToday(){return LocalDate.now();}
+
 }
 
 /*

@@ -18,15 +18,26 @@
 
     <h1 class="hl">Customer and Mobilehome</h1>
     <div class="body container">
-        <form action="/reservation/new" method="post">
-            <input type="hidden" id="customerID" name="customerID" th:value="${customer.getDriversLicence()}">
-            <input type="hidden" id="motorhomeID" name="motorhomeID" th:value="${motorhome.getMotorhomeID()}">
-            <input type="hidden" id="dateA" name="dateA" th:value="${dateA}">
-            <input type="hidden" id="dateB" name="dateB" th:value="${dateB}">
-            <span class="center">
-                    <input class="button deep-green" type="submit" value="Create Reservation!" name="reservationID">
-        </span>
-        </form>
+        <!--        Buttons relative to whether user is approved -->
+        <div th:switch="${customer.isApproved()}">
+
+            <!--        Create new reservation button: if customer is approved -->
+            <div th:case="true">
+                <form action="/reservation/new" method="post">
+                    <input type="hidden" id="customerID" name="customerID" th:value="${customer.getDriversLicence()}">
+                    <input type="hidden" id="motorhomeID" name="motorhomeID" th:value="${motorhome.getMotorhomeID()}">
+                    <input type="hidden" id="dateA" name="dateA" th:value="${dateA}">
+                    <input type="hidden" id="dateB" name="dateB" th:value="${dateB}">
+                    <span class="center">  <input class="button deep-green" type="submit"
+                                                  value="Create Reservation!" name="reservationID"/> </span>
+                </form>
+            </div>
+            <!--       Create 'back button' if customer is not approved -->
+            <div th:case="false">
+                <a id="back-link" href=""><button class="button animate border-8px"><span>Back</span></button></a>
+            </div>
+        </div>
+
         <!-- Customer info segment -->
         <h3 class="hl">Customer: </h3>
         <table>
@@ -142,11 +153,9 @@
         <div class="collapsible-content" th:text="${motorhome.getNotes()}"></div>
     </div>
 </div>
-<p></p>
-<p></p>
-<p></p>
-<h1 class="hl " style="text-align: center"> Nordic Motorhome
-    <img class="mobilehome-icon" src="/img/mobilehome_transparent_icon.png"></h1>
+
+<!-- footer -->
+<div th:replace="fragments/footer.html :: footer"></div>
 
 <!-- javascript -->
 <script>
@@ -167,8 +176,20 @@
     }
 </script>
 
+<script>
+    var element = document.getElementById("back-link"); // var to grab right element
+    element.setAttribute("href",document.referrer); // set's URL to previous/reffering page
+    // next bit defines a small function to pull back() on browser history, which loads referring page
+    element.onclick = function(){
+        history.back();
+        return false;
+    }
+    // (so the button does not actually follow the link, but the history back one step)
+</script>
+
 </body>
 </html>
 
 <!--Notes for sources during construction: -->
 <!--https://www.baeldung.com/spring-thymeleaf-conditionals // using conditional with model attributes in thymeleaf-->
+<!--https://stackoverflow.com/questions/8814472/how-to-make-an-html-back-link // back-link solution owed to this answ -->

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Status of Reservation</title>
+</head>
+<body>
+
+<!--    styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<h1 class="hl">Reservation Status</h1>
+
+<div class="wrapper350">
+    <div class="padded-blue-area">
+        <div th:text="${'Reservation '+ reservation.getStatus()}"></div>
+    </div>
+</div>
+<div th:replace="fragments/footer.html :: footer"></div>
+</body>
+</html>

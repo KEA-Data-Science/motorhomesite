@@ -19,7 +19,7 @@
     <div class="container">
         <h3 class="hl">Customer ID and Vehicle ID</h3>
         <div class="container95 content-auto-margins">
-            <form class="padded-blue-area " action="/lookup" method="post">
+            <form class="padded-blue-area " action="/reservation/lookup" method="post">
                 <table>
                     <tr>
                         <td><p>
@@ -68,7 +68,7 @@
         <!--            Segment for option to enter reservation number directly -->
         <h3 class="hl">Reservation ID:</h3>
         <div class="container95 content-auto-margins">
-            <form class="padded-blue-area" action="/show" method="post">
+            <form class="padded-blue-area" action="/reservation/list-reservationm-id" method="post">
                 <table>
                     <tr>
                         <td><p><img src="/img/transparent-200-10.png"/><img src="/img/transparent-200-10.png"/></p></td>
@@ -92,14 +92,9 @@
         </div>
     </div>
 </div>
-<p></p>
-<p></p>
-<p></p>
-<h1 class="hl " style="text-align: center">
-    home ahead
-    <img class="mobilehome-icon" src="/img/mobilehome_transparent_icon.png">
-    get rolling
-</h1>
+
+<!-- footer-->
+<div th:replace="fragments/footer.html :: footer"></div>
 
 </body>
 </html>
