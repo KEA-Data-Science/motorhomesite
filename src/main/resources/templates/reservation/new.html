@@ -152,7 +152,7 @@
             </div>
         </div>
 
-        <!--                Services offered for vehicle -->
+        <!--                Services chosen for vehicle -->
         <div class="hl" id="serviceschosen">Services chosen for this Reservation</div>
         <div class="wrapper350">
 
@@ -243,10 +243,10 @@
             <!--    Accept Reservation Segment-->
             <div class="container95">
                 <h1 class="hl">Accept Reservation</h1>
-                <form action="/reservation/confirm" method="post" id="confirm">
+                <form class="content-auto-margins" action="/reservation/confirm" method="post" id="confirm">
                     <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
                     <h1>
-                        <button class="deep-green button">Confirm Reservation</button>
+                        <button class="button">Confirm Reservation</button>
                     </h1>
                 </form>
             </div>

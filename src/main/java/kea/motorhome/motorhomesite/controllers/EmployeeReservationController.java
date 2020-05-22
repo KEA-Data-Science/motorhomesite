@@ -1,7 +1,8 @@
 package kea.motorhome.motorhomesite.controllers;
 
 
-import kea.motorhome.motorhomesite.PriceCalculator;
+import kea.motorhome.motorhomesite.util.DateUtil;
+import kea.motorhome.motorhomesite.util.PriceCalculator;
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.enums.ReservationStatus;
 import kea.motorhome.motorhomesite.models.*;
@@ -137,7 +138,7 @@ public class EmployeeReservationController
         reservation.getServices().add(service); // multiple copies of the same service is possible on 1 res.
 
         model.addAttribute("reservation", reservation);
-        model.addAttribute("priceCalculator", new PriceCalculator());
+        addStandardAttributes(model);
 
         return "reservation/new";
     }
@@ -159,22 +160,25 @@ public class EmployeeReservationController
         }
 
         model.addAttribute("reservation", reservation);
-        model.addAttribute("priceCalculator", new PriceCalculator());
+        addStandardAttributes(model);
 
         return "reservation/new";
     }
 
+    /**
+     * Returns a view with search option and list
+     */
     @GetMapping("reservation/list")
     public String listReservationOptions(Model model)
     {
         model.addAttribute("reservations", dao.reservationDAO().readall());
+        addStandardAttributes(model);
 
         return "reservation/list";
     }
 
     @PostMapping("reservation/list-res-id")
-    public String searchReservationsForID(@RequestParam int reservationID,
-                                          Model model)
+    public String searchReservationsForID(@RequestParam int reservationID, Model model)
     {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
@@ -188,7 +192,65 @@ public class EmployeeReservationController
 
         model.addAttribute("reservations", reservations);
 
+        addStandardAttributes(model);
+
         return "reservation/list";
+    }
+
+    /**
+     * Returns a view with a list of reservations matching queried employeeID
+     */
+    @PostMapping("/reservation/searchByEmployeeID")
+    public String searchByEmployeeID(@RequestParam int employeeID, Model model)
+    {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        for(Reservation reservation : dao.reservationDAO().readall())
+        {
+            if(reservation.getEmployee().getEmployeeID() == employeeID)
+            {
+                reservations.add(reservation);
+            }
+        }
+
+        model.addAttribute("reservations", reservations);
+
+        addStandardAttributes(model);
+
+        return "reservation/list";
+    }
+
+    /**
+     * Returns a view with a list of reservations matching queries driver's licence / customer id
+     */
+    @PostMapping("/reservation/searchByCustomerID")
+    public String searchByCustomerID(@RequestParam String driversLicence, Model model)
+    {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        for(Reservation reservation : dao.reservationDAO().readall())
+        {
+            if(reservation.getCustomer().getDriversLicence().toLowerCase().contentEquals(driversLicence.toLowerCase()))
+            {
+                reservations.add(reservation);
+            }
+        }
+
+        model.addAttribute("reservations", reservations);
+
+        addStandardAttributes(model);
+
+        return "reservation/list";
+    }
+
+    private Model addStandardAttributes(Model model)
+    {
+        model.addAttribute("errorMessage");
+
+        model.addAttribute("dateUtil",new DateUtil());
+        model.addAttribute("priceCalculator", new PriceCalculator());
+
+        return model;
     }
 
 }

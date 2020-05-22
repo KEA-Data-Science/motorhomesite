@@ -1,4 +1,4 @@
-package kea.motorhome.motorhomesite;
+package kea.motorhome.motorhomesite.util;
 
 import kea.motorhome.motorhomesite.models.Invoice;
 import kea.motorhome.motorhomesite.models.Motorhome;
