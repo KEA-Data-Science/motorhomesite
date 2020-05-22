@@ -13,10 +13,10 @@
 <!-- Navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
+<h1 class="hl">List of Customers</h1>
 <!-- Main area of page -->
-<div class="body container">
+<div class="container">
     <!--   Car Fleet grid layout -->
-    <h1 id="headline">Customers</h1>
     <div><a href="/customers/new"><button id="create">Create New Customer</button></a> </div>
     <div class="wrapper">
         <div th:each="customer:${customers}">
@@ -49,7 +49,7 @@
         </div>
     </div>
 </div>
-
+<div th:replace="fragments/footer.html :: footer"></div>
 <!-- javascript -->
 <script>
     <!--    script adds an event listener to all elements with class name collapsible -->

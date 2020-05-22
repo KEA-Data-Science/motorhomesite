@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+<script>
+    function pageScroll() {
+    window.scrollBy(0,1);
+    scrolldelay = setTimeout(pageScroll,10);
+    }
+</script>
+
     <meta charset="UTF-8">
     <title>Reservations :: Lists</title>
 </head>
@@ -16,8 +23,9 @@
 <h1 class="hl">Reservation :: Search </h1>
 
 <!--    search options -->
-<div class="wrapper350">
+<!-- <div class="wrapper350"> -->
 <!--    search by employee id or customer ID-->
+    <!--
 <div class="box350 content-auto-margins">
 <table class="container95">
     <tr><td><form id="searchByEmployeeID" action="/reservation/searchByEmployeeID" method="post"><input type="number" name="employeeID" value="0"><button class="animate border-8px" form="searchByEmployeeID"><span>Employee ID</span></button></form></td></tr>
@@ -32,8 +40,17 @@
 
     </div>
 </div>
-
+-->
 <!-- List section -->
+<div class="backgroundBox">
+    <img id="backgroundImage" src="/img/Background_IMG.jpg" alt="">
+<div class="formCenter">
+    <br>
+    <form id="searchByEmployeeID" action="/reservation/searchByEmployeeID" method="post"><input type="number" name="employeeID" value="0"><button onclick="pageScroll()" class="animate border-8px" form="searchByEmployeeID"><span>Employee ID</span></button></form>
+    <br>
+    <form id="searchByCustomerID" action="/reservation/searchByCustomerID" method="post"><input type="text" name="driversLicence" value="Enter"><button onclick="pageScroll()" class="animate border-8px" form="searchByCustomerID"><span>Driver's Licence</span></button></form>
+</div>
+
 <!---->
 <div th:unless="${reservations.isEmpty()}">
 
@@ -75,7 +92,7 @@
         <div class="padded-blue-area "><h2>No reservations returned yet.</h2></div>
     </div>
 </div>
-
+</div>
 
 <!-- footer -->
 <div th:replace="fragments/footer.html :: footer"></div>

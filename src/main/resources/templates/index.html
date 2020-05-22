@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-Paloba
+<div th:replace="fragments/styling.html :: styling"></div>
+<!--    Navbar - fragment replacement for consistent navbars -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
 
+<iframe width="100%" height="1024px"
+        src="https://www.youtube.com/embed/watch?v=zRkLFjkOkvw?autoplay=1?
+    version=3
+    &loop=1">
+</iframe>
 
-    <a href="/gallery">|> Nordic Mobilhome styles prototype</a>
-<!DOCTYPE html>
-
-
+<div th:replace="fragments/footer.html :: footer"></div>
 </body>
 </html>

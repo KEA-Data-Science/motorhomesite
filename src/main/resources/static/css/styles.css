@@ -2,10 +2,40 @@
 .deep-green{
     color: #2b7735;
 }
+
+.formCenter{
+    position: absolute;
+    top: 25%;
+    left: 40%;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    padding: 20px;
+    border-radius: 3px;
+    z-index: 0;
+}
+
+.backgroundBox {
+    min-height: 100%;
+}
+
+#backgroundImage {
+    width: 100%;
+}
+
+html {
+    height: 100%;
+}
 /* */
 body {
+    min-height:100%;
+    padding:0;
+    margin:0;
+    position:relative;
     background-color: lightgrey;
     font-family: "Roboto Medium", Arial Rounded MT Bold, sans-serif;
+}
+body::after{
+    content:''; display:block; height:150px;
 }
 
 .container{
@@ -40,10 +70,11 @@ body {
     font-family: 'Squada One', cursive;
     padding: 5px 12px;
     margin-top: 45px;
-    margin-bottom: 14px;
+    margin-bottom: 0;
     display: block;
     background-color: #ff1e21;
     color: aliceblue;
+    width: 100%;
 }
 
 /* Styling defines the grid-styling of gallery items */

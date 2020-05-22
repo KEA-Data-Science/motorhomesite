@@ -14,9 +14,9 @@
 
 
 <!-- Main area of page -->
-<div class="body container">
+<h1 class="hl">Available Services</h1>
+<div class="container">
     <!--   Car Fleet grid layout -->
-    <h1 id="headline">Availible services</h1>
     <div><a href="/createservice"><button id="create"> Create</button></a> </div>
     <div class="wrapper">
         <div th:each="service:${services}">
@@ -47,7 +47,7 @@
         </div>
     </div>
 </div>
-
+<div th:replace="fragments/footer.html :: footer"></div>
 <!-- javascript -->
 <script>
     <!--    script adds an event listener to all elements with class name collapsible -->

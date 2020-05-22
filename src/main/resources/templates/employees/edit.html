@@ -13,9 +13,7 @@
 <!-- Navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
-<br/><br/><br/><br/>
-
-<h1>Edit Employee</h1>
+<h1 class="hl">Edit Employee</h1>
 
 <form action="#" th:action="@{/updateemployee}" th:object="${employee}" method="post">
     <table>
@@ -88,5 +86,6 @@
 <div>
     <a href="/employees/employees"><button class="button animate border-8px"><span>Back</span></button></a>
 </div>
+<div th:replace="fragments/footer.html :: footer"></div>
 </body>
 </html>

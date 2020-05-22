@@ -12,10 +12,10 @@
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
 <!-- Main area of page -->
+<h1 class="hl">Company Fleet Overview</h1>
 <div class="body container">
 
     <!--   Car Fleet grid layout -->
-    <h1 id="headline">Company Fleet Overview</h1>
     <div class="wrapper">
         <div th:each="mobileHome:${mobileHomes}">
             <div class="box">
@@ -52,7 +52,7 @@
         </div>
     </div>
 </div>
-
+<div th:replace="fragments/footer.html :: footer"></div>
 <!-- javascript -->
 <script>
     <!--    script adds an event listener to all elements with class name collapsible -->

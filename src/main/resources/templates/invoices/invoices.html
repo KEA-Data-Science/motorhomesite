@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>List of invoices</title>
+    <title>Invoices</title>
 </head>
 <body>
 <!--    styling fragment -->
@@ -12,11 +12,10 @@
 <!--    Navbar -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
-
+<h1 class="hl">Invoices</h1>
 <!-- Main area of page -->
 <div class="body container">
     <!--   Car Fleet grid layout -->
-    <h1 id="headline">Availible invoices</h1>
     <div><a href="/createinvoice"><button id="create"> Create</button></a> </div>
     <div class="wrapper">
         <div th:each="invoice:${invoices}">
