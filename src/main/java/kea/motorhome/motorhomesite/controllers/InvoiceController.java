@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class InvoiceController {
@@ -30,6 +32,7 @@ public class InvoiceController {
         PriceCalculator priceCalculator = new PriceCalculator();
         model.addAttribute("invoices", dao.invoiceDAO().readall());
         model.addAttribute("calculator", priceCalculator);
+
         return "/invoices/invoices";
     }
 
@@ -40,37 +43,28 @@ public class InvoiceController {
         model.addAttribute("customers", dao.customerDAO().readall());
         model.addAttribute("motorhomes", dao.motorhomeDAO().readall());
         model.addAttribute("services", dao.serviceDAO().readall());
-        System.out.println(dao.invoiceDAO().read(id).getServices().toString());
         return "/invoices/edit";
     }
 
     @PostMapping("/invoices/updateinvoice")
     public String performUpdate(WebRequest wr, Model model)
     {
+        Invoice invoice = null;
         PriceCalculator priceCalculator = new PriceCalculator();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        int invoiceID = Integer.parseInt(wr.getParameter("invoiceID"));
+
+        int invoiceID = Integer.parseInt((wr.getParameter("invoiceID")));
         String customerID = wr.getParameter("customer");
         LocalDate startDate = LocalDate.parse(wr.getParameter("startDate"), dtf);
         LocalDate endDate = LocalDate.parse(wr.getParameter("endDate"), dtf);
         Period period = new Period(startDate, endDate);
         Motorhome motorhome = dao.motorhomeDAO().read(Integer.parseInt(wr.getParameter("motorhome")));
-        Invoice invoice = new Invoice(invoiceID, customerID, period, motorhome, new ArrayList<Service>());
+
+        invoice = new Invoice(invoiceID, customerID, period, motorhome, dao.invoiceDAO().read(invoiceID).getServices());
 
         dao.invoiceDAO().update(invoice);
 
-        System.out.println(wr.getParameter("startDate"));
-        //Invoice invoice = new Invoice(Integer.parseInt(wr.getParameter("invoiceID"))
-        model.addAttribute("invoice", dao.invoiceDAO().read(invoiceID));
-
-        model.addAttribute("invoices", dao.invoiceDAO().readall());
-        model.addAttribute("invoice", dao.invoiceDAO().read(invoiceID));
-        model.addAttribute("customers", dao.customerDAO().readall());
-        model.addAttribute("motorhomes", dao.motorhomeDAO().readall());
-        model.addAttribute("services", dao.serviceDAO().readall());
-        model.addAttribute("calculator", priceCalculator);
-
-        return "invoices/invoices";
+        return "redirect:/invoices";
     }
 
     @GetMapping("/deleteinvoice")
@@ -91,12 +85,10 @@ public class InvoiceController {
 
         invoice.getServices().add(service); // multiple copies of the same service is possible on 1 res.
 
-        model.addAttribute("invoice", dao.invoiceDAO().read(invoiceID));
+        model.addAttribute("invoice", invoice);
         model.addAttribute("customers", dao.customerDAO().readall());
         model.addAttribute("motorhomes", dao.motorhomeDAO().readall());
         model.addAttribute("services", dao.serviceDAO().readall());
-
-        System.out.println("Called");
 
         return "invoices/edit";
     }

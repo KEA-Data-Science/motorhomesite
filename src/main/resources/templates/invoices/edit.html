@@ -16,105 +16,110 @@
         <br /> <br /> <br /> <br /> <br /> <br /> <br />
 
 
-        <form th:action="@{/invoices/updateinvoice}" method="post">
-                <table>
-                    <tr>
-                        <td>Id</td>
-                        <td><input id="invoiceID" name="invoiceID" type="number" th:value="${invoice.getInvoiceID()}" readonly></td>
-                    </tr>
-                    <tr>
-                        <td>Customer</td>
-                        <td>
-                            <select id="customer" name="customer" type="text">
-                                <option th:each="customer:${customers}" th:value="${customer.getDriversLicence()}" th:attr="selected=${invoice.getCustomerID()==customer.getDriversLicence() ? true : false}" th:text="${customer.getPerson().getFirstName()+ ' '+ customer.getPerson().getLastName() + ' - Drivers license: ' + customer.getDriversLicence()}"></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Start date</td>
-                        <td><input id="startDate" name="startDate" type="date" th:value="${invoice.getBillPeriod().getStartAsDate()}"></td>
-                    </tr>
-                    <tr>
-                        <td>End date</td>
-                        <td><input id="endDate" name="endDate" type="date" th:value="${invoice.getBillPeriod().getEndAsDate()}"></td>
-                    </tr>
-                    <tr>
-                        <td>Motorhome</td>
-                        <td>
-                            <select id="motorhome" name="motorhome" type="int">
-                                <option th:each="motorhome:${motorhomes}" th:value="${motorhome.getMotorhomeID()}" th:attr="selected=${invoice.getMotorhome().getMotorhomeID()==motorhome.getMotorhomeID() ? true : false}" th:text="${motorhome.getModel().getModelName()}"></option>
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-                <div class="hl">Availible Services</div>
+        <form id="mainForm" th:action="@{/invoices/updateinvoice}" method="post">
+            <table>
+                <tr>
+                    <td>Id</td>
+                    <td><input id="invoiceID" name="invoiceID" type="number" th:value="${invoice.getInvoiceID()}" readonly></td>
+                </tr>
+                <tr>
+                    <td>Customer</td>
+                    <td>
+                        <select id="customer" name="customer">
+                            <option th:each="customer:${customers}" th:value="${customer.getDriversLicence()}" th:attr="selected=${invoice.getCustomerID()==customer.getDriversLicence() ? true : false}" th:text="${customer.getPerson().getFirstName()+ ' '+ customer.getPerson().getLastName() + ' - Drivers license: ' + customer.getDriversLicence()}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Start date</td>
+                    <td><input id="startDate" name="startDate" type="date" th:value="${invoice.getBillPeriod().getStartAsDate()}"></td>
+                </tr>
+                <tr>
+                    <td>End date</td>
+                    <td><input id="endDate" name="endDate" type="date" th:value="${invoice.getBillPeriod().getEndAsDate()}"></td>
+                </tr>
+                <tr>
+                    <td>Motorhome</td>
+                    <td>
+                        <select id="motorhome" name="motorhome">
+                            <option th:each="motorhome:${motorhomes}" th:value="${motorhome.getMotorhomeID()}" th:attr="selected=${invoice.getMotorhome().getMotorhomeID()==motorhome.getMotorhomeID() ? true : false}" th:text="${motorhome.getModel().getModelName()}"></option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div class="hl">Availible Services</div>
 
-                <div class="wrapper" id="servicesavailable">
-                    <div th:each="service:${services}">
+        <div class="wrapper" id="servicesavailable">
+            <div th:each="service:${services}">
 
-                        <div class="box">
-                            <table>
-                                <tr>
-                                    <td class="item-description">
-                                        <div th:text="${'Service ID: '+service.getServiceID()}"></div>
-                                        <div th:text="${'Name: '+service.getName()}"></div>
-                                        <div th:text="${'Unit price: '+service.unitPrice}"></div>
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td class="item-description">
+                                <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                                <div th:text="${'Name: '+service.getName()}"></div>
+                                <div th:text="${'Unit price: '+service.unitPrice}"></div>
 
-                                        <button class="collapsible" type="button">Description: ...</button>
-                                        <div class="collapsible-content" th:text="${service.getDescription()}"></div>
-                                    </td>
-                                    <td>
-                                        <form action="/invoice/addservice#servicesavailable" method="post" th:id="${'availableS'+service.getServiceID()}">
-                                            <input type="hidden"  name="serviceID" th:value="${service.getServiceID()}">
-                                            <input type="hidden" name="invoiceID" th:value="${invoice.getInvoiceID()}">
-                                            <div>
-                                                <button class="animate border-8px" th:form="${'availableS'+service.getServiceID()}">Add Service</button>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                                <button class="collapsible" type="button">Description: ...</button>
+                                <div class="collapsible-content" th:text="${service.getDescription()}"></div>
+                            </td>
+                            <td>
+                                <form action="/invoice/addservice#servicesavailable" method="post" th:id="${'availableS'+service.getServiceID()}">
+                                    <input type="hidden"  name="serviceID" th:value="${service.getServiceID()}">
+                                    <input type="hidden" name="invoiceID" th:value="${invoice.getInvoiceID()}">
+                                    <div>
+                                        <button class="animate border-8px" type="submit" th:form="${'availableS'+service.getServiceID()}">Add Service</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!--                Services offered for vehicle -->
+        <div class="hl" id="serviceschosen">Services Chosen</div>
+        <div class="wrapper">
+
+            <div th:each="service:${invoice.getServices()}">
+
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td class="item-description">
+                                <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                                <div th:text="${'Name: '+service.getName()}"></div>
+                                <div th:text="${'Unit price: '+service.unitPrice}"></div>
+                                <button class="collapsible" type="button">Description: ...</button>
+                                <div class="collapsible-content" th:text="${service.getDescription()}"></div>
+                            </td>
+                            <td>
+                                <form action="/invoice/removeservice#serviceschosen" method="post" th:id="${'chosenS'+service.getServiceID()}">
+                                    <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
+                                    <input type="hidden" name="invoiceID" th:value="${invoice.getInvoiceID()}">
+                                    <div>
+                                        <button class="animate border-8px" th:form="${'chosenS'+service.getServiceID()}">Remove Service</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
+            </div>
 
-                        <!--                Services offered for vehicle -->
-                        <div class="hl" id="serviceschosen">Services Chosen</div>
-                        <div class="wrapper">
+        </div>
 
-                            <div th:each="service:${invoice.getServices()}">
+            <input form="mainForm" type="submit">
 
-                                <div class="box">
-                                    <table>
-                                        <tr>
-                                            <td class="item-description">
-                                                <div th:text="${'Service ID: '+service.getServiceID()}"></div>
-                                                <div th:text="${'Name: '+service.getName()}"></div>
-                                                <div th:text="${'Unit price: '+service.unitPrice}"></div>
-                                                <button class="collapsible" type="button">Description: ...</button>
-                                                <div class="collapsible-content" th:text="${service.getDescription()}"></div>
-                                            </td>
-                                            <td>
-                                                <form action="/invoice/removeservice#serviceschosen" method="post" th:id="${'chosenS'+service.getServiceID()}">
-                                                    <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
-                                                    <input type="hidden" name="invoiceID" th:value="${invoice.getInvoiceID()}">
-                                                    <div>
-                                                        <button class="animate border-8px" th:form="${'chosenS'+service.getServiceID()}">Remove Service</button>
-                                                    </div>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-            <input type="submit">
-        </form>
     </div>
+
+    <!-- footer-->
+    <div th:replace="fragments/footer.html :: footer"></div>
+
 </body>
 
 <script>
