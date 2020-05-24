@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${'Reservation ID '+ reservation.getReservationID() + ' Details'}"></title>
+</head>
+<body>
+
+<!--    styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<!-- segment shown if no reservation with number found -->
+<div th:if="${reservation==null}">
+    <h1 th:text="'Reservation details :: Reservation ID ' + ${reservationID}"></h1>
+    <div class="container content-auto-margins">
+        <div class="padded-blue-area" th:text="${reservationID} + ' not found in the system'"></div>
+    </div>
+</div>
+
+<!-- segment rendering reservation data -->
+<div th:unless="${reservation==null}">
+    <h1 class="hl" th:text="'Reservation details :: Reservation ID ' +${reservation.getReservationID()}"></h1>
+
+    <!-- Info table-->
+    <div class="container">
+        <table class="container">
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td th:text="${reservation.getStatus()}"></td>
+            </tr>
+            <tr>
+                <td>Reservation ID</td>
+                <td th:text="${reservation.getReservationID()}"></td>
+            </tr>
+            <tr>
+                <td>Customer</td>
+                <td th:text="${reservation.getCustomer().getPerson().getFullName()}"></td>
+            </tr>
+            <tr>
+                <td>Customer Licence Plate</td>
+                <td th:text="${reservation.getCustomer().getDriversLicence()}"></td>
+            </tr>
+            <tr>
+                <td>Employee</td>
+                <td th:text="${reservation.getEmployee().getPerson().getFullName() + ' [' + reservation.getEmployee().getEmployeeID() + ']'}"></td>
+            </tr>
+            <tr>
+                <td>Start Date</td>
+                <td th:text="${reservation.getPeriod().getStart()}"></td>
+            </tr>
+            <tr>
+                <td>End Date</td>
+                <td th:text="${reservation.getPeriod().getEnd()}"></td>
+            </tr>
+        </table>
+
+        <!--  Segment rendering notes and internal notes     -->
+        <table class="container">
+            <tr>
+                <td>Notes</td>
+                <td th:text="${reservation.getNotes()}"></td>
+            </tr>
+            <tr>
+                <td>Internal Notes</td>
+                <td th:text="${reservation.getInternalNotes()}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <!--            Services segment -->
+        <div class="container padded-blue-area" th:text="${reservation.getServices().size() + ' Services'}"></div>
+        <table class="container">
+            <tr th:each="service:${reservation.getServices()}">
+                <td th:text="${service.getName()}"></td>
+                <td th:text="${'ID ' + service.getServiceID()}"></td>
+            </tr>
+        </table>
+
+        <!-- Appointments segment  || UNFINISHED -->
+        <div class="container padded-blue-area">Appointments, not created.</div>
+        <table class="container">
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="container">
+            <!--  Buttons section  -->
+            <a id="back-link" href="">
+                <button class="button animate border-8px"><span>Back</span></button>
+            </a>
+            <form id="updateReservation" action="/reservation/update" method="post">
+                <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
+                <button class="animate border-8px" form="updateReservation"><span>Update reservation</span></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- footer-->
+<div th:replace="fragments/footer.html :: footer"></div>
+
+<!-- javascript -->
+<script>
+    <!--    script adds an event listener to all elements with class name collapsible -->
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active"); // defaults to false
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+<!-- Used to create proper back-link -->
+<script>
+    var element = document.getElementById("back-link"); // var to grab right element
+    element.setAttribute("href", document.referrer); // set's URL to previous/reffering page
+    // next bit defines a small function to pull back() on browser history, which loads referring page
+    element.onclick = function () {
+        history.back();
+        return false;
+    }
+    // (so the button does not actually follow the link, but the history back one step)
+</script>
+
+
+</body>
+</html>

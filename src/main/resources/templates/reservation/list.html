@@ -1,13 +1,7 @@
+<!-- KCN -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<script>
-    function pageScroll() {
-    window.scrollBy(0,1);
-    scrolldelay = setTimeout(pageScroll,10);
-    }
-</script>
-
     <meta charset="UTF-8">
     <title>Reservations :: Lists</title>
 </head>
@@ -23,64 +17,100 @@
 <h1 class="hl">Reservation :: Search </h1>
 
 <!--    search options -->
-<!-- <div class="wrapper350"> -->
-<!--    search by employee id or customer ID-->
-    <!--
-<div class="box350 content-auto-margins">
-<table class="container95">
-    <tr><td><form id="searchByEmployeeID" action="/reservation/searchByEmployeeID" method="post"><input type="number" name="employeeID" value="0"><button class="animate border-8px" form="searchByEmployeeID"><span>Employee ID</span></button></form></td></tr>
-    <tr><td><form id="searchByCustomerID" action="/reservation/searchByCustomerID" method="post"><input type="text" name="driversLicence" value="Enter"><button class="animate border-8px" form="searchByCustomerID"><span>Driver's Licence</span></button></form></td></tr>
-</table>
+<div class="wrapper350">
+    <!--    search by employee id or customer ID-->
+    <div class="box350 content-auto-margins">
+        <table class="container95">
+            <tr>
+                <td>
+                    <form id="searchByEmployeeID" action="/reservation/searchByEmployeeID" method="post"><input
+                            type="number" name="employeeID" value="0">
+                        <button class="animate border-8px" form="searchByEmployeeID"><span>Employee ID</span></button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form id="searchByCustomerID" action="/reservation/searchByCustomerID" method="post"><input
+                            type="text" name="driversLicence" value="Enter">
+                        <button class="animate border-8px" form="searchByCustomerID"><span>Driver's Licence</span>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="box350 content-auto-margins">
+        <form id="searchByPeriod" action="/reservation/searchByPeriod" method="post">
+            <table>
+                <tr>
+                    <td class="center">
+                        <span>Starting: </span>
+                        <input type="date" name="dateA" th:value="${dateUtil.getToday().plusDays(1)}">
+                    </td>
+                    <td class="center">
+                        <span>Ending: </span>
+                        <input type="date" name="dateB" th:value="${dateUtil.getToday().plusWeeks(2)}">
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>
+                    <span>
+                        <input type="radio" id="Start Date" name="resultCriteria" value="Start Date" checked>
+                        <label for="Start Date">Start Date </label>
+                        <input type="radio" id="End Date" name="resultCriteria" value="End Date">
+                        <label for="End Date">Start Date</label>
+                        <button class="animate border-8px" form="searchByPeriod">Search by Date</button>
+                    </span>
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    </div>
+
 </div>
 
-    <div class="box220">
-
-    </div>
-    <div class="box220">
-
-    </div>
-</div>
--->
 <!-- List section -->
-<div class="backgroundBox">
-    <img id="backgroundImage" src="/img/Background_IMG.jpg" alt="">
-<div class="formCenter">
-    <br>
-    <form id="searchByEmployeeID" action="/reservation/searchByEmployeeID" method="post"><input type="number" name="employeeID" value="0"><button onclick="pageScroll()" class="animate border-8px" form="searchByEmployeeID"><span>Employee ID</span></button></form>
-    <br>
-    <form id="searchByCustomerID" action="/reservation/searchByCustomerID" method="post"><input type="text" name="driversLicence" value="Enter"><button onclick="pageScroll()" class="animate border-8px" form="searchByCustomerID"><span>Driver's Licence</span></button></form>
-</div>
-
 <!---->
 <div th:unless="${reservations.isEmpty()}">
 
     <div class="container95">
         <div th:each="reservation:${reservations}">
 
-                <div class="container border-8px">
-                    <table class="container95">
-                        <tr>
-                            <th class="box-margin">Reservation ID</th>
-                            <td th:text="${reservation.getReservationID()}"></td>
-                            <th class="box-margin">Customer Driver's Licence</th>
-                            <td th:text="${reservation.getCustomer().getDriversLicence()}"></td>
-                            <th class="box-margin">Employee ID</th>
-                            <td th:text="${reservation.getEmployee().getEmployeeID()}"></td>
-                        </tr>
-                        <tr>
-                            <th class="box-margin">Period Start</th>
-                            <td class="" th:text="${reservation.getPeriod().getStart()}"></td>
-                            <th class="box-margin">Period End</th>
-                            <td class="" th:text="${reservation.getPeriod().getEnd()}"></td>
-                            <th class="box-margin">Motorhome ID</th>
-                            <td class="" th:text="${reservation.getMotorhome().getMotorhomeID()}"></td>
-                        </tr>
-                        <tr>
-                            <th class="box-margin">Status:</th>
-                            <td class="box-margin" th:text="${reservation.getStatus()}"></td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="container border-8px">
+                <table class="container95">
+                    <tr>
+                        <th class="box-margin">Reservation ID</th>
+                        <td th:text="${reservation.getReservationID()}"></td>
+                        <th class="box-margin">Customer Driver's Licence</th>
+                        <td th:text="${reservation.getCustomer().getDriversLicence()}"></td>
+                        <th class="box-margin">Employee ID</th>
+                        <td th:text="${reservation.getEmployee().getEmployeeID()}"></td>
+                    </tr>
+                    <tr>
+                        <th class="box-margin">Period Start</th>
+                        <td class="" th:text="${reservation.getPeriod().getStart()}"></td>
+                        <th class="box-margin">Period End</th>
+                        <td class="" th:text="${reservation.getPeriod().getEnd()}"></td>
+                        <th class="box-margin">Motorhome ID</th>
+                        <td class="" th:text="${reservation.getMotorhome().getMotorhomeID()}"></td>
+                    </tr>
+                    <tr>
+                        <th class="box-margin">Status:</th>
+                        <td class="box-margin" th:text="${reservation.getStatus()}"></td>
+                        <td>
+                            <form th:id="'reservationDetails'+${reservation.getReservationID()}" action="/reservation/details" method="post">
+                                <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
+                                <button class="animate border-8px" th:form="'reservationDetails'+${reservation.getReservationID()}">Details</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
         </div>
     </div>
@@ -92,7 +122,7 @@
         <div class="padded-blue-area "><h2>No reservations returned yet.</h2></div>
     </div>
 </div>
-</div>
+
 
 <!-- footer -->
 <div th:replace="fragments/footer.html :: footer"></div>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${'Update for Reservation ID: '+ reservationID}"></title>
+</head>
+<body>
+
+<!--    styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<!-- segment shown if no reservation with number found -->
+<div th:if="${reservation==null}">
+    <h1 th:text="'Update Reservation :: Reservation ID ' + ${reservationID}"></h1>
+    <div class="container content-auto-margins">
+        <div class="padded-blue-area" th:text="${reservationID} + ' not found in the system'"></div>
+    </div>
+</div>
+
+<!-- segment rendering reservation data -->
+<div th:unless="${reservation==null}">
+    <h1 class="hl" th:text="'Reservation update :: Reservation ID ' +${reservation.getReservationID()}"></h1>
+
+    <!-- Info tables-->
+    <div class="container">
+        <div class="container">
+            <!--  Buttons section  -->
+            <a id="back-link" href="">
+                <button class="button animate border-8px"><span>Back</span></button>
+            </a>
+        </div>
+
+        <!--    Update status options-->
+        <form id="updateReservationStatus" th:action="@{/reservation/updateStatus}" method="post">
+            <table class="container">
+                <tr>
+                    <td>Status</td>
+                    <td th:text="'Now: ' + ${reservation.getStatus()}"></td>
+                    <td><input id="Initialized" type="radio" name="reservationStatus" th:value="Initialized"
+                               form="updateReservationStatus">
+                        <label for="Initialized">Initialized</label>
+                        <input id="Accepted" type="radio" th:name="reservationStatus" th:value="Accepted"
+                               form="updateReservationStatus">
+                        <label for="Accepted">Accepted</label>
+                        <input id="Ongoing" type="radio" th:name="reservationStatus" th:value="Ongoing">
+                        <label for="Ongoing">Ongoing</label>
+                        <input id="Finalized" type="radio" th:name="reservationStatus" th:value="Finalized"
+                               form="updateReservationStatus">
+                        <label for="Finalized">Finalized</label>
+                        <input type="hidden" th:name="reservationID" th:value="${reservationID}">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button class="button animate border-8px" form="updateReservationStatus">Update status</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <form id="updateReservationPeriod" th:action="@{/reservation/confirmPeriodUpdate}" method="post">
+
+            <table class="container">
+                <tr>
+                    <td>Reservation ID</td>
+                    <td th:text="*{reservationID}"></td>
+                </tr>
+                <tr>
+                    <td>Customer</td>
+                    <td th:text="${reservation.getCustomer().getPerson().getFullName()}"></td>
+                </tr>
+                <tr>
+                    <td>Customer Licence Plate</td>
+                    <td th:text="${reservation.getCustomer().getDriversLicence()}"></td>
+                </tr>
+                <tr>
+                    <td>Employee</td>
+                    <td th:text="${reservation.getEmployee().getPerson().getFullName() + ' [' + reservation.getEmployee().getEmployeeID() + ']'}"></td>
+                </tr>
+                <tr>
+                    <td>Start Date</td>
+                    <td><input type="date" th:name="dateA" th:value="${reservation.getPeriod().getStart()}"></td>
+                </tr>
+                <tr>
+                    <td>End Date</td>
+                    <td><input type="date" th:name="dateB" th:value="${reservation.getPeriod().getEnd()}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="hidden" th:name="reservationID" th:value="${reservation.getReservationID()}">
+                        <button class="button animate border-8px" form="updateReservationPeriod">Update dates</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <!--  Segment rendering notes and internal notes     -->
+        <form id="updateReservationNotes" th:action="@{/reservation/confirmNotesUpdate}" method="post">
+            <table class="container">
+                <tr>
+                    <td>Notes</td>
+                    <td><textarea form="updateReservationNotes" th:name="notes" th:text="${reservation.getNotes()}"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Internal Notes</td>
+                    <td><textarea form="updateReservationNotes" th:name="internalNotes"
+                                  th:text="${reservation.getInternalNotes()}"></textarea></td>
+                    <input type="hidden" name="requestURL" value="update">
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="hidden" th:name="reservationID" th:value="${reservation.getReservationID()}">
+                        <button class="button animate border-8px" form="updateReservationNotes">Update notes</button>
+                    </td>
+                </tr>
+                <!--            <tr><td></td><td></td></tr>-->
+            </table>
+        </form>
+
+        <div class="container">
+            <!--                Services chosen for vehicle -->
+            <div class="hl" id="serviceschosen">Services chosen for this Reservation</div>
+            <div class="wrapper350">
+
+                <div th:each="service:${reservation.getServices()}">
+                    <div class="box">
+                        <table>
+                            <tr>
+                                <td class="item-description">
+                                    <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                                    <div th:text="${'Name: '+service.getName()}"></div>
+                                    <div th:text="${'Unit price: '+service.unitPrice}"></div>
+                                    <button class="collapsible">Description: ...</button>
+                                    <div class="collapsible-content" th:text="${service.getDescription()}"></div>
+                                </td>
+                                <td>
+                                    <form action="/reservation/removeservice" method="post"
+                                          th:id="${'chosenS'+service.getServiceID()}">
+                                        <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
+                                        <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
+                                        <input type="hidden" name="requestURL" value="update">
+
+                                        <div>
+                                            <button class="animate border-8px"
+                                                    th:form="${'chosenS'+service.getServiceID()}">Remove Service
+                                            </button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hl">Services Available</div>
+            <div class="wrapper350" id="servicesavailable">
+
+                <div th:each="service:${reservation.getMotorhome().getServicesAvailable()}">
+
+                    <div class="box">
+                        <table>
+                            <tr>
+                                <td class="item-description">
+                                    <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                                    <div th:text="${'Name: '+service.getName()}"></div>
+                                    <div th:text="${'Unit price: '+service.unitPrice}"></div>
+
+                                    <button class="collapsible">Description: ...</button>
+
+                                    <div class="collapsible-content" th:text="${service.getDescription()}"></div>
+                                </td>
+                                <td>
+                                    <form action="/reservation/addservice" method="post"
+                                          th:id="${'availableS'+service.getServiceID()}">
+                                        <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
+                                        <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
+                                        <input type="hidden" name="requestURL" value="update">
+                                        <div>
+                                            <button class="animate border-8px"
+                                                    th:form="${'availableS'+service.getServiceID()}">Add Service
+                                            </button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Appointments segment  || UNFINISHED -->
+        <!--        <div class="container padded-blue-area">Appointments, not created.</div>-->
+        <!--        <table class="container">-->
+        <!--            <tr>-->
+        <!--                <td>No appointments to show. Hardcoded.</td>-->
+        <!--                <td>Handy Oded.</td>-->
+        <!--            </tr>-->
+        <!--        </table>-->
+        <p></p>
+        <div class="container">
+        <div class="container collapsible">Option to delete reservation</div>
+        <div class="container collapsible-content padded-blue-area box-margin">
+
+            <form id="delete" action="/reservation/delete" method="post">
+                <h3 class="hl center">Delete Reservation from System
+                    <input type="hidden" th:name="reservationID" th:value="${reservation.getReservationID()}">
+                    <button class="animate border-8px" form="delete"><span> Delete (be very careful)</span></button>
+                </h3>
+            </form>
+        </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- javascript -->
+<script>
+    <!--    script adds an event listener to all elements with class name collapsible -->
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active"); // defaults to false
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+<!-- Used to create proper back-link -->
+<script>
+    var element = document.getElementById("back-link"); // var to grab right element
+    element.setAttribute("href", document.referrer); // set's URL to previous/reffering page
+    // next bit defines a small function to pull back() on browser history, which loads referring page
+    element.onclick = function () {
+        history.back();
+        return false;
+    }
+    // (so the button does not actually follow the link, but the history back one step)
+</script>
+
+
+<!-- footer-->
+<div th:replace="fragments/footer.html :: footer"></div>
+
+</body>
+</html>

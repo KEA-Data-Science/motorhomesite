@@ -1,25 +1,35 @@
-<!-- KCN -->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Status of Reservation</title>
+    <title>Reservation Error Page</title>
 </head>
 <body>
-
 <!--    styling fragment -->
 <div th:replace="fragments/styling.html :: styling"></div>
 
 <!-- navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
-<h1 class="hl">Reservation Status</h1>
+<h1 class="hl">Error Message</h1>
 
 <div class="wrapper350">
     <div class="padded-blue-area">
-        <div th:text="${'Reservation '+ reservation.getStatus()}"></div>
+        <div th:text="${errorMessage.toString()}"></div>
+    </div>
+    <div>
+        <span>Contact support if error is suspicious.</span>
     </div>
 </div>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 <div th:replace="fragments/footer.html :: footer"></div>
+
+
 </body>
 </html>
