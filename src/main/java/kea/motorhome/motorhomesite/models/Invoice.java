@@ -1,5 +1,7 @@
 package kea.motorhome.motorhomesite.models;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import java.util.Objects;
@@ -11,16 +13,18 @@ public class Invoice {
 	private Period billPeriod;
 	private Motorhome motorhome;
 	private List<Service> services;
+	private boolean isCompleted;
 
 	public Invoice() {}
 
-	public Invoice(int invoiceID, String customerID, Period billPeriod, Motorhome motorhome, List<Service> services)
+	public Invoice(int invoiceID, String customerID, Period billPeriod, Motorhome motorhome, List<Service> services, boolean isCompleted)
 	{
 		this.invoiceID = invoiceID;
 		this.customerID = customerID;
 		this.billPeriod = billPeriod;
 		this.motorhome = motorhome;
 		this.services = services;
+		this.isCompleted = isCompleted;
 	}
 
 	public int getInvoiceID() {
@@ -61,6 +65,14 @@ public class Invoice {
 
 	public void setServices(List<Service> services) {
 		this.services = services;
+	}
+
+	public boolean isCompleted() {
+		return isCompleted;
+	}
+
+	public void setCompleted(boolean completed) {
+		isCompleted = completed;
 	}
 
 	@Override

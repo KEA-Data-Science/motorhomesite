@@ -134,13 +134,13 @@ public class DemoData
         serviceList3.add(service3);
 
         Invoice invoice1 = new Invoice(1, "1234-1234-1235", new Period(LocalDate.of(2020, 5, 1),
-                LocalDate.of(2020, 5, 22)), dao.motorhomeDAO().read(1), serviceList1);
+                LocalDate.of(2020, 5, 22)), dao.motorhomeDAO().read(1), serviceList1, true);
 
         Invoice invoice2 = new Invoice(2, "1234-1234-1235", new Period(LocalDate.of(2020, 1, 1),
-                LocalDate.of(2020, 1, 21)), dao.motorhomeDAO().read(2), serviceList2);
+                LocalDate.of(2020, 1, 21)), dao.motorhomeDAO().read(2), serviceList2, true);
 
         Invoice invoice3  = new Invoice(3, "1111-1234-1234", new Period(LocalDate.of(2020, 2, 2),
-                LocalDate.of(2020, 3, 5)), dao.motorhomeDAO().read(3),serviceList3 );
+                LocalDate.of(2020, 3, 5)), dao.motorhomeDAO().read(3),serviceList3, true );
 
         dao.invoiceDAO().readall().add(invoice1);
         dao.invoiceDAO().readall().add(invoice2);

@@ -22,23 +22,23 @@
                 <td>Customer</td>
                 <td>
                     <select id="customer" name="customer">
-                        <option th:each="customer:${customers}" th:value="${customer.getDriversLicence()}" th:text="${customer.getPerson().getFirstName()+ ' '+ customer.getPerson().getLastName() + ' - Drivers license: ' + customer.getDriversLicence()}"></option>
+                        <option th:each="customer:${customers}" th:value="${customer.getDriversLicence()}" th:attr="selected=${invoice.getCustomerID()==customer.getDriversLicence() ? true : false}" th:text="${customer.getPerson().getFirstName()+ ' '+ customer.getPerson().getLastName() + ' - Drivers license: ' + customer.getDriversLicence()}"></option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td>Start date</td>
-                <td><input id="startDate" name="startDate" type="date" th:value="${invoice.getBillPeriod()!= null} ? ${invoice.getBillPeriod().getStartAsDate()} : ''"></td>
+                <td><input id="startDate" name="startDate" type="date" th:value="${invoice.getBillPeriod() != null ? invoice.getBillPeriod().getStartAsDate() : ''}"></td>
             </tr>
             <tr>
                 <td>End date</td>
-                <td><input id="endDate" name="endDate" type="date" th:value="${invoice.getBillPeriod()!= null} ? ${invoice.getBillPeriod().getEndAsDate()} : ''"></td>
+                <td><input id="endDate" name="endDate" type="date" th:value="${invoice.getBillPeriod() != null ? invoice.getBillPeriod().getEndAsDate() : ''}"></td>
             </tr>
             <tr>
                 <td>Motorhome</td>
                 <td>
                     <select id="motorhome" name="motorhome">
-                        <option th:each="motorhome:${motorhomes}" th:value="${motorhome.getMotorhomeID()}" th:text="${motorhome.getModel().getModelName()}"></option>
+                        <option th:each="motorhome:${motorhomes}" th:value="${motorhome.getMotorhomeID()}" th:text="${motorhome.getModel().getModelName()}" th:attr="selected=${invoice.getMotorhome() != null && invoice.getMotorhome().getMotorhomeID()==motorhome.getMotorhomeID() ? true : false}"></option>
                     </select>
                 </td>
             </tr>
@@ -65,8 +65,10 @@
                                 <input type="hidden"  name="serviceID" th:value="${service.getServiceID()}">
                                 <input type="hidden" id="hidden-startdate-addservice" name="hidden-startdate-addservice">
                                 <input type="hidden" id="hidden-enddate-addservice" name="hidden-enddate-addservice">
+                                <input type="hidden" id="hidden-customerid-addservice" name="hidden-customerid-addservice">
+                                <input type="hidden" id="hidden-motorhomeid-addservice" name="hidden-motorhomeid-addservice">
                                 <div>
-                                    <button class="animate border-8px" type="submit" onclick="myFunction()" th:form="${'availableS'+service.getServiceID()}">Add Service</button>
+                                    <button class="animate border-8px" type="submit" onclick="setAddServiceParameters()" th:form="${'availableS'+service.getServiceID()}">Add Service</button>
                                 </div>
                             </form>
                         </td>
@@ -95,12 +97,14 @@
                         </td>
                         <td>
                             <form action="/invoices/create/removeservice" method="post" th:id="${'chosenS'+service.getServiceID()}">
-                                <input type="hidden" id="hidden-startdate-removeservice" name="startDate">
-                                <input type="hidden" id="hidden-enddate-removeservice">
+                                <input type="hidden" id="hidden-startdate-removeservice" name="hidden-startdate-removeservice">
+                                <input type="hidden" id="hidden-enddate-removeservice" name="hidden-enddate-removeservice">
+                                <input type="hidden" id="hidden-customerid-removeservice" name="hidden-customerid-removeservice">
+                                <input type="hidden" id="hidden-motorhomeid-removeservice" name="hidden-motorhomeid-removeservice">
                                 <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
 
                                 <div>
-                                    <button class="animate border-8px" onclick="myFunction()" th:form="${'chosenS'+service.getServiceID()}">Remove Service</button>
+                                    <button class="animate border-8px" onclick="setRemoveServiceParameters()" th:form="${'chosenS'+service.getServiceID()}">Remove Service</button>
                                 </div>
                             </form>
                         </td>
@@ -139,9 +143,18 @@
 </script>
 
 <script>
-    function myFunction() {
+    function setAddServiceParameters() {
         document.getElementById("hidden-startdate-addservice").value = document.getElementById("startDate").value;
         document.getElementById("hidden-enddate-addservice").value = document.getElementById("endDate").value;
+        document.getElementById("hidden-motorhomeid-addservice").value = document.getElementById("motorhome").value;
+        document.getElementById("hidden-customerid-addservice").value = document.getElementById("customer").value;
+    }
+
+    function setRemoveServiceParameters() {
+        document.getElementById("hidden-startdate-removeservice").value = document.getElementById("startDate").value;
+        document.getElementById("hidden-enddate-removeservice").value = document.getElementById("endDate").value;
+        document.getElementById("hidden-motorhomeid-removeservice").value = document.getElementById("motorhome").value;
+        document.getElementById("hidden-customerid-removeservice").value = document.getElementById("customer").value;
     }
 </script>
 </body>
