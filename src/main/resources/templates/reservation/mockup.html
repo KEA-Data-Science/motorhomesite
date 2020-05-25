@@ -14,10 +14,10 @@
 <!-- navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
-<div class="body container">
+<h1 class="hl">Customer and Mobilehome</h1>
+<div class="container">
 
-    <h1 class="hl">Customer and Mobilehome</h1>
-    <div class="body container">
+    <div class="container">
         <!--        Buttons relative to whether user is approved -->
         <div th:switch="${customer.isApproved()}">
 
