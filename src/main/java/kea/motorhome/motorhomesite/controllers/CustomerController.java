@@ -36,8 +36,8 @@ public class CustomerController
     {
         Customer customer = new Customer();
         Person person = new Person();
+        person.setPersonID(dao.personDAO().readall().size()+1);
         customer.setPerson(person);
-        // TODO: Set personID (see issue with Persons in class DemoData)
         Address address = new Address();
         address.setAddressID(dao.addressDAO().readall().size()+1);
         customer.getPerson().setAddress(address);
@@ -47,13 +47,19 @@ public class CustomerController
         model.addAttribute("customer", customer);
         model.addAttribute("person", person);
         model.addAttribute("address", address);
-        model.addAttribute("paycard", payCard);
+        model.addAttribute("payCard", payCard);
         return "customers/new";
     }
 
     @RequestMapping(value = "/savecustomer", method = RequestMethod.POST)
-    public String createCustomer(@ModelAttribute("customer") Customer customer)
+    public String createCustomer(@ModelAttribute("customer") Customer customer,
+                                 @ModelAttribute("person") Person person,
+                                 @ModelAttribute("address") Address address,
+                                 @ModelAttribute("payCard") PayCard payCard)
     {
+        dao.paycardDAO().create(payCard);
+        dao.addressDAO().create(address);
+        dao.personDAO().create(person);
         dao.customerDAO().create(customer);
         return "redirect:/customers/customers";
     }

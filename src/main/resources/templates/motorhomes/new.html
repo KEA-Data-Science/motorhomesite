@@ -1,0 +1,175 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>New Motorhome</title>
+</head>
+
+<body>
+
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<br/><br/><br/><br/>
+
+<h1 id="headline">New Motorhome</h1>
+
+<div class="box">
+    <form action="#" th:action="@{/savemotorhome}" th:object="${motorhome}" method="post">
+        <table>
+            <tr>
+                <td>License Plate</td>
+                <td><input type="text" th:field="*{licensePlate}"/></td>
+            </tr>
+            <tr>
+                <td>Seasonal Daily Charges: LOW Price Per Day</td>
+                <td><input type="number" th:field="*{seasonalDailyCharge[0]}"/></td>
+            </tr>
+            <tr>
+                <td>Seasonal Daily Charges: LOW Price Per Day</td>
+                <td><input type="number" th:field="*{seasonalDailyCharge[1]}"/></td>
+            </tr>
+            <tr>
+                <td>Seasonal Daily Charges: LOW Price Per Day</td>
+                <td><input type="number" th:field="*{seasonalDailyCharge[2]}"/></td>
+            </tr>
+            <tr>
+                <td>Notes</td>
+                <td><input type="text" th:field="*{notes}"/></td>
+            </tr>
+            <!-- TODO: Tilføje services -->
+                <tr>
+                    <td>Services</td>
+                </tr>
+                <tr th:each="service:${services}">
+                    <td th:text="${'Service ID: '+service.getServiceID() + ', Service Name: ' + service.getName() + ', ' + 'Unit Price: ' + service.getUnitPrice()}"></td>
+                <tr>
+            <td>Production Year</td>
+            <td><input type="number" th:field="*{productionYear}"/></td>
+            </tr>
+            <tr>
+                <td>Description (min. 15 characters)</td>
+                <td><input type="text" minlength="15" th:field="*{description}"/></td>
+            </tr>
+            <tr>
+                <td>Minimum Days of Rental</td>
+                <td><input type="number" th:field="*{minimumDaysOfRental}"/></td>
+            </tr>
+            <tr>
+                <td>Fuel Type</td>
+                <td><input type="text" th:field="*{fuelType}"/></td>
+            </tr>
+            <tr>
+                <td>Image URL</td>
+                <td><input type="text" th:field="*{imageURL}"/></td>
+            </tr>
+            <tr>
+                <td>Motorhome ID</td>
+                <td><input type="text" th:field="*{motorhomeID}" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <td>Model Name</td>
+                <td><input type="text" th:field="*{model.modelName}"/></td>
+            </tr>
+            <tr>
+                <td>Model No.</td>
+                <td><input type="text" th:field="*{model.modelnumber}"/></td>
+            </tr>
+            <tr>
+                <td>Horse Power</td>
+                <td><input type="number" th:field="*{model.horsePower}"/></td>
+            </tr>
+            <tr>
+                <td>Beds</td>
+                <td><input type="number" th:field="*{model.beds}"/></td>
+            </tr>
+            <tr>
+                <td>Engine Capacity</td>
+                <td><input type="number" th:field="*{model.engineCapacity}"/></td>
+            </tr>
+            <tr>
+                <td>Length</td>
+                <td><input type="number" th:field="*{model.length}"/></td>
+            </tr>
+            <tr>
+                <td>Width</td>
+                <td><input type="number" th:field="*{model.width}"/></td>
+            </tr>
+            <tr>
+                <td>Height</td>
+                <td><input type="number" th:field="*{model.height}"/></td>
+            </tr>
+            <tr>
+                <td>Weight</td>
+                <td><input type="number" th:field="*{model.weight}"/></td>
+            </tr>
+            <tr>
+                <td>Hot Water Capacity</td>
+                <td><input type="number" th:field="*{model.hotWaterCapacity}"/></td>
+            </tr>
+            <tr>
+                <td>Cold Water Capacity</td>
+                <td><input type="number" th:field="*{model.coldWaterCapacity}"/></td>
+            </tr>
+            <tr>
+                <td>Number of Seats</td>
+                <td><input type="number" th:field="*{model.numberOfSeats}"/></td>
+            </tr>
+            <tr>
+                <td>Oven</td>
+                <td>
+                    <input type="radio" id="true1" th:field="*{model.oven}" value="true" />
+                    <label for="true1">Yes</label>
+                    <input type="radio" id="false1" th:field="*{model.oven}" value="false" />
+                    <label for="false1">No</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Cruise Control</td>
+                <td>
+                    <input type="radio" id="true2" th:field="*{model.cruiseControl}" value="true" />
+                    <label for="true2">Yes</label>
+                    <input type="radio" id="false2" th:field="*{model.cruiseControl}" value="false" />
+                    <label for="false2">No</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Shower</td>
+                <td>
+                    <input type="radio" id="true3" th:field="*{model.shower}" value="true" />
+                    <label for="true3">Yes</label>
+                    <input type="radio" id="false3" th:field="*{model.shower}" value="false" />
+                    <label for="false3">No</label>
+                </td>
+            </tr>
+        </table>
+        <tr>
+            <td colspan="2"><button class="button animate border-8px" type="submit"><span>Save</span></button></td>
+        </tr>
+    </form>
+</div>
+<div><a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a></div>
+<!-- Footer fragment -->
+<div th:replace="fragments/footer.html :: footer"></div>
+<!-- javascript -->
+<script>
+    <!--    script adds an event listener to all elements with class name collapsible -->
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active"); // defaults to false
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>Edit Motorhome</title>
+</head>
+
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<br/><br/><br/><br/>
+
+<h1>Edit Motorhome</h1>
+<div class="box">
+    <form action="#" th:action="@{/updatemotorhome}" th:object="${motorhome}" method="post">
+        <table>
+            <tr>
+                <td>Motorhome ID</td>
+                <td><input type="text" th:field="*{motorhomeID}" name="motorhomeID" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <td>License Plate</td>
+                <td><input type="text" th:field="*{licensePlate}" name="licensePlate"/></td>
+            </tr>
+            <tr>
+                <td>Seasonal Daily Charges: LOW Price Per Day</td>
+                <td><input type="number" th:field="*{seasonalDailyCharge[0]}"/></td>
+            </tr>
+            <tr>
+                <td>Seasonal Daily Charges: MEDIUM Price Per Day</td>
+                <td><input type="number" th:field="*{seasonalDailyCharge[1]}"/></td>
+            </tr>
+            <tr>
+                <td>Seasonal Daily Charges: HIGH Price Per Day</td>
+                <td><input type="number" th:field="*{seasonalDailyCharge[2]}"/></td>
+            </tr>
+            <tr>
+                <td>Notes</td>
+                <td><input type="text" th:field="*{notes}" name="notes"/></td>
+            </tr>
+            <!-- TODO: services -->
+            <tr th:each="service:${services}">
+                <td th:text="${'Service ID: '+service.getServiceID() + ', Service Name: ' + service.getName() + ', ' + 'Unit Price: ' + service.getUnitPrice()}"></td>
+            <tr>
+            <tr>
+                <td>Production Year</td>
+                <td><input type="number" th:field="*{productionYear}" name="productionYear"/></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td><input type="text" minlength="15" th:field="*{description}" name="description"/></td>
+            </tr>
+            <tr>
+                <td>Minimum Days of Rental</td>
+                <td><input type="number" th:field="*{minimumDaysOfRental}" name="minimumDaysOfRental"/></td>
+            </tr>
+            <tr>
+                <td>Fuel Type</td>
+                <td><input type="text" th:field="*{fuelType}" name="fuelType"/></td>
+            </tr>
+            <tr>
+                <td>Image URL</td>
+                <td><input type="text" th:field="*{imageURL}" name="imageURL"/></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button class="button animate border-8px" type="submit">Save</button></td>
+            </tr>
+            <tr>
+                <td>Model Name</td>
+                <td><input type="text" th:field="*{model.modelName}" name="model.modelName"/></td>
+            </tr>
+            <tr>
+                <td>Model No.</td>
+                <td><input type="text" th:field="*{model.modelnumber}" name="model.modelnumber"/></td>
+            </tr>
+            <tr>
+                <td>Horsepower</td>
+                <td><input type="number" th:field="*{model.horsePower}" name="model.horsePower"/></td>
+            </tr>
+            <tr>
+                <td>Beds</td>
+                <td><input type="number" th:field="*{model.beds}" name="model.beds"/></td>
+            </tr>
+            <tr>
+                <td>Engine Capacity</td>
+                <td><input type="number" th:field="*{model.engineCapacity}" name="model.engineCapacity"/></td>
+            </tr>
+            <tr>
+                <td>Length</td>
+                <td><input type="number" th:field="*{model.length}" name="model.length"/></td>
+            </tr>
+            <tr>
+                <td>Width</td>
+                <td><input type="number" th:field="*{model.width}" name="model.width"/></td>
+            </tr>
+            <tr>
+                <td>Height</td>
+                <td><input type="number" th:field="*{model.height}" name="model.height"/></td>
+            </tr>
+            <tr>
+                <td>Weight</td>
+                <td><input type="number" th:field="*{model.weight}" name="model.weight"/></td>
+            </tr>
+            <tr>
+                <td>Hot Water Capacity</td>
+                <td><input type="number" th:field="*{model.hotWaterCapacity}" name="model.hotWaterCapacity"/></td>
+            </tr>
+            <tr>
+                <td>Cold Water Capacity</td>
+                <td><input type="number" th:field="*{model.coldWaterCapacity}" name="model.coldWaterCapacity"/></td>
+            </tr>
+            <tr>
+                <td>Number of Seats</td>
+                <td><input type="number" th:field="*{model.numberOfSeats}" name="model.numberOfSeats"/></td>
+            </tr>
+            <tr>
+                <td>Oven</td>
+                <td>
+                    <input type="radio" id="true1" th:field="*{model.oven}" value="true" name="model.oven" />
+                    <label for="true1">Yes</label>
+                    <input type="radio" id="false1" th:field="*{model.oven}" value="false" name="model.oven"/>
+                    <label for="false1">No</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Cruise Control</td>
+                <td>
+                    <input type="radio" id="true2" th:field="*{model.cruiseControl}" value="true" name="model.cruiseControl" />
+                    <label for="true2">Yes</label>
+                    <input type="radio" id="false2" th:field="*{model.cruiseControl}" value="false" name="model.cruiseControl"/>
+                    <label for="false2">No</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Shower</td>
+                <td>
+                    <input type="radio" id="true3" th:field="*{model.shower}" value="true" name="model.shower" />
+                    <label for="true3">Yes</label>
+                    <input type="radio" id="false3" th:field="*{model.shower}" value="false" name="model.shower"/>
+                    <label for="false3">No</label>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div>
+    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
+</div>
+<!-- Footer fragment -->
+<div th:replace="fragments/footer.html :: footer"></div>
+</body>
+</html>

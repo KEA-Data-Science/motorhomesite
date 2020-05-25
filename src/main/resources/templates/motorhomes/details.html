@@ -1,0 +1,136 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Motorhome Details</title>
+</head>
+
+<body>
+
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<br/><br/><br/><br/>
+
+<h1 id="headline">Motorhome Details</h1>
+
+<div class="box">
+    <div class="fuel-type" th:text="${motorhome.getFuelType()}"></div>
+    <img class="thumbnail" th:src="@{${motorhome.imageURL}}" alt="Image Coming Up!"/>
+    <table>
+        <tr>
+            <td>Motorhome ID</td>
+            <td th:text="${motorhome.getMotorhomeID()}"></td>
+        </tr>
+        <tr>
+            <td>License Plate</td>
+            <td th:text="${motorhome.getLicensePlate()}"></td>
+        </tr>
+        <tr>
+            <td>LOW Price per day</td>
+            <td th:text="${motorhome.getSeasonalDailyCharge()[0] + ' kroner'}"></td>
+        </tr>
+        <tr>
+            <td>MEDIUM Price per day</td>
+            <td th:text="${motorhome.getSeasonalDailyCharge()[1] + ' kroner'}"></td>
+        </tr>
+        <tr>
+            <td>HIGH Price per day</td>
+            <td th:text="${motorhome.getSeasonalDailyCharge()[2] + ' kroner'}"></td>
+        </tr>
+            <td>Notes</td>
+            <td th:text="${motorhome.getNotes()}"></td>
+        </tr>
+        <tr>
+            <td>Services</td>
+            <td th:text="${motorhome.getServicesAvailable()}"></td>
+        </tr>
+        <tr>
+            <td>Production Year</td>
+            <td th:text="${motorhome.getProductionYear()}"></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td th:text="${motorhome.getDescription()}"></td>
+        </tr>
+        <tr>
+            <td>Minimum Days of Rental</td>
+            <td th:text="${motorhome.getMinimumDaysOfRental()}"></td>
+        </tr>
+        <tr>
+            <td>Model Name</td>
+            <td th:text="${motorhome.getModel().getModelName()}"></td>
+        </tr>
+        <tr>
+            <td>Model No.</td>
+            <td th:text="${motorhome.getModel().getModelnumber()}"></td>
+        </tr>
+        <tr>
+            <td>Horse Power</td>
+            <td th:text="${motorhome.getModel().getHorsePower()}"></td>
+        </tr>
+        <tr>
+            <td>Beds</td>
+            <td th:text="${motorhome.getModel().getBeds()}"></td>
+        </tr>
+        <tr>
+            <td>Engine Capacity</td>
+            <td th:text="${motorhome.getModel().getEngineCapacity()}"></td>
+        </tr>
+        <tr>
+            <td>Length</td>
+            <td th:text="${motorhome.getModel().getLength()}"></td>
+        </tr>
+        <tr>
+            <td>Width</td>
+            <td th:text="${motorhome.getModel().getWidth()}"></td>
+        </tr>
+        <tr>
+            <td>Height</td>
+            <td th:text="${motorhome.getModel().getHeight()}"></td>
+        </tr>
+        <tr>
+            <td>Weight</td>
+            <td th:text="${motorhome.getModel().getWeight()}"></td>
+        </tr>
+        <tr>
+            <td>Hot Water Capacity</td>
+            <td th:text="${motorhome.getModel().getHotWaterCapacity()}"></td>
+        </tr>
+        <tr>
+            <td>Cold Water Capacity</td>
+            <td th:text="${motorhome.getModel().getColdWaterCapacity()}"></td>
+        </tr>
+        <tr>
+            <td>Number of Seats</td>
+            <td th:text="${motorhome.getModel().getNumberOfSeats()}"></td>
+        </tr>
+        <tr th:switch="${motorhome.getModel().isOven()}">
+            <td>Oven</td>
+            <td th:case="true">Yes</td>
+            <td th:case="false">No</td>
+        </tr>
+        <tr th:switch="${motorhome.getModel().isCruiseControl()}">
+            <td>Cruise Control</td>
+            <td th:case="true">Yes</td>
+            <td th:case="false">No</td>
+        </tr>
+        <tr th:switch="${motorhome.getModel().isShower()}">
+            <td>Shower</td>
+            <td th:case="true">Yes</td>
+            <td th:case="false">No</td>
+        </tr>
+    </table>
+    <div>
+        <a th:href="@{/motorhomes/edit(id=${motorhome.getMotorhomeID()})}"><button class="button animate border-8px"><span>Update</span></button></a>
+    </div>
+    <div>
+        <a href="/motorhomes/motorhomes/"><button class="button animate border-8px"><span>Back</span></button></a>
+    </div>
+</div>
+<!-- Footer fragment -->
+<div th:replace="fragments/footer.html :: footer"></div>
+</body>
+</html>

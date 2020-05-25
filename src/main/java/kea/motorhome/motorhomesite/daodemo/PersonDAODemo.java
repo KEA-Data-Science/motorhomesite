@@ -10,6 +10,10 @@ public class PersonDAODemo implements IDAO<Person, Integer>
 {
     ArrayList<Person> persons;
 
+    public PersonDAODemo() {
+        persons = new ArrayList<>();
+    }
+
     /**
      * @param thing
      */

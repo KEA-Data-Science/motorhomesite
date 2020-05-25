@@ -126,6 +126,9 @@ public class CarModel
         this.shower = shower;
     }
 
+    public CarModel() {
+    }
+
     public String getModelnumber() {
         return modelnumber;
     }

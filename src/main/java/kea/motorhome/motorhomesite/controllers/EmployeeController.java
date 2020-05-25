@@ -34,8 +34,8 @@ public class EmployeeController
         employee.setEmployeeID(dao.employeeDAO().readall().size()+1);
         employee.setAccountancyID(dao.employeeDAO().readall().size()+1);
         Person person = new Person();
+        person.setPersonID(dao.personDAO().readall().size()+1);
         employee.setPerson(person);
-        // TODO: Set personID (see issue with Persons in class DemoData)
         Address address = new Address();
         address.setAddressID(dao.addressDAO().readall().size()+1);
         employee.getPerson().setAddress(address);
@@ -46,7 +46,11 @@ public class EmployeeController
     }
 
     @RequestMapping(value ="/saveemployee", method = RequestMethod.POST)
-    public String createEmployee(@ModelAttribute("employee") Employee employee) {
+    public String createEmployee(@ModelAttribute("employee") Employee employee,
+                                 @ModelAttribute("person") Person person,
+                                 @ModelAttribute("address") Address address) {
+        dao.addressDAO().create(address);
+        dao.personDAO().create(person);
         dao.employeeDAO().create(employee);
         return "redirect:/employees/employees";
     }

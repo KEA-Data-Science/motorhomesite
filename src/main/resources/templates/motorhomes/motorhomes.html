@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Motorhome Gallery</title>
+</head>
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+<!-- Navbar - fragment replacement for consistent navbars -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<!-- Main area of page -->
+<div class="body container">
+
+    <!-- Car Fleet grid layout -->
+    <h1 id="headline">Company Fleet Overview</h1>
+    <div class="wrapper">
+        <div th:each="motorhome:${motorhomes}">
+            <div class="box">
+                <div class="fuel-type" th:text="${motorhome.getFuelType()}"></div>
+                <img class="thumbnail" th:src="@{${motorhome.imageURL}}" alt="Image Coming Up!"/>
+                <table>
+                    <tr>
+                        <td class="item-description">
+                            <div class="model-name" th:text="${motorhome.getModel().getModelName()}"></div>
+                            <div th:text="${'Production year: '+motorhome.productionYear}"></div>
+                            <div th:text="${'LOW Price per day: ' +motorhome.getSeasonalDailyCharge()[0] + ' kroner'}"></div>
+                            <div th:text="${'MEDIUM Price per day: ' + motorhome.getSeasonalDailyCharge()[1] + ' kroner'}"></div>
+                            <div th:text="${'HIGH per day: ' + motorhome.getSeasonalDailyCharge()[2] + ' kroner'}"></div>
+                            <div th:text="${'Minimum rental period: ' + motorhome.getMinimumDaysOfRental() + ' days'}"></div>
+                        </td>
+                        <td>
+                            <div>
+                                <a th:href="@{/motorhomes/details(id=${motorhome.getMotorhomeID()})}"><button class="button animate border-8px"><span>Details</span></button></a>
+                            </div>
+                            <div>
+                                <button class="button animate border-8px"><span>Status </span></button>
+                            </div>
+                            <div>
+                                <a th:href="@{/motorhomes/edit(id=${motorhome.getMotorhomeID()})}"><button class="button animate border-8px"><span>Update</span></button></a>
+                            </div>
+                            <div>
+                                <a th:href="@{/motorhomes/delete(id=${motorhome.getMotorhomeID()})}"><button class="button animate border-8px"><span>Delete</span></button></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <button class="collapsible">Description:
+                    <span th:text="${motorhome.getDescription().substring(0,15) + '...'}"></span>
+                </button>
+                <div class="collapsible-content" th:text="${motorhome.getDescription()}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- javascript -->
+<script>
+    <!--    script adds an event listener to all elements with class name collapsible -->
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active"); // defaults to false
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+<!-- Footer fragment -->
+<div th:replace="fragments/footer.html :: footer"></div>
+</body>
+</html>
+<!-- Sources of knowledge and template code: -->
+<!-- https://www.w3schools.com/howto/howto_js_collapsible.asp -->

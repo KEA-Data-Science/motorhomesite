@@ -63,11 +63,10 @@ public class DemoData
                 "sørensælger@trixxxster.org",
                 SiteRole.SALES,
                 LocalDate.now());
-        // TODO: Laurits: Get below to work (no clue why it doesn't)
-        // dao.personDAO().readall().add(person1);
-        // dao.personDAO().readall().add(person2);
-        // dao.personDAO().readall().add(person3);
-        // dao.personDAO().readall().add(person4);
+        dao.personDAO().readall().add(person1);
+        dao.personDAO().readall().add(person2);
+        dao.personDAO().readall().add(person3);
+        dao.personDAO().readall().add(person4);
 
         /* Customers */
         Customer customer1 = new Customer ("1111-1234-1234", payCard1, person1, true);
