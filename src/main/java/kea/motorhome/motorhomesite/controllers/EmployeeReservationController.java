@@ -1,16 +1,13 @@
 package kea.motorhome.motorhomesite.controllers;
-
-
+//  kcn
 import kea.motorhome.motorhomesite.util.DateUtil;
 import kea.motorhome.motorhomesite.util.PriceCalculator;
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.enums.ReservationStatus;
 import kea.motorhome.motorhomesite.models.*;
-import org.springframework.ejb.access.SimpleRemoteSlsbInvokerInterceptor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.model.IModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,8 +21,7 @@ public class EmployeeReservationController
 
     public EmployeeReservationController()
     {
-        // demo variable
-        pseudoID = 1;
+        pseudoID = 1;// demo variable
         dao = SiteDAOCollection.getInstance();
     }
 
