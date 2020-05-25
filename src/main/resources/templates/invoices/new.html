@@ -1,0 +1,148 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Update invoice</title>
+</head>
+
+<body>
+<!--    styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!--    Navbar -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<div class="container content-auto-margins">
+
+    <br /> <br /> <br /> <br /> <br /> <br /> <br />
+
+
+    <form id="mainForm" th:action="@{/invoices/create}" method="post">
+        <table>
+            <tr>
+                <td>Customer</td>
+                <td>
+                    <select id="customer" name="customer">
+                        <option th:each="customer:${customers}" th:value="${customer.getDriversLicence()}" th:text="${customer.getPerson().getFirstName()+ ' '+ customer.getPerson().getLastName() + ' - Drivers license: ' + customer.getDriversLicence()}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Start date</td>
+                <td><input id="startDate" name="startDate" type="date" th:value="${invoice.getBillPeriod()!= null} ? ${invoice.getBillPeriod().getStartAsDate()} : ''"></td>
+            </tr>
+            <tr>
+                <td>End date</td>
+                <td><input id="endDate" name="endDate" type="date" th:value="${invoice.getBillPeriod()!= null} ? ${invoice.getBillPeriod().getEndAsDate()} : ''"></td>
+            </tr>
+            <tr>
+                <td>Motorhome</td>
+                <td>
+                    <select id="motorhome" name="motorhome">
+                        <option th:each="motorhome:${motorhomes}" th:value="${motorhome.getMotorhomeID()}" th:text="${motorhome.getModel().getModelName()}"></option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="hl">Availible Services</div>
+
+    <div class="wrapper" id="servicesavailable">
+        <div th:each="service:${services}">
+
+            <div class="box">
+                <table>
+                    <tr>
+                        <td class="item-description">
+                            <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                            <div th:text="${'Name: '+service.getName()}"></div>
+                            <div th:text="${'Unit price: '+service.unitPrice}"></div>
+
+                            <button class="collapsible" type="button">Description: ...</button>
+                            <div class="collapsible-content" th:text="${service.getDescription()}"></div>
+                        </td>
+                        <td>
+                            <form action="/invoices/create/addservice" method="post" th:id="${'availableS'+service.getServiceID()}">
+                                <input type="hidden"  name="serviceID" th:value="${service.getServiceID()}">
+                                <input type="hidden" id="hidden-startdate-addservice" name="hidden-startdate-addservice">
+                                <input type="hidden" id="hidden-enddate-addservice" name="hidden-enddate-addservice">
+                                <div>
+                                    <button class="animate border-8px" type="submit" onclick="myFunction()" th:form="${'availableS'+service.getServiceID()}">Add Service</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!--                Services offered for vehicle -->
+    <div class="hl" id="serviceschosen">Services Chosen</div>
+    <div class="wrapper">
+
+        <div th:each="service:${invoice.getServices()}">
+
+            <div class="box">
+                <table>
+                    <tr>
+                        <td class="item-description">
+                            <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                            <div th:text="${'Name: '+service.getName()}"></div>
+                            <div th:text="${'Unit price: '+service.unitPrice}"></div>
+                            <button class="collapsible" type="button">Description: ...</button>
+                            <div class="collapsible-content" th:text="${service.getDescription()}"></div>
+                        </td>
+                        <td>
+                            <form action="/invoices/create/removeservice" method="post" th:id="${'chosenS'+service.getServiceID()}">
+                                <input type="hidden" id="hidden-startdate-removeservice" name="startDate">
+                                <input type="hidden" id="hidden-enddate-removeservice">
+                                <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
+
+                                <div>
+                                    <button class="animate border-8px" onclick="myFunction()" th:form="${'chosenS'+service.getServiceID()}">Remove Service</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <input form="mainForm" type="submit">
+
+</div>
+
+<!-- footer-->
+<div th:replace="fragments/footer.html :: footer"></div>
+
+
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active"); // defaults to false
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+
+<script>
+    function myFunction() {
+        document.getElementById("hidden-startdate-addservice").value = document.getElementById("startDate").value;
+        document.getElementById("hidden-enddate-addservice").value = document.getElementById("endDate").value;
+    }
+</script>
+</body>
+</html>

@@ -84,25 +84,33 @@ public class DemoData
         /*motorhomes*/
         List<Service> servicesAvailable = dao.serviceDAO().readall();
 
+        CarModel carModel1 = new CarModel("Big One Runnrunn", "UHYTG4334", 120, 3, 20, 4.5f, 2.7f, 2.2f,
+                1500, 25, 30, 5, true, true, true);
+        CarModel carModel2 = new CarModel("Busty Deep Seater", "UHYTG4564", 145, 4, 25, 4.1f, 3.0f, 2.5f,
+                2000, 27, 29, 4, true, true, false);
+        CarModel carModel3 = new CarModel("Normal Motor Home", "UHYTG4564", 145, 4, 30, 3.4f, 3.1f, 2.4f,
+                1700, 30, 40, 6, true, false, true );
+        CarModel carModel4 = new CarModel("Abnormal Motor Home", "UHYTG6565", 202, 4, 40, 4.3f, 3.2f, 2.8f,
+                3000, 35, 50, 5, false, true, true);
 
-        dao.motorhomeDAO().readall().add(new Motorhome(1, new CarModel("Big One Runnrunn", "UHYTG4334", 120, 3), "15-14-AH4",
+        dao.motorhomeDAO().readall().add(new Motorhome(1, carModel1, "15-14-AH4",
                 new float[]{230, 270, 380}, "This wonderful vehicle can take you anywhere as long as it is not uphill" +
                 ".", "/img/MH1.jpg", servicesAvailable,
                 2008, "One of the few seven wheeled vehicles that make the cut.",
                 5, "R3COH"));
-        dao.motorhomeDAO().readall().add(new Motorhome(2, new CarModel("Busty Deep Seater", "UHYTG4564", 145, 4), "15-14-AH4",
+        dao.motorhomeDAO().readall().add(new Motorhome(2, carModel2, "15-14-AH4",
                 new float[]{260, 300, 460}, "This wonderful vehicle can take you " +
                 "anywhere as long as it is not downhill" +
                 ".", "/img/MH2.jpg", servicesAvailable,
                 2008, "Unlimited that make the cut.",
                 5, "H2O"));
-        dao.motorhomeDAO().readall().add(new Motorhome(3, new CarModel("Normal Motor Home", "UHYTG4564", 145, 4), "15-14-AH4",
+        dao.motorhomeDAO().readall().add(new Motorhome(3, carModel3, "15-14-AH4",
                 new float[]{260, 300, 460}, "This vehicle is hilarious" +
                 " but only on flat terrain." +
                 ".", "/img/MH3.jpg", servicesAvailable,
                 2008, "Unlimited that make the cut.",
                 5, "Joy"));
-        dao.motorhomeDAO().readall().add(new Motorhome(4, new CarModel("Abnormal Motor Home", "UHYTG6565", 202, 42), "15-14" +
+        dao.motorhomeDAO().readall().add(new Motorhome(4, carModel4, "15-14" +
                 "-AH4",
                 new float[]{1320, 1660, 2560}, "This vehicle is hilarious" +
                 " but only on flat terrain." +

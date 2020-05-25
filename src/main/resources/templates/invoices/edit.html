@@ -18,7 +18,7 @@
         <br /> <br /> <br /> <br /> <br /> <br /> <br />
 
 
-        <form id="mainForm" th:action="@{/invoices/updateinvoice}" method="post">
+        <form id="mainForm" th:action="@{/invoices/perfomupdate}" method="post">
             <table>
                 <tr>
                     <td>Id</td>
@@ -67,7 +67,7 @@
                                 <div class="collapsible-content" th:text="${service.getDescription()}"></div>
                             </td>
                             <td>
-                                <form action="/invoice/addservice#servicesavailable" method="post" th:id="${'availableS'+service.getServiceID()}">
+                                <form action="/invoices/update/addservice#servicesavailable" method="post" th:id="${'availableS'+service.getServiceID()}">
                                     <input type="hidden"  name="serviceID" th:value="${service.getServiceID()}">
                                     <input type="hidden" name="invoiceID" th:value="${invoice.getInvoiceID()}">
                                     <div>
@@ -99,7 +99,7 @@
                                 <div class="collapsible-content" th:text="${service.getDescription()}"></div>
                             </td>
                             <td>
-                                <form action="/invoice/removeservice#serviceschosen" method="post" th:id="${'chosenS'+service.getServiceID()}">
+                                <form action="/invoices/update/removeservice#serviceschosen" method="post" th:id="${'chosenS'+service.getServiceID()}">
                                     <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
                                     <input type="hidden" name="invoiceID" th:value="${invoice.getInvoiceID()}">
                                     <div>
