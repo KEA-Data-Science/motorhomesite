@@ -138,8 +138,8 @@
                                 <form action="/reservation/addservice#servicesavailable" method="post"
                                       th:id="${'availableS'+service.getServiceID()}">
                                     <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
-                                    <input type="hidden" name="reservationID"
-                                           th:value="${reservation.getReservationID()}">
+                                    <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
+                                    <input type="hidden" name="requestURL" value="new">
                                     <div>
                                         <button class="animate border-8px"
                                                 th:form="${'availableS'+service.getServiceID()}">Add Service
@@ -172,8 +172,8 @@
                                 <form action="/reservation/removeservice#serviceschosen" method="post"
                                       th:id="${'chosenS'+service.getServiceID()}">
                                     <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
-                                    <input type="hidden" name="reservationID"
-                                           th:value="${reservation.getReservationID()}">
+                                    <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
+                                    <input type="hidden" name="requestURL" value="new">
                                     <div>
                                         <button class="animate border-8px"
                                                 th:form="${'chosenS'+service.getServiceID()}">Remove Service
@@ -222,7 +222,7 @@
                     <tr class="padded-blue-area">
                         <th>Reservation total:</th>
                         <td th:text="${priceCalculator.calculatePriceOfPeriod(reservation.getMotorhome(), reservation.getPeriod())
-                    +priceCalculator.calculatePriceOfService(reservation.getServices())} + ' kr'"></td>
+                    + priceCalculator.calculatePriceOfService(reservation.getServices())} + ' kr'"></td>
                     </tr>
                 </table>
             </div>
@@ -235,7 +235,6 @@
             <div class="container95">
 
                     <textarea class="container" name="notes" form="confirm" > Room for comments. </textarea>
-
                     <div class="hl">EmployeeID:</div>
                     <input type="number" name="employeeID" form="confirm" value="0"> Employee ID </input>
 
@@ -251,7 +250,7 @@
                     </h1>
                 </form>
             </div>
-            <!--        </div>-->
+
         </div>
         </div>
     </div>

@@ -20,7 +20,11 @@ public class Period
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate end;
-    public Period(){ }
+
+    public Period(){
+        start = LocalDate.now();
+        end = LocalDate.now();
+    }
 
     public Period(LocalDate startDate, LocalDate endDate)
     {

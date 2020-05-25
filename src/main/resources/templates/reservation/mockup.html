@@ -34,7 +34,9 @@
             </div>
             <!--       Create 'back button' if customer is not approved -->
             <div th:case="false">
-                <a id="back-link" href=""><button class="button animate border-8px"><span>Back</span></button></a>
+                <a id="back-link" href="">
+                    <button class="button animate border-8px"><span>Back</span></button>
+                </a>
             </div>
         </div>
 
@@ -77,8 +79,7 @@
                 </td>
                 <td></td>
                 <td>
-                    <span class="model-name" style="color: #ff5533"
-                          th:text="${'[ '+customer.getDriversLicence() +' ]'}"></span>
+                    <span class="padded-blue-area" th:text="${'[ '+customer.getDriversLicence() +' ]'}"></span>
                 </td>
             </tr>
         </table>
@@ -128,7 +129,7 @@
         <table>
             <tr>
                 <td class="item-description">
-                    <div class="model-name" th:text="${motorhome.getModel().getModelName()}"></div>
+                    <div class="model-name" th:text="${'Licence Plate: ' + motorhome.getModel().getModelName()}"></div>
                     <div class="" th:text="'Winter daily charge:'+${motorhome.getSeasonalDailyCharge()[0]}"></div>
                     <div class="" th:text="'Spring daily charge: '+${motorhome.getSeasonalDailyCharge()[1]}"></div>
                     <div class="" th:text="'Summber daily charge: '+${motorhome.getSeasonalDailyCharge()[2]}"></div>
@@ -146,7 +147,7 @@
                 </td>
             </tr>
         </table>
-        <div class="fuel-type" th:text="${motorhome.getLicensePlate()}"></div>
+
         <button class="collapsible">Description:
             <span th:text="${motorhome.getNotes().substring(0,5) + '...'}"></span>
         </button>
@@ -178,9 +179,9 @@
 
 <script>
     var element = document.getElementById("back-link"); // var to grab right element
-    element.setAttribute("href",document.referrer); // set's URL to previous/reffering page
+    element.setAttribute("href", document.referrer); // set's URL to previous/reffering page
     // next bit defines a small function to pull back() on browser history, which loads referring page
-    element.onclick = function(){
+    element.onclick = function () {
         history.back();
         return false;
     }

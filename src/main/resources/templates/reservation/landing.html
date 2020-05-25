@@ -1,3 +1,4 @@
+<!-- KCN -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -19,7 +20,7 @@
     <div class="container">
         <h3 class="hl">Customer ID and Vehicle ID</h3>
         <div class="container95 content-auto-margins">
-            <form class="padded-blue-area " action="/reservation/lookup" method="post">
+            <form class="padded-blue-area " action="/reservation/mockup" method="post">
                 <table>
                     <tr>
                         <td><p>
@@ -32,14 +33,14 @@
                                  height="50"/><span>Customer ID:</span>
                         </td>
                         <td>
-                            <input type="text" name="customerID">
+                            <input type="text" name="customerID" value="Licence Plate">
                         </td>
                     <tr>
                         <td>
                             <img src="/img/mobilehome_transparent_icon.png" height="50"/><span>Motorhome ID:</span>
                         </td>
                         <td>
-                            <input type="number" name="motorhomeID">
+                            <input type="number" name="motorhomeID" value="0">
                         </td>
                     </tr>
                     <tr>
@@ -50,17 +51,18 @@
                     </tr>
                     <tr>
                         <td align="center">
-                            <input type="date" name="dateA">
+                            <input type="date" name="dateA" th:value="${dateUtil.getToday().plusDays(1)}">
                         </td>
                         <td align="center">
-                            <input type="date" name="dateB">
+                            <input type="date" name="dateB" th:value="${dateUtil.getToday().plusWeeks(2)}">
                         </td>
                     </tr>
                 </table>
                 <p></p>
-                <span><img src="../img/transparent-200-10.png"/><input class="button" type="submit"
-                                                                       value="Check availability!"
-                                                                       name="newReservation"></span>
+                <span>
+                    <img src="../img/transparent-200-10.png"/>
+                    <input class="button" type="submit" value="Check availability!" name="newReservation">
+                </span>
             </form>
             <p></p>
         </div>
@@ -68,7 +70,7 @@
         <!--            Segment for option to enter reservation number directly -->
         <h3 class="hl">Reservation ID:</h3>
         <div class="container95 content-auto-margins">
-            <form class="padded-blue-area" action="/reservation/list-reservationm-id" method="post">
+            <form class="padded-blue-area" action="/reservation/details" method="post">
                 <table>
                     <tr>
                         <td><p><img src="/img/transparent-200-10.png"/><img src="/img/transparent-200-10.png"/></p></td>
@@ -80,14 +82,15 @@
                             <span>Reservation ID:</span>
                         </td>
                         <td>
-                            <input type="number" name="reservationID">
+                            <input type="number" name="reservationID" value="0">
                         </td>
                     </tr>
                 </table>
                 <p></p>
-                <span><img src="../img/transparent-200-10.png"/>    <input class="button" type="submit"
-                                                                           value="Look it up!"
-                                                                           name="reservationID"></span>
+                <span>
+                    <img src="../img/transparent-200-10.png"/>
+                    <input class="button" type="submit" value="Look it up!" name="reservationID">
+                </span>
             </form>
         </div>
     </div>
@@ -95,6 +98,7 @@
 
 <!-- footer-->
 <div th:replace="fragments/footer.html :: footer"></div>
+
 
 </body>
 </html>

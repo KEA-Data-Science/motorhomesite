@@ -68,6 +68,8 @@ public class Person {
 		this.lastName = lastName;
 	}
 
+	public String getFullName(){return firstName + " " + lastName;}
+
 	public Address getAddress()
 	{
 		return address;
