@@ -53,9 +53,18 @@
                 <td>Join Date</td>
                 <td><input type="date" th:field="*{person.joinDate}" /></td>
             </tr>
+<!--            tilføjet af KCN, email-->
+            <tr>
+                <td>Email</td>
+                <td><input type="text" th:field="*{person.email}"></td>
+            </tr>
             <tr>
                 <td>Site Role</td>
-                <td th:text="Customer" name="person.userType" value="customer"></td>
+                <td th:text="Customer" name="person.userType" value="customer" readonly="readonly"></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="text" th:field="*{person.password}"> </td>
             </tr>
             <tr>
                 <td>Drivers License Number</td>

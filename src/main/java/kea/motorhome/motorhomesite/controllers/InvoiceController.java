@@ -60,7 +60,7 @@ public class InvoiceController {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         Invoice invoice = getInvoiceFromWR(wr, null, "startDate", "endDate",
-                "motorhome", "customer");
+                                           "motorhome", "customer");
 
         dao.invoiceDAO().update(invoice);
 
@@ -76,8 +76,8 @@ public class InvoiceController {
 
     @PostMapping("/invoices/update/addservice")
     public String addServiceToInvoiceUpdate(@RequestParam int invoiceID,
-                                          @RequestParam int serviceID,
-                                          Model model)
+                                            @RequestParam int serviceID,
+                                            Model model)
     {
         Invoice invoice = dao.invoiceDAO().read(invoiceID);
 
@@ -92,8 +92,8 @@ public class InvoiceController {
 
     @PostMapping("/invoices/update/removeservice")
     public String removeServiceFromInvoiceUpdate(@RequestParam int invoiceID,
-                                               @RequestParam int serviceID,
-                                               Model model)
+                                                 @RequestParam int serviceID,
+                                                 Model model)
     {
         Invoice invoice = dao.invoiceDAO().read(invoiceID);
 
@@ -151,7 +151,7 @@ public class InvoiceController {
         invoice.getServices().add(dao.serviceDAO().read(serviceID));
 
         invoice = getInvoiceFromWRService(wr, invoice, "hidden-startdate-addservice","hidden-enddate-addservice",
-                "hidden-motorhomeid-addservice", "hidden-customerid-addservice" );
+                                          "hidden-motorhomeid-addservice", "hidden-customerid-addservice" );
 
         addAttributesToModel(model, -200, invoice);
         return "/invoices/new";
@@ -163,7 +163,7 @@ public class InvoiceController {
         Invoice invoice = dao.invoiceDAO().read(-200);
         invoice.getServices().remove(dao.serviceDAO().read(serviceID));
         invoice = getInvoiceFromWRService(wr, invoice, "hidden-startdate-removeservice","hidden-enddate-removeservice",
-                "hidden-motorhomeid-removeservice", "hidden-customerid-removeservice" );
+                                          "hidden-motorhomeid-removeservice", "hidden-customerid-removeservice" );
         addAttributesToModel(model, 0, invoice);
 
         return "/invoices/new";
@@ -213,9 +213,9 @@ public class InvoiceController {
             period = invoice.getBillPeriod();
         }
         else {
-        startDate = LocalDate.parse(wr.getParameter(startDateName));
-        endDate = LocalDate.parse(wr.getParameter(endDateName));
-        period = new Period(startDate, endDate);
+            startDate = LocalDate.parse(wr.getParameter(startDateName));
+            endDate = LocalDate.parse(wr.getParameter(endDateName));
+            period = new Period(startDate, endDate);
         }
 
         if (wr.getParameter(motorhomeName).equals("")) {

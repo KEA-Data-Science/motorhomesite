@@ -48,12 +48,17 @@
         <td>Country</td>
         <td th:text="${customer.getPerson().getAddress().getCountry()}"></td>
     </tr>
-        <td>Birth Date</td>
-        <td th:text="${customer.getPerson().getBirthDate()}"></td>
+    <td>Birth Date</td>
+    <td th:text="${customer.getPerson().getBirthDate()}"></td>
     </tr>
     <tr>
         <td>Join Date</td>
         <td th:text="${customer.getPerson().getBirthDate()}"></td>
+    </tr>
+    <!--    tiføjet af KCN -->
+    <tr>
+        <td>Email:</td>
+        <td th:text="${customer.getPerson().getEmail()}"></td>
     </tr>
     <tr>
         <td>Driver's License No.</td>
@@ -63,6 +68,10 @@
         <td>Driver's License Status</td>
         <td th:case="true">Approved</td>
         <td th:case="false">Approved</td>
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td th:text ="${customer.getPerson().getPassword()}"> </td>
     </tr>
     <tr>
         <td>Credit Card ID</td>
@@ -86,7 +95,9 @@
     </tr>
 </table>
 <div>
-    <a th:href="@{/customers/edit(id=${customer.getDriversLicence()})}"><button class="button animate border-8px"><span>Update</span></button></a>
+    <a th:href="@{/customers/edit(id=${customer.getDriversLicence()})}">
+        <button class="button animate border-8px"><span>Update</span></button>
+    </a>
 </div>
 <div>
     <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>

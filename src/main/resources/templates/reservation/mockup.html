@@ -32,6 +32,7 @@
                                                   value="Create Reservation!" name="reservationID"/> </span>
                 </form>
             </div>
+
             <!--       Create 'back button' if customer is not approved -->
             <div th:case="false">
                 <a id="back-link" href="">
@@ -50,8 +51,9 @@
                 </td>
             </tr>
             <tr>
+
+                <!--                    Setting customer image depending on customer approval status -->
                 <td class="center">
-                    <!--                    Setting customer image depending on customer approval status -->
                     <div th:switch="${customer.isApproved()}">
                         <img th:case="true" class="customer-approval-img" src="/img/man-the-product-black-200x220.png"
                              alt="Customer Approved"/>
@@ -92,6 +94,7 @@
             <div class="box350">
                 <img class="thumbnail" th:src="@{${motorhome.imageURL}}" alt="Image Coming Up!"/>
             </div>
+
             <!-- Reservation Period Segment-->
             <div class="box350">
 
@@ -124,34 +127,192 @@
                         </tr>
                     </table>
                 </div>
+
+                <!--                        update period searched -->
+                <div class="collapsible"></div>
+                <div class="padded-blue-area">
+                    <form>
+                        <table>
+                            <tr>
+                                <td>
+
+                                    Update Period
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Start:
+                                </td>
+                                <td>
+                                    <div class="" th:text="${dateA}"></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    End:
+                                </td>
+                                <td>
+                                    <div class="" th:text="${dateB}"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
             </div>
         </div>
-        <table>
-            <tr>
-                <td class="item-description">
-                    <div class="model-name" th:text="${'Licence Plate: ' + motorhome.getModel().getModelName()}"></div>
-                    <div class="" th:text="'Winter daily charge:'+${motorhome.getSeasonalDailyCharge()[0]}"></div>
-                    <div class="" th:text="'Spring daily charge: '+${motorhome.getSeasonalDailyCharge()[1]}"></div>
-                    <div class="" th:text="'Summber daily charge: '+${motorhome.getSeasonalDailyCharge()[2]}"></div>
-                </td>
-                <td>
-                    <div>
-                        <button class="button animate border-8px"><span>Details </span></button>
-                    </div>
-                    <div>
-                        <button class="button animate border-8px"><span>Status </span></button>
-                    </div>
-                    <div>
-                        <button class="button animate border-8px"><span>Action</span></button>
-                    </div>
-                </td>
-            </tr>
-        </table>
 
-        <button class="collapsible">Description:
-            <span th:text="${motorhome.getNotes().substring(0,5) + '...'}"></span>
+        <!--        Vehicle description-->
+        <div class="model-name" th:text="${'Licence Plate: ' + motorhome.getModel().getModelName()}"></div>
+        <div class="" th:text="'Winter daily charge:'+${motorhome.getSeasonalDailyCharge()[0]}"></div>
+        <div class="" th:text="'Spring daily charge: '+${motorhome.getSeasonalDailyCharge()[1]}"></div>
+        <div class="" th:text="'Summer daily charge: '+${motorhome.getSeasonalDailyCharge()[2]}"></div>
+
+
+        <!--                Collapsible Model details-->
+        <button class="collapsible">Model details
+            <!--                    <span th:text="${mobileHome.getDescription().substring(0,15) + '...'}"></span>-->
         </button>
-        <div class="collapsible-content" th:text="${motorhome.getNotes()}"></div>
+        <div class="collapsible-content">
+            <div th:text="${motorhome.getDescription()}"></div>
+            <table>
+                <tr>
+                    <td>
+                        <div th:text="${'Model name: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getModelName()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Model number: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getModelnumber()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Model number of seats: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getNumberOfSeats()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Model number of beds: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getBeds()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Hot Water Capacity: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getHotWaterCapacity()}"></div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Cold Water Capacity: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getColdWaterCapacity()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Has shower: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().isShower()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Model has Oven: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().isOven()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Engine Capacity: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getEngineCapacity()}"></div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Horse Power: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getHorsePower()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Has Cruise Control: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().isCruiseControl()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Height: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getHeight()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Length: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getLength()}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Width: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getWidth()}"></div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${'Weight: '}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${motorhome.getModel().getWeight()}"></div>
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>
+                        <div th:text="${'Notes:'}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="${motorhome.getNotes()}"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 

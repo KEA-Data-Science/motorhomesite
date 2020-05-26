@@ -22,7 +22,7 @@
                 <div class="fuel-type" th:text="${mobileHome.getFuelType()}"></div>
                 <img class="thumbnail" th:src="@{${mobileHome.imageURL}}" alt="Image Coming Up!"/>
                 <table>
-                       <tr>
+                    <tr>
                         <td class="item-description">
                             <div class="model-name" th:text="${mobileHome.getModel().getModelName()}"></div>
                             <div th:text="${'Production year: '+mobileHome.productionYear}"></div>
@@ -33,6 +33,7 @@
                         </td>
                         <td>
                             <div>
+                                <!--                                Disse links skal opdateres med Laurits motorhome-links-->
                                 <button class="button animate border-8px"><span>Details </span></button>
                             </div>
                             <div>
@@ -42,12 +43,88 @@
                                 <button class="button animate border-8px"><span>Action</span></button>
                             </div>
                         </td>
-                    </tr>
                 </table>
-                <button class="collapsible">Description:
-                    <span th:text="${mobileHome.getDescription().substring(0,15) + '...'}"></span>
+
+<!--                Collapsible Model details-->
+                <button class="collapsible">Model details
+<!--                    <span th:text="${mobileHome.getDescription().substring(0,15) + '...'}"></span>-->
                 </button>
-                <div class="collapsible-content" th:text="${mobileHome.getDescription()}"></div>
+                <div class="collapsible-content">
+                    <div th:text="${mobileHome.getDescription()}"></div>
+                    <table>
+                        <tr>
+                            <td><div th:text="${'Model name: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getModelName()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td> <div th:text="${'Model number: '}"></div></td>
+                            <td> <div th:text="${mobileHome.getModel().getModelnumber()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Model number of seats: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getNumberOfSeats()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Model number of beds: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getBeds()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Hot Water Capacity: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getHotWaterCapacity()}"></div></td>
+
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Cold Water Capacity: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getColdWaterCapacity()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Has shower: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().isShower()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Model has Oven: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().isOven()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Engine Capacity: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getEngineCapacity()}"></div></td>
+
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Horse Power: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getHorsePower()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Has Cruise Control: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().isCruiseControl()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Height: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getHeight()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Length: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getLength()}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Width: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getWidth()}"></div></td>
+
+                        </tr>
+                        <tr>
+                            <td><div th:text="${'Weight: '}"></div></td>
+                            <td><div th:text="${mobileHome.getModel().getWeight()}"></div></td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td><div th:text="${'Notes:'}"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div th:text="${mobileHome.getNotes()}"></div> </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

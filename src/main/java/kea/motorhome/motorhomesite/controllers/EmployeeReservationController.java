@@ -1,16 +1,21 @@
 package kea.motorhome.motorhomesite.controllers;
 //  kcn
+
+import kea.motorhome.motorhomesite.mail.PreparedOutGoingMessage;
+import kea.motorhome.motorhomesite.mail.SimpleMessageSender;
 import kea.motorhome.motorhomesite.util.DateUtil;
 import kea.motorhome.motorhomesite.util.PriceCalculator;
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.enums.ReservationStatus;
 import kea.motorhome.motorhomesite.models.*;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller // annotation marking class as controller class
 public class EmployeeReservationController
@@ -25,13 +30,6 @@ public class EmployeeReservationController
         dao = SiteDAOCollection.getInstance();
     }
 
-    @GetMapping("/reservation/")
-    public String employeeMakeReservation(Model model)
-    {
-        addStandardAttributes(model);
-        return "reservation/landing";
-    }
-
     private Model addStandardAttributes(Model model)
     {
         model.addAttribute("dateUtil", new DateUtil());
@@ -40,6 +38,26 @@ public class EmployeeReservationController
         return model;
     }
 
+    private String showErrorPage(@RequestParam String errorMessage, Model model)
+    {
+        model.addAttribute("errorMessage", errorMessage);
+        return "reservation/error";
+    }
+
+    @GetMapping("/reservation/")
+    public String employeeMakeReservation(Model model)
+    {
+        addStandardAttributes(model);
+        return "reservation/landing";
+    }
+
+
+
+    /**
+     * Method interprets a desired period of rent of a motorhome:
+     * Returns different views depending on circumstance.
+     * If customer or vehicle do not exist, show error-page, ditto for already booked
+     */
     @PostMapping("reservation/mockup") //
     public String lookupCustomerAndVehicle(@RequestParam String customerID,
                                            @RequestParam Integer motorhomeID,
@@ -51,8 +69,23 @@ public class EmployeeReservationController
         Motorhome motorhome = dao.motorhomeDAO().read(motorhomeID);
         Customer customer = dao.customerDAO().read(customerID);
 
+        /* if the motorhome and customer exist */
         if(motorhome != null && customer != null)
-        {
+        {   /* looking through reservations */
+            for(Reservation reservation : dao.reservationDAO().readall())
+            {   /* checking if motorhome already reserved in period */
+                if(reservation.getMotorhome().getMotorhomeID() == motorhomeID)
+                {
+                    Period desiredPeriod = new Period(dateA.toLocalDate(), dateB.toLocalDate());
+                    if(reservation.getPeriod().overlapsWith(desiredPeriod))
+                    { /* Show the error page pointing out that vehicle is already reserved in period */
+                        return showErrorPage("Motorhome (" + motorhomeID + ")  already booked in the period " +
+                                             "starting " + desiredPeriod.getStart() + " to " + desiredPeriod.getEnd() +
+                                             ". Try again! :D", model);
+                    }
+                }
+            }
+            /* else, show mockup of reservation */
             model.addAttribute("motorhome", motorhome);
             model.addAttribute("customer", customer);
             model.addAttribute("dateA", dateA);
@@ -62,19 +95,6 @@ public class EmployeeReservationController
         }
 
         return showErrorPage("Error: Could not find a) customer or b) motorhome.", model);
-    }
-
-//    @GetMapping("/reservation/read")
-//    @ResponseBody
-//    public String readReservation(@RequestParam String id)
-//    {
-//        return "You followed /reservation/read " + id;
-//    }
-
-    private String showErrorPage(@RequestParam String errorMessage, Model model)
-    {
-        model.addAttribute("errorMessage", errorMessage);
-        return "reservation/error";
     }
 
     /**
@@ -142,8 +162,10 @@ public class EmployeeReservationController
 
             model.addAttribute("reservation", reservation);
 
-            return "reservation/confirm";
+            /* send reservation confirmation-mail to customer */
+            sendConfirmationEmailToCustomer(reservation);
 
+            return "reservation/confirm";
         }
 
         //        in null cases
@@ -439,20 +461,22 @@ public class EmployeeReservationController
                                  // periods
                                  Model model)
     {
-
+        /* list where search result positives show up */
         ArrayList<Reservation> reservations = new ArrayList<>();
+        // local copy to avoid multiple calls to database
+        List<Reservation> inDatabaseReservations = dao.reservationDAO().readall();
 
         Period period = new Period(dateA.toLocalDate(), dateB.toLocalDate());
-
+        /* if dateA/dateB overlaps with period start or end, include in search */
         if(resultCriteria.contentEquals("Start Date"))
         {
-            for(Reservation r : dao.reservationDAO().readall())
+            for(Reservation r : inDatabaseReservations)
             {
                 if(period.dateOverlapsWithPeriod(r.getPeriod().getStart())){ reservations.add(r);}
             }
         } else
         {
-            for(Reservation r : dao.reservationDAO().readall())
+            for(Reservation r : inDatabaseReservations)
             {
                 if(period.dateOverlapsWithPeriod(r.getPeriod().getEnd())){ reservations.add(r);}
             }
@@ -465,5 +489,15 @@ public class EmployeeReservationController
         return "reservation/list";
     }
 
+    /* Method sends a confirmation email to the customer. */
+    private void sendConfirmationEmailToCustomer(Reservation reservation)
+    {
+        PreparedOutGoingMessage prepared = new PreparedOutGoingMessage();
+        String message = prepared.getReservationConfirmationEmailText(reservation);
 
+        SimpleMessageSender sender = SimpleMessageSender.motorhomeStandardConnection();
+
+        sender.sendEmail(reservation.getCustomer().getPerson().getEmail(),
+                         "Congrats on your Reservation (" + reservation.getReservationID() + ")", message);
+    }
 }

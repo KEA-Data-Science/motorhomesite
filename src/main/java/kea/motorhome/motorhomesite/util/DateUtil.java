@@ -5,6 +5,7 @@ import kea.motorhome.motorhomesite.models.Period;
 
 import java.time.LocalDate;
 //import java.time.Period; // wow - den klasse skal også bruges
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -13,6 +14,27 @@ import java.util.Date;
  */
 public class DateUtil
 {
+
+    private static final ArrayList<String[]> monthLocalizationLanguages;
+    /* If boolean is switched to Danish, month names will be shown in Danish, else English, duh*/
+    private static String[] monthsEnglish = {"English",
+            "January", "February", "March", "April",
+            "May", "June", "July", "August",
+            "September", "October", "November", "December"};
+    private static String[] monthsDanish = {"Dansk",
+            "Januar", "Februar", "Marts", "April",
+            "Maj", "Juni", "Juli", "August",
+            "September", "Oktober", "November", "December"};
+    private static String languageLocalization; // String set to Danish by default ()
+
+    static
+    {    /* link om static block i bunden */
+        monthLocalizationLanguages = new ArrayList<>();
+        monthLocalizationLanguages.add(monthsDanish);
+        monthLocalizationLanguages.add(monthsEnglish);
+
+        languageLocalization = "Dansk";
+    }
 
     /**
      * Parameterless constructor; demands attention
@@ -88,14 +110,6 @@ public class DateUtil
         return java.sql.Date.valueOf(localDateTime);
     }
 
-    /**
-     * up for deletion
-     */
-    public static LocalDate convertToLocalDate(java.sql.Date date)
-    {
-        return date.toLocalDate();
-    }
-
     public String determineSeasonOfDate(LocalDate date)
     {
         /* the temp date is there to make sure nothing happens to the supplied date object */
@@ -167,7 +181,47 @@ public class DateUtil
      */
     public LocalDate getToday(){return LocalDate.now();}
 
+    /**
+     * Returns a string corresponding to month-number in logical order from 1-12, 12 being December.
+     */
+    public static String month(int monthNumericValue)
+    {
+        if(monthNumericValue < 13 && monthNumericValue > 0)
+        {
+            for(String[] languages : monthLocalizationLanguages)
+            {
+                if(languages[0].equalsIgnoreCase(languageLocalization))
+                {
+                    return languages[monthNumericValue];
+                }
+            }
+        }
+        return "Marchygustber";
+    }
+
+    /**
+     * If language name is found in the 0'th place or any of the language arrays, change
+     * languageLocalization string - to change the language months are presented in.
+     *
+     * @param languageToChangeTo Danish and English are hard-coded.
+     */
+    public static String setLanguageLocalization(String languageToChangeTo)
+    {
+        for(String[] language : monthLocalizationLanguages)
+        {
+            if(language[0].equalsIgnoreCase(languageToChangeTo))
+            {
+                languageLocalization = languageToChangeTo;
+                return "Måneder vil nu blive skrevet på" + languageToChangeTo;
+            }
+        }
+        /* code only reaches here if a match for language was not found */
+        return languageToChangeTo + " er ikke et sprog vi har i systemet.";
+    }
 }
+
+
+
 
 /*
  * Research for conversion from
@@ -175,3 +229,7 @@ public class DateUtil
  * And the beautiful line, calculating leap year:
  * https://stackoverflow.com/questions/1021324/java-code-for-calculating-leap-year
  */
+/*
+ * Static blocks
+ * https://www.geeksforgeeks.org/g-fact-79/
+ * */
