@@ -1,0 +1,95 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>Edit Appointment</title>
+</head>
+
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<h1 class="hl">Edit Appointment</h1>
+
+
+<!--
+@DateTimeFormat(pattern = "yyyy-MM-dd")
+private LocalDate date;
+@DateTimeFormat(pattern = "hh:mm")
+private LocalTime time;
+private Address address;
+private int motorHomeID;
+private List<Integer> employeeIDs;
+    private String notes;
+    private int appointmentID;
+    private float distance; // distance to appointment from start (company)
+-->
+
+
+<form action="#" th:action="@{/updateappointment}" th:object="${appointment}" method="post">
+    <table>
+        <tr>
+            <td>Appointment ID</td>
+            <td><input type="text" th:field="*{appointmentID}" name="appointmentID" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td><input type="date" th:field="*{date}" name="date"/></td>
+        </tr>
+        <tr>
+            <td>Time</td>
+            <td><input type="time" th:field="*{time}" name="time"/></td>
+        </tr>
+        <tr>
+            <td>Address ID</td>
+            <td><input type="text" th:field="*{address.addressID}" name="address.addressID"/></td>
+        </tr>
+        <tr>
+            <td>Road Name</td>
+            <td><input type="text" th:field="*{address.roadName}" name="address.roadName"/></td>
+        </tr>
+        <tr>
+            <td>House Number</td>
+            <td><input type="text" th:field="*{address.houseNumber}" name="address.houseNumber"/></td>
+        </tr>
+        <tr>
+            <td>Post Code</td>
+            <td><input type="text" th:field="*{address.houseNumber}" name="address.houseNumber"/></td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td><input type="text" th:field="*{address.country}" name="address.country"/></td>
+        </tr>
+        <!-- TODO: Kun vælge imellem eksisterende id -->
+        <tr>
+            <td>Motorhome ID</td>
+            <td><input type="number" th:field="*{motorHomeID}" name="motorHomeID"/></td>
+        </tr>
+        <!-- TODO: Vælge flere id fra/til + kun vælge imellem eksisterende id -->
+        <tr>
+            <td>Employee IDs</td>
+            <td><input type="number" th:field="*{employeeIDs}" name="employeeIDs"/></td>
+        </tr>
+        <tr>
+            <td>Notes</td>
+            <td><input type="text" th:field="*{notes}" name="notes"/></td>
+        </tr>
+        <tr>
+            <td>Distance</td>
+            <td><input type="number" th:field="*{distance}" name="distance"/></td>
+        </tr>
+        <tr>
+            <td><button class="button animate border-8px" type="submit">Save</button></td>
+        </tr>
+    </table>
+</form>
+<div>
+    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
+</div>
+<div th:replace="fragments/footer.html :: footer"></div>
+</body>
+</html>

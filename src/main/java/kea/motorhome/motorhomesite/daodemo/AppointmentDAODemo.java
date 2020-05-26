@@ -2,7 +2,6 @@ package kea.motorhome.motorhomesite.daodemo;
 
 import kea.motorhome.motorhomesite.dao.IDAO;
 import kea.motorhome.motorhomesite.models.Appointment;
-import kea.motorhome.motorhomesite.models.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class AppointmentDAODemo implements IDAO<Appointment, Integer> {
     public Appointment read(Integer id)
     {
         for (Appointment appointment : appointments)
-            if (appointment.getGetAppointmentID() == id)
+            if (appointment.getAppointmentID() == id)
                 return appointment;
         return null;
     }
@@ -38,7 +37,7 @@ public class AppointmentDAODemo implements IDAO<Appointment, Integer> {
     {
         for (int i = 0; i < appointments.size(); i++)
         {
-            if (appointments.get(i).getGetAppointmentID() == appointment.getGetAppointmentID()) {
+            if (appointments.get(i).getAppointmentID() == appointment.getAppointmentID()) {
                 appointments.set(i, appointment);
                 return true;
             }
@@ -50,7 +49,7 @@ public class AppointmentDAODemo implements IDAO<Appointment, Integer> {
     public boolean delete(Integer id) {
         for (Appointment appointment : appointments)
         {
-            if (id == appointment.getGetAppointmentID())
+            if (id == appointment.getAppointmentID())
                 return appointments.remove(appointment);
         }
         return false;

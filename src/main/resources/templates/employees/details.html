@@ -73,7 +73,7 @@
     <a th:href="@{/employees/edit(id=${employee.getEmployeeID()})}"><button class="button animate border-8px"><span>Update</span></button></a>
 </div>
 <div>
-    <a href="/employees/employees"><button class="button animate border-8px"><span>Back</span></button></a>
+    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
 </body>

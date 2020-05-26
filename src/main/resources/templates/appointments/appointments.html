@@ -1,0 +1,70 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>Appointments</title>
+</head>
+
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<h1 class="hl">Appointments</h1>
+<!-- Main area of page -->
+<div class="body container">
+    <!--   Car Fleet grid layout -->
+    <div><a href="/appointments/new"><button id="create">Create New Appointment</button></a> </div>
+    <div class="wrapper">
+        <div th:each="appointment:${appointments}">
+            <div class="box">
+                <table>
+                    <tr>
+                        <td class="item-description">
+                            <div th:text="${'Appointment ID: ' + appointment.getAppointmentID()}"></div>
+                            <div th:text="${'Date & Time: '+ appointment.getDate() + ', ' + appointment.getTime()}"></div>
+                            <div th:text="${'Notes: '+ appointment.getNotes()}"></div>
+                        </td>
+                        <td>
+                            <div>
+                                <a th:href="@{/appointments/details(id=${appointment.getAppointmentID()})}"><button class="button animate border-8px"><span>Details</span></button></a>
+                            </div>
+                            <div>
+                                <a th:href="@{/appointments/edit(id=${appointment.getAppointmentID()})}"><button class="button animate border-8px"><span>Update</span></button></a>
+                            </div>
+                            <div>
+                                <a th:href="@{/appointments/delete(id=${appointment.getAppointmentID()})}"><button class="button animate border-8px"><span>Delete</span></button></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer.html :: footer"></div>
+<!-- javascript -->
+<script>
+    <!--    script adds an event listener to all elements with class name collapsible -->
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active"); // defaults to false
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+</body>
+</html>
+<!-- Sources of knowledge and template code: -->
+<!-- https://www.w3schools.com/howto/howto_js_collapsible.asp -->

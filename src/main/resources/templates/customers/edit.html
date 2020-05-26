@@ -95,12 +95,12 @@
                 <td><input type="number" th:field="*{payCard.securityDigits}" name="payCard.cardSecurityDigits"/></td>
             </tr>
             <tr>
-                <td colspan="2"><button class="button animate border-8px" type="submit">Save</button></td>
+                <td><button class="button animate border-8px" type="submit">Save</button></td>
             </tr>
         </table>
     </form>
 <div>
-    <a href="/customers/customers"><button class="button animate border-8px"><span>Back</span></button></a>
+    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
 </body>

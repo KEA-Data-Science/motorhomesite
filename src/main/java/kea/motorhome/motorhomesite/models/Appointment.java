@@ -17,12 +17,12 @@ public class Appointment
     private int motorHomeID;
     private List<Integer> employeeIDs;
     private String notes;
-    private int getAppointmentID;
+    private int appointmentID;
     private float distance; // distance to appointment from start (company)
 
     public Appointment(){}
 
-    public Appointment(LocalDate date, LocalTime time, Address address, int motorHomeID, List<Integer> employeeIDs, String notes, int getAppointmentID, float distance)
+    public Appointment(LocalDate date, LocalTime time, Address address, int motorHomeID, List<Integer> employeeIDs, String notes, int appointmentID, float distance)
     {
         this.date = date;
         this.time = time;
@@ -30,7 +30,7 @@ public class Appointment
         this.motorHomeID = motorHomeID;
         this.employeeIDs = employeeIDs;
         this.notes = notes;
-        this.getAppointmentID = getAppointmentID;
+        this.appointmentID = appointmentID;
         this.distance = distance;
     }
 
@@ -94,14 +94,14 @@ public class Appointment
         this.notes = notes;
     }
 
-    public int getGetAppointmentID()
+    public int getAppointmentID()
     {
-        return getAppointmentID;
+        return appointmentID;
     }
 
-    public void setGetAppointmentID(int getAppointmentID)
+    public void setAppointmentID(int appointmentID)
     {
-        this.getAppointmentID = getAppointmentID;
+        this.appointmentID = appointmentID;
     }
 
     public float getDistance()
@@ -121,7 +121,7 @@ public class Appointment
         if(!(o instanceof Appointment)) return false;
         Appointment that = (Appointment)o;
         return getMotorHomeID() == that.getMotorHomeID() &&
-               getGetAppointmentID() == that.getGetAppointmentID() &&
+               getAppointmentID() == that.getAppointmentID() &&
                Float.compare(that.getDistance(), getDistance()) == 0 &&
                Objects.equals(getDate(), that.getDate()) &&
                Objects.equals(getTime(), that.getTime()) &&
@@ -133,7 +133,7 @@ public class Appointment
     @Override
     public int hashCode()
     {
-        return Objects.hash(getDate(), getTime(), getAddress(), getMotorHomeID(), getEmployeeIDs(), getNotes(), getGetAppointmentID(), getDistance());
+        return Objects.hash(getDate(), getTime(), getAddress(), getMotorHomeID(), getEmployeeIDs(), getNotes(), getAppointmentID(), getDistance());
     }
 
     @Override
@@ -146,7 +146,7 @@ public class Appointment
                ", motorHomeID=" + motorHomeID +
                ", employeeIDs=" + employeeIDs +
                ", notes='" + notes + '\'' +
-               ", getAppointmentID=" + getAppointmentID +
+               ", getAppointmentID=" + appointmentID +
                ", distance=" + distance +
                '}';
     }

@@ -5,9 +5,11 @@ import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.daodemo.MotorhomeDAODemo;
 import kea.motorhome.motorhomesite.enums.SiteRole;
 import kea.motorhome.motorhomesite.models.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +39,16 @@ public class DemoData
         Address address2 = new Address(2, "Danmark", "Vej", "Nr.", "2332");
         Address address3 = new Address(3, "Danmark", "Kastrupvej","15B","1900");
         Address address4 = new Address(4, "Danmark", "Brønshøjvej","Nr 1.","2600");
+        Address address5 = new Address(5,"Danmark","Østergade", "1", "3700");
+        Address address6 = new Address(5,"Danmark","Ai Wei Way", "2", "8000");
+
         dao.addressDAO().readall().add(address1);
         dao.addressDAO().readall().add(address2);
         dao.addressDAO().readall().add(address3);
         dao.addressDAO().readall().add(address4);
+        dao.addressDAO().create(address5);
+        dao.addressDAO().create(address6);
+
 
         /* PayCards */
         PayCard payCard1 = new PayCard(1,"Visa Elektron", "1111-1111-1111-1111", LocalDate.now().plusYears(1),1111);
@@ -146,5 +154,18 @@ public class DemoData
         dao.invoiceDAO().readall().add(invoice2);
         dao.invoiceDAO().readall().add(invoice3);
 
+        /* Appointments */
+        // Adds list of employees
+        List<Integer> employeeIDs1 = new ArrayList<>();
+        employeeIDs1.add(1);
+        employeeIDs1.add(2);
+        List<Integer> employeeIDs2 = new ArrayList<>();
+        employeeIDs2.add(1);
+        // Creates appointments
+        Appointment appointment1 = new Appointment(LocalDate.now().plusYears(1), LocalTime.now(), address5, 1, employeeIDs1, "Pick-up", 1, 200);
+        Appointment appointment2 = new Appointment(LocalDate.now().plusYears(3), LocalTime.now(), address6, 2, employeeIDs2, "Drop-off", 2, 300);
+        // Adds to dao list
+        dao.appointmentDAO().create(appointment1);
+        dao.appointmentDAO().create(appointment2);
     }
 }

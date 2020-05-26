@@ -1,0 +1,58 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Details</title>
+</head>
+
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<h1 class="hl">Appointment Details</h1>
+
+<table>
+    <tr>
+        <td>Appointment ID</td>
+        <td th:text="${appointment.getAppointmentID()}"></td>
+    </tr>
+    <tr>
+        <td>Date</td>
+        <td th:text="${appointment.getDate()}"></td>
+    </tr>
+    <tr>
+        <td>Time</td>
+        <td th:text="${appointment.getTime()}"></td>
+    </tr>
+    <tr>
+        <td>Address</td>
+        <td th:text="${appointment.getAddress().getRoadName() + ' ' + appointment.getAddress().getHouseNumber() + ', ' + appointment.getAddress().getPostCode() + ', ' + appointment.getAddress().getCountry()}"></td>
+    </tr>
+    <tr>
+        <td>Motorhome ID</td>
+        <td th:text="${appointment.getMotorHomeID()}"></td>
+    </tr>
+    <tr>
+        <td>Employee IDs</td>
+        <td th:text="${appointment.getEmployeeIDs()}"></td>
+    </tr>
+    <tr>
+        <td>Notes</td>
+        <td th:text="${appointment.getNotes()}"></td>
+    </tr>
+    <tr>
+        <td>Distance</td>
+        <td th:number="${appointment.getDistance()}"></td>
+    </tr>
+</table>
+<div>
+    <a th:href="@{/appointments/edit(id=${appointment.getAppointmentID()})}"><button class="button animate border-8px"><span>Update</span></button></a>
+</div>
+<div>
+    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
+</div>
+<div th:replace="fragments/footer.html :: footer"></div>
+</body>
+</html>

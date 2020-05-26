@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <td>Address ID</td>
-                <td><input type="text" th:field="*{person.address.addressID}" name="person.address.addressID" readonly="readonly"/></td>
+                <td><input type="text" th:field="*{person.address.addressID}" readonly="readonly"/></td>
             </tr>
             <tr>
                 <td>Road Name</td>
@@ -91,16 +91,16 @@
                 <td><input type="number" th:field="*{payCard.securityDigits}" /></td>
             </tr>
             <tr>
-                <td colspan="2"><button class="button animate border-8px" type="reset"><span>Reset</span></button></td>
+                <td><button class="button animate border-8px" type="reset"><span>Reset</span></button></td>
             </tr>
             <tr>
-                <td colspan="2"><button class="button animate border-8px" type="submit"><span>Save</span></button></td>
-            </tr>
-            <tr>
-                <td colspan="2"><a href="/customers/customers"><button class="button animate border-8px"><span>Back</span></button></a></td>
+                <td><button class="button animate border-8px" type="submit"><span>Save</span></button></td>
             </tr>
         </table>
     </form>
+<div>
+    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
+</div>
 <div th:replace="fragments/footer.html :: footer"></div>
 </body>
 </html>
