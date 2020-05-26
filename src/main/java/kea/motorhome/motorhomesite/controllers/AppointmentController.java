@@ -26,7 +26,9 @@ public class AppointmentController {
 
     @GetMapping("/appointments/details")
     public String getAppointmentByParameter(Model model, @RequestParam int id) {
-        model.addAttribute("appointment", dao.appointmentDAO().read(id));
+        Appointment appointment = dao.appointmentDAO().read(id);
+        model.addAttribute("motorhome", dao.motorhomeDAO().read(appointment.getMotorHomeID()));
+        model.addAttribute("appointment", appointment);
         return "appointments/details";
     }
 
@@ -42,6 +44,8 @@ public class AppointmentController {
         model.addAttribute("appointment", appointment);
         model.addAttribute("address", address);
         model.addAttribute("employeeIDs", employeeIDs);
+        model.addAttribute("motorhomes", dao.motorhomeDAO().readall());
+        model.addAttribute("employees", dao.employeeDAO().readall());
         return "appointments/new";
     }
 
@@ -61,7 +65,9 @@ public class AppointmentController {
 
     @GetMapping("/appointments/edit")
     public String showEditAppointmentsForm(Model model, @RequestParam int id) {
+        List<Motorhome> motorhomes = dao.motorhomeDAO().readall();
         model.addAttribute("appointment", dao.appointmentDAO().read(id));
+        model.addAttribute("motorhomes", motorhomes);
         return "appointments/edit";
     }
 

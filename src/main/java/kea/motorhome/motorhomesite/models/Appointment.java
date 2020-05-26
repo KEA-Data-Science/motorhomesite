@@ -11,7 +11,7 @@ public class Appointment
 {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
-    @DateTimeFormat(pattern = "hh:mm")
+    @DateTimeFormat(pattern = "H:mm")
     private LocalTime time;
     private Address address;
     private int motorHomeID;

@@ -15,21 +15,6 @@
 
 <h1 class="hl">Edit Appointment</h1>
 
-
-<!--
-@DateTimeFormat(pattern = "yyyy-MM-dd")
-private LocalDate date;
-@DateTimeFormat(pattern = "hh:mm")
-private LocalTime time;
-private Address address;
-private int motorHomeID;
-private List<Integer> employeeIDs;
-    private String notes;
-    private int appointmentID;
-    private float distance; // distance to appointment from start (company)
--->
-
-
 <form action="#" th:action="@{/updateappointment}" th:object="${appointment}" method="post">
     <table>
         <tr>
@@ -58,16 +43,19 @@ private List<Integer> employeeIDs;
         </tr>
         <tr>
             <td>Post Code</td>
-            <td><input type="text" th:field="*{address.houseNumber}" name="address.houseNumber"/></td>
+            <td><input type="text" th:field="*{address.postCode}" name="address.postCode"/></td>
         </tr>
         <tr>
             <td>Country</td>
             <td><input type="text" th:field="*{address.country}" name="address.country"/></td>
         </tr>
-        <!-- TODO: Kun vælge imellem eksisterende id -->
         <tr>
-            <td>Motorhome ID</td>
-            <td><input type="number" th:field="*{motorHomeID}" name="motorHomeID"/></td>
+            <td>Motorhome</td>
+            <td>
+                <select id="motorHomeID" name="motorHomeID">
+                    <option th:each="motorhome:${motorhomes}" th:value="${motorhome.getMotorhomeID()}" th:attr="selected=${appointment.getMotorHomeID()==motorhome.getMotorhomeID() ? true : false}" th:text="${motorhome.getModel().getModelName()}"></option>
+                </select>
+            </td>
         </tr>
         <!-- TODO: Vælge flere id fra/til + kun vælge imellem eksisterende id -->
         <tr>

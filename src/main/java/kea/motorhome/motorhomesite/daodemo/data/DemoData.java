@@ -40,7 +40,7 @@ public class DemoData
         Address address3 = new Address(3, "Danmark", "Kastrupvej","15B","1900");
         Address address4 = new Address(4, "Danmark", "Brønshøjvej","Nr 1.","2600");
         Address address5 = new Address(5,"Danmark","Østergade", "1", "3700");
-        Address address6 = new Address(5,"Danmark","Ai Wei Way", "2", "8000");
+        Address address6 = new Address(6,"Danmark","Ai Wei Way", "2", "8000");
 
         dao.addressDAO().readall().add(address1);
         dao.addressDAO().readall().add(address2);

@@ -47,10 +47,13 @@
             <td>Country</td>
             <td><input type="text" th:field="*{address.country}"/></td>
         </tr>
-        <!-- TODO: Kun vælge imellem eksisterende id? -->
         <tr>
-            <td>Motorhome ID</td>
-            <td><input type="number" th:field="*{motorHomeID}"/></td>
+            <td>Motorhome</td>
+            <td>
+                <select id="motorHomeID" name="motorHomeID">
+                    <option th:each="motorhome:${motorhomes}" th:value="${motorhome.getMotorhomeID()}" th:attr="selected=${appointment.getMotorHomeID()==motorhome.getMotorhomeID() ? true : false}" th:text="${motorhome.getModel().getModelName()}"></option>
+                </select>
+            </td>
         </tr>
         <!-- TODO: Vælge flere id fra/til + kun vælge imellem eksisterende id -->
         <tr>
@@ -77,5 +80,11 @@
     <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
+<script>
+    function addEmployee() {
+        document.getElementById("demo").innerHTML = "Hello World";
+    }
+</script>
+
 </body>
 </html>
