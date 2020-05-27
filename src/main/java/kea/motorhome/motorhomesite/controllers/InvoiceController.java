@@ -37,7 +37,7 @@ public class InvoiceController
 
         for(Invoice invoice : dao.invoiceDAO().readall())
         {
-            if(invoice.isCompleted())
+            if(invoice.isCompleted()) // hvorfor kun vise betalte/completed invoices?
                 invoices.add(invoice);
         }
 
