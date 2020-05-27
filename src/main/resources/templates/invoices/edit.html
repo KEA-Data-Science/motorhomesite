@@ -117,6 +117,11 @@
 
             <input form="mainForm" type="submit">
 
+        <form id="emailInvoiceToCustomer" th:action="@{/invoices/sendinvoice}" method="post">
+            <input type="hidden" th:name="invoiceID" th:value="${invoice.getInvoiceID()}">
+            <input form="emailInvoiceToCustomer" type="submit">
+        </form>
+
     </div>
 
     <!-- footer-->

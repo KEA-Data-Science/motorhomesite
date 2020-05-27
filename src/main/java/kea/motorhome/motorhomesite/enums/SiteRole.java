@@ -1,5 +1,5 @@
 package kea.motorhome.motorhomesite.enums;
-
+// by KCN
 public enum SiteRole
 {
     SALES,ADMIN,BOOKKEEPER,MECHANIC,CUSTOMER,OTHER,ERROR;

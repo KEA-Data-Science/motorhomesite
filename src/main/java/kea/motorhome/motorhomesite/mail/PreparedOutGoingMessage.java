@@ -1,5 +1,6 @@
 package kea.motorhome.motorhomesite.mail;
 
+import kea.motorhome.motorhomesite.models.Invoice;
 import kea.motorhome.motorhomesite.models.Reservation;
 import kea.motorhome.motorhomesite.util.PriceCalculator;
 /** Class contains - to NMH very tightly coupled - methods that all send back a String
@@ -80,6 +81,12 @@ public class PreparedOutGoingMessage
                    "\nIf repairs or further service is needed the auto mechanic register this.\n";
 
         return message;
+    }
+
+    /* Method a complete mockup; simply returns the toString() of object
+    * */
+    public String getInvoiceEmailText(Invoice invoice){
+        return invoice.toString();
     }
 
 }

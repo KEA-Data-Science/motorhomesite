@@ -1,6 +1,5 @@
 package kea.motorhome.motorhomesite.util;
-// KCN
-
+// kcn
 import kea.motorhome.motorhomesite.models.Period;
 
 import java.time.LocalDate;

@@ -1,12 +1,10 @@
-<!-- KCN -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Status of Reservation</title>
+    <title th:text="${feedbackMessage}"></title>
 </head>
 <body>
-
 <!--    styling fragment -->
 <div th:replace="fragments/styling.html :: styling"></div>
 
@@ -17,15 +15,11 @@
 <p></p>
 <div class="wrapper350">
     <div class="padded-blue-area">
-        <div th:text="${'Reservation '+ reservation.getStatus()}"></div>
+        <div th:text="${feedbackMessage}"></div>
     </div>
 </div>
 <p></p>
-<div class="wrapper350">
-    <div class="padded-blue-area">
-        <div th:text="${'Confirmation sent to '+ reservation.getCustomer().getPerson().getEmail()}"></div>
-    </div>
-</div>
+
 
 <div th:replace="fragments/footer.html :: footer"></div>
 </body>

@@ -58,10 +58,10 @@ public class DemoData
 
         /* Persons */
         Person person1 = new Person(1, "Alfred", "Boolan",
-                address1, LocalDate.now().minusYears(2), "aBool@mail.com",
+                address1, LocalDate.now().minusYears(2), "aBool@maiiiil.com",
                 SiteRole.CUSTOMER, LocalDate.now(),"password");
         Person person2 = new Person(2, "Bubbi", "Bipbup", address2, LocalDate.now().minusYears(4),
-                "buBool@mail.com", SiteRole.CUSTOMER,
+                "buBool@maul.com", SiteRole.CUSTOMER,
                 LocalDate.now(),"password");
         Person person3 = new Person(3, "Anna", "Adminsen", address3, LocalDate.now().minusYears(2),
                 "anna@nmh.dk",

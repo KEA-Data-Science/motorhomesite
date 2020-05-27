@@ -8,7 +8,6 @@ import kea.motorhome.motorhomesite.util.PriceCalculator;
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.enums.ReservationStatus;
 import kea.motorhome.motorhomesite.models.*;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,38 +19,27 @@ import java.util.List;
 @Controller // annotation marking class as controller class
 public class EmployeeReservationController
 {
-    private int pseudoID; // demo
-
     private SiteDAOCollection dao; // all DAOs in one
 
     public EmployeeReservationController()
     {
-        pseudoID = 1;// demo variable
         dao = SiteDAOCollection.getInstance();
     }
 
-    private Model addStandardAttributes(Model model)
+    @GetMapping("/reservation/")
+    public String employeeMakeReservation(Model model)
+    {
+        addControllerStandardAttributes(model);
+        return "reservation/landing";
+    }
+
+    private Model addControllerStandardAttributes(Model model)
     {
         model.addAttribute("dateUtil", new DateUtil());
         model.addAttribute("priceCalculator", new PriceCalculator());
 
         return model;
     }
-
-    private String showErrorPage(@RequestParam String errorMessage, Model model)
-    {
-        model.addAttribute("errorMessage", errorMessage);
-        return "reservation/error";
-    }
-
-    @GetMapping("/reservation/")
-    public String employeeMakeReservation(Model model)
-    {
-        addStandardAttributes(model);
-        return "reservation/landing";
-    }
-
-
 
     /**
      * Method interprets a desired period of rent of a motorhome:
@@ -63,8 +51,7 @@ public class EmployeeReservationController
                                            @RequestParam Integer motorhomeID,
                                            @RequestParam java.sql.Date dateA,
                                            @RequestParam java.sql.Date dateB,
-                                           Model model
-                                          )
+                                           Model model)
     {
         Motorhome motorhome = dao.motorhomeDAO().read(motorhomeID);
         Customer customer = dao.customerDAO().read(customerID);
@@ -88,8 +75,11 @@ public class EmployeeReservationController
             /* else, show mockup of reservation */
             model.addAttribute("motorhome", motorhome);
             model.addAttribute("customer", customer);
+            model.addAttribute("periodAB", new Period(dateA.toLocalDate(), dateB.toLocalDate()));
             model.addAttribute("dateA", dateA);
             model.addAttribute("dateB", dateB);
+
+            addControllerStandardAttributes(model);
 
             return "reservation/mockup";
         }
@@ -97,9 +87,16 @@ public class EmployeeReservationController
         return showErrorPage("Error: Could not find a) customer or b) motorhome.", model);
     }
 
+    private String showErrorPage(@RequestParam String errorMessage, Model model)
+    {
+        model.addAttribute("errorMessage", errorMessage);
+        return "reservation/error";
+    }
+
     /**
      * Controller returns a new reservation object,
-     * based on the customer and motorhome id supplied
+     * based on the customer and motorhome id supplied.
+     * Reservation is created in system as Initialized.
      */
     @PostMapping("reservation/new")
     public String newReservation(@RequestParam String customerID,
@@ -111,28 +108,38 @@ public class EmployeeReservationController
         Customer customer = dao.customerDAO().read(customerID);
         Motorhome motorhome = dao.motorhomeDAO().read(motorhomeID);
 
-        // skal lige have bygget en fail-safe her
+        if(customer != null && motorhome != null)
+        {
 
-        Reservation reservation = // nb. some fields are yet unknown
-                new Reservation().
-                        setStatus(ReservationStatus.Initialized).
-                        setReservationID(pseudoID++).
-                        setCustomer(customer).
-                        setMotorhome(motorhome).
-                        setPeriod(new Period(dateA.toLocalDate(), dateB.toLocalDate())).
-                        setEmployee(dao.employeeDAO().read(1)).
-                        setInternalNotes("Reservation was placed on: " + LocalDate.now());
+            Reservation reservation = // nb. some fields are yet unknown
+                    new Reservation().
+                            setStatus(ReservationStatus.Initialized).
+                            setReservationID(dao.reservationDAO().readall().size() + 1).
+                            setCustomer(customer).
+                            setMotorhome(motorhome).
+                            setPeriod(new Period(dateA.toLocalDate(), dateB.toLocalDate())).
+                            setEmployee(dao.employeeDAO().read(1)).
+                            setInternalNotes("Reservation was placed on: " + LocalDate.now());
 
-//        System.out.println(reservation);
+            model.addAttribute("reservation", reservation);
+            model.addAttribute("priceCalculator", new PriceCalculator());
 
-        model.addAttribute("reservation", reservation);
-        model.addAttribute("priceCalculator", new PriceCalculator());
+            dao.reservationDAO().create(reservation);
 
-        dao.reservationDAO().create(reservation);
+            return "reservation/new";
+        }
 
-        return "reservation/new";
+        return showErrorPage("An error happened: Either customer with driver's licence " + customerID
+                             + " does not exist in the system, or motorhome with id " + motorhomeID +
+                             "does not exist. Could not load.", model);
     }
 
+    /**
+     * Method
+     * 1) updates new reservation to Accepted, updates DB via DAO.
+     * 2) triggers sending of confirmation email
+     * 3) returns a user-friendly confirmation of the above in 'confirm' view.
+     */
     @PostMapping("reservation/confirm")
     public String addReservationToSystem(@RequestParam int reservationID,
                                          @RequestParam String notes,
@@ -143,7 +150,6 @@ public class EmployeeReservationController
 
         if(reservation != null)
         {
-
             reservation.setStatus(ReservationStatus.Accepted);
 
             Employee employee = dao.employeeDAO().read(employeeID);
@@ -173,6 +179,18 @@ public class EmployeeReservationController
 
     }
 
+    /* Method sends a confirmation email to the customer. */
+    private void sendConfirmationEmailToCustomer(Reservation reservation)
+    {
+        PreparedOutGoingMessage prepared = new PreparedOutGoingMessage();
+        String message = prepared.getReservationConfirmationEmailText(reservation);
+
+        SimpleMessageSender sender = SimpleMessageSender.motorhomeStandardConnection();
+
+        sender.sendEmail(reservation.getCustomer().getPerson().getEmail(),
+                         "Congrats on your Reservation (" + reservation.getReservationID() + ")", message);
+    }
+
     @PostMapping("reservation/addservice")
     public String addServiceToReservation(@RequestParam int reservationID,
                                           @RequestParam int serviceID,
@@ -190,7 +208,7 @@ public class EmployeeReservationController
             dao.reservationDAO().update(reservation); // reservation is updated
 
             model.addAttribute("reservation", reservation);
-            addStandardAttributes(model);
+            addControllerStandardAttributes(model);
 
             return "reservation/" + requestURL;
         }
@@ -218,7 +236,7 @@ public class EmployeeReservationController
         dao.reservationDAO().update(reservation); // reservation is updated
 
         model.addAttribute("reservation", reservation);
-        addStandardAttributes(model);
+        addControllerStandardAttributes(model);
 
         return "reservation/" + requestURL;
     }
@@ -271,7 +289,7 @@ public class EmployeeReservationController
     public String updateReservation(@RequestParam int reservationID,
                                     Model model)
     {
-        addStandardAttributes(model);
+        addControllerStandardAttributes(model);
 
         Reservation reservation = dao.reservationDAO().read(reservationID);
 
@@ -364,14 +382,13 @@ public class EmployeeReservationController
         if(deleteWasASuccess)
         {
             model.addAttribute("reservations", dao.reservationDAO().readall());
-            addStandardAttributes(model);
+            addControllerStandardAttributes(model);
             return "/reservation/list";
         }
 
         return showErrorPage("Error. Could not delete reservation with id " + reservationID + "from system"
                 , model);
     }
-
 
     /**
      * Returns a view with search option and list
@@ -381,7 +398,7 @@ public class EmployeeReservationController
     public String listReservationOptions(Model model)
     {
         model.addAttribute("reservations", dao.reservationDAO().readall());
-        addStandardAttributes(model);
+        addControllerStandardAttributes(model);
 
         return "reservation/list";
     }
@@ -400,7 +417,7 @@ public class EmployeeReservationController
         }
 
         model.addAttribute("reservations", reservations);
-        addStandardAttributes(model);
+        addControllerStandardAttributes(model);
 
         return "reservation/list";
     }
@@ -423,7 +440,7 @@ public class EmployeeReservationController
 
         model.addAttribute("reservations", reservations);
 
-        addStandardAttributes(model);
+        addControllerStandardAttributes(model);
 
         return "reservation/list";
     }
@@ -446,7 +463,7 @@ public class EmployeeReservationController
 
         model.addAttribute("reservations", reservations);
 
-        addStandardAttributes(model);
+        addControllerStandardAttributes(model);
 
         return "reservation/list";
     }
@@ -484,20 +501,8 @@ public class EmployeeReservationController
 
         model.addAttribute("reservations", reservations);
 
-        addStandardAttributes(model);
+        addControllerStandardAttributes(model);
 
         return "reservation/list";
-    }
-
-    /* Method sends a confirmation email to the customer. */
-    private void sendConfirmationEmailToCustomer(Reservation reservation)
-    {
-        PreparedOutGoingMessage prepared = new PreparedOutGoingMessage();
-        String message = prepared.getReservationConfirmationEmailText(reservation);
-
-        SimpleMessageSender sender = SimpleMessageSender.motorhomeStandardConnection();
-
-        sender.sendEmail(reservation.getCustomer().getPerson().getEmail(),
-                         "Congrats on your Reservation (" + reservation.getReservationID() + ")", message);
     }
 }

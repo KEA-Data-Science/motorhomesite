@@ -1,5 +1,5 @@
 package kea.motorhome.motorhomesite.util;
-
+// kcn
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,13 +9,53 @@ import java.util.regex.Pattern;
  */
 public class Grouper
 {
-    /** Returns list containing content of supplied string split
+    /**
+     * Method compliments splitStringToCSV. See that method for details.
+     * Design detail: If provided csv-string contains bad data, that data is
+     * simply discarded.
+     * Param sendInSpiteOfBreaks: if true, data points are discarded and search continues; all good points
+     * returned. If false, an empty list will be returned if a single value is bad.
+     */
+    public static ArrayList<Integer> splitCSVString_IntList(String stringToSplit,
+                                                              String separatorString,
+                                                              int intendedPartCount,
+                                                              boolean sendInSpiteOfBreaks)
+    {
+        ArrayList<String> splitStrings = splitStringAsCSV(stringToSplit, separatorString, intendedPartCount);
+
+        ArrayList<Integer> intDataPoints = new ArrayList<>();
+
+        for(String split : splitStrings)
+        {
+            try
+            {
+                int dataPoint = Integer.parseInt(split); // might throw
+                /* if data good */
+                intDataPoints.add(dataPoint);
+
+            } catch(NumberFormatException e)
+            {
+                /* if breaks are allowed */
+                if(sendInSpiteOfBreaks){continue;}
+
+                /* send back empty array to signify the exception */
+                return new ArrayList<>();
+            }
+        }
+
+        return intDataPoints;
+    }
+
+    /**
+     * Returns list containing content of supplied string split
      * into as many parts as intended.
-     * @param stringToSplit string to split
-     * @param separatorString content will be split by seperator supplied
+     *
+     * @param stringToSplit     string to split
+     * @param separatorString   content will be split by seperator supplied
      * @param intendedPartCount number of elements to expect when splitting
-     * string; an empty array will be returned if a number of parts other
-     * than the expected number is found; supply -1 to return any number of parts */
+     *                          string; an empty array will be returned if a number of parts other
+     *                          than the expected number is found; supply -1 to return any number of parts
+     */
     public static ArrayList<String> splitStringAsCSV(String stringToSplit,
                                                      String separatorString, // ","
                                                      int intendedPartCount) // -1
@@ -43,7 +83,6 @@ public class Grouper
     /**
      * Method splits supplied string into length intervals of maxLineLength
      * taking care not to split words, and returns the split parts as an
-     *
      */
     public static ArrayList<String> splitStringToLines(String stringToSplit, int maxLineLength)
     {

@@ -18,28 +18,7 @@
 <div class="container">
 
     <div class="container">
-        <!--        Buttons relative to whether user is approved -->
-        <div th:switch="${customer.isApproved()}">
 
-            <!--        Create new reservation button: if customer is approved -->
-            <div th:case="true">
-                <form action="/reservation/new" method="post">
-                    <input type="hidden" id="customerID" name="customerID" th:value="${customer.getDriversLicence()}">
-                    <input type="hidden" id="motorhomeID" name="motorhomeID" th:value="${motorhome.getMotorhomeID()}">
-                    <input type="hidden" id="dateA" name="dateA" th:value="${dateA}">
-                    <input type="hidden" id="dateB" name="dateB" th:value="${dateB}">
-                    <span class="center">  <input class="button deep-green" type="submit"
-                                                  value="Create Reservation!" name="reservationID"/> </span>
-                </form>
-            </div>
-
-            <!--       Create 'back button' if customer is not approved -->
-            <div th:case="false">
-                <a id="back-link" href="">
-                    <button class="button animate border-8px"><span>Back</span></button>
-                </a>
-            </div>
-        </div>
 
         <!-- Customer info segment -->
         <h3 class="hl">Customer: </h3>
@@ -101,11 +80,13 @@
                 <div class="padded-blue-area">
                     <table>
                         <tr>
+                            <td>Price of period:</td>
+                            <td th:text="${priceCalculator.calculatePriceOfPeriod(motorhome, periodAB) + ' kr.'}"></td>
+                        </tr>
+                        <tr>
                             <td>
+                                <!--                             bad styling hack, in case of confustion   -->
                                 <img src="/img/transparent-200-10.png"/>
-                            </td>
-                            <td>
-                                Period
                             </td>
                         </tr>
                         <tr>
@@ -129,22 +110,21 @@
                 </div>
 
                 <!--                        update period searched -->
-                <div class="collapsible"></div>
-                <div class="padded-blue-area">
-                    <form>
+                <div class="collapsible">Adjust period</div>
+                <div class="collapsible-content content-auto-margins">
+                    <form id="updatePeriod" action="/reservation/mockup" method="post">
                         <table>
-                            <tr>
-                                <td>
-
-                                    Update Period
-                                </td>
-                            </tr>
+                            <!--                            <tr>-->
+                            <!--                                <td>-->
+                            <!--                                    Update Period-->
+                            <!--                                </td>-->
+                            <!--                            </tr>-->
                             <tr>
                                 <td>
                                     Start:
                                 </td>
                                 <td>
-                                    <div class="" th:text="${dateA}"></div>
+                                    <input type="date" th:name="dateA" th:value="${dateA}">
                                 </td>
                             </tr>
 
@@ -153,8 +133,13 @@
                                     End:
                                 </td>
                                 <td>
-                                    <div class="" th:text="${dateB}"></div>
+                                    <input type="date" th:name="dateB" th:value="${dateB}">
                                 </td>
+                            </tr>
+                            <tr>
+                                <td><input type="hidden" th:name="customerID" th:value="${customer.getDriversLicence()}"></td>
+                                <td><input type="hidden" th:name="motorhomeID" th:value="${motorhome.getMotorhomeID()}">
+                                    <input class="button" type="submit" value="Update Period"></td>
                             </tr>
                         </table>
                     </form>
@@ -163,16 +148,15 @@
         </div>
 
         <!--        Vehicle description-->
-        <div class="model-name" th:text="${'Licence Plate: ' + motorhome.getModel().getModelName()}"></div>
+        <div class="model-name" th:text="${'Model name: ' + motorhome.getModel().getModelName()}"></div>
+        <div th:text="${'Licence Plate: ' + motorhome.getModel().getModelName()}"></div>
         <div class="" th:text="'Winter daily charge:'+${motorhome.getSeasonalDailyCharge()[0]}"></div>
         <div class="" th:text="'Spring daily charge: '+${motorhome.getSeasonalDailyCharge()[1]}"></div>
         <div class="" th:text="'Summer daily charge: '+${motorhome.getSeasonalDailyCharge()[2]}"></div>
 
 
         <!--                Collapsible Model details-->
-        <button class="collapsible">Model details
-            <!--                    <span th:text="${mobileHome.getDescription().substring(0,15) + '...'}"></span>-->
-        </button>
+        <button class="collapsible"><span th:text="${'Details of ' + motorhome.getModel().getModelName()}"></span></button>
         <div class="collapsible-content">
             <div th:text="${motorhome.getDescription()}"></div>
             <table>
@@ -313,9 +297,35 @@
                 </tr>
             </table>
         </div>
+        <p></p>
+        <div class="wrapper350">
+            <!--        Buttons relative to whether user is approved -->
+            <div th:switch="${customer.isApproved()}">
+
+                <!--        Create new reservation button: if customer is approved -->
+                <div th:case="true">
+                    <form action="/reservation/new" method="post">
+                        <input type="hidden" id="customerID" name="customerID" th:value="${customer.getDriversLicence()}">
+                        <input type="hidden" id="motorhomeID" name="motorhomeID" th:value="${motorhome.getMotorhomeID()}">
+                        <input type="hidden" id="dateA" name="dateA" th:value="${dateA}">
+                        <input type="hidden" id="dateB" name="dateB" th:value="${dateB}">
+                        <span class="center">
+                           <button class="button animate border-8px" name="reservationID"><span>Create Reservation!</span></button>
+                       </span>
+                    </form>
+                </div>
+
+                <!--       Create 'back button' if customer is not approved -->
+                <div th:case="false">
+                    <a id="back-link" href="">
+                        <button class="button animate border-8px"><span>Back</span></button>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
+<p></p>
 <!-- footer -->
 <div th:replace="fragments/footer.html :: footer"></div>
 

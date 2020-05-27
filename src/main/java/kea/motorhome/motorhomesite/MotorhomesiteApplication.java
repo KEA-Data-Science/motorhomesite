@@ -16,10 +16,10 @@ public class MotorhomesiteApplication
     {
         SpringApplication.run(MotorhomesiteApplication.class, args);
 
-        /* Message sent is intended for debugging and general logging */
-        SimpleMessageSender.motorhomeStandardConnection().sendEmail("nordicmotorhomerental@gmail.com",
-                                            "Server Restart at " + LocalDateTime.now(),
-                                            "Automated Restart Message.");
+//        /* Message sent is intended for debugging and general logging */
+//        SimpleMessageSender.motorhomeStandardConnection().sendEmail("nordicmotorhomerental@gmail.com",
+//                                            "Server Restart at " + LocalDateTime.now(),
+//                                            "Automated Restart Message.");
     }
 
 }
