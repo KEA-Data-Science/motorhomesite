@@ -14,10 +14,11 @@ public class Invoice {
 	private Motorhome motorhome;
 	private List<Service> services;
 	private boolean isCompleted;
+	private Period reservationPeriod;
 
 	public Invoice() {}
 
-	public Invoice(int invoiceID, String customerID, Period billPeriod, Motorhome motorhome, List<Service> services, boolean isCompleted)
+	public Invoice(int invoiceID, String customerID, Period billPeriod, Motorhome motorhome, List<Service> services, boolean isCompleted, Period reservationPeriod)
 	{
 		this.invoiceID = invoiceID;
 		this.customerID = customerID;
@@ -25,6 +26,7 @@ public class Invoice {
 		this.motorhome = motorhome;
 		this.services = services;
 		this.isCompleted = isCompleted;
+		this.reservationPeriod = reservationPeriod;
 	}
 
 	public int getInvoiceID() {
@@ -75,29 +77,43 @@ public class Invoice {
 		isCompleted = completed;
 	}
 
+	public Period getReservationPeriod() {
+		return reservationPeriod;
+	}
+
+	public void setReservationPeriod(Period reservationPeriod) {
+		this.reservationPeriod = reservationPeriod;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Invoice invoice = (Invoice) o;
 		return invoiceID == invoice.invoiceID &&
-				customerID.equals(invoice.customerID) &&
+				isCompleted == invoice.isCompleted &&
+				Objects.equals(customerID, invoice.customerID) &&
 				Objects.equals(billPeriod, invoice.billPeriod) &&
-				Objects.equals(services, invoice.services);
+				Objects.equals(motorhome, invoice.motorhome) &&
+				Objects.equals(services, invoice.services) &&
+				Objects.equals(reservationPeriod, invoice.reservationPeriod);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(invoiceID, customerID, billPeriod, services);
+		return Objects.hash(invoiceID, customerID, billPeriod, motorhome, services, isCompleted, reservationPeriod);
 	}
 
 	@Override
 	public String toString() {
 		return "Invoice{" +
 				"invoiceID=" + invoiceID +
-				", customerID=" + customerID +
+				", customerID='" + customerID + '\'' +
 				", billPeriod=" + billPeriod +
+				", motorhome=" + motorhome +
 				", services=" + services +
+				", isCompleted=" + isCompleted +
+				", reservationPeriod=" + reservationPeriod +
 				'}';
 	}
 }

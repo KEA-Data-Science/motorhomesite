@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Update invoice</title>
+    <title>Create invoice</title>
 </head>
 
 <body>
@@ -27,13 +27,21 @@
                 </td>
             </tr>
             <tr>
-                <td>Start date</td>
-                <td><input id="startDate" name="startDate" type="date" th:value="${invoice.getBillPeriod() != null ? invoice.getBillPeriod().getStartAsDate() : ''}"></td>
+                <td>Bill period start date</td>
+                <td><input id="billPeriodStartDate" name="billPeriodStartDate" type="date" th:value="${invoice.getBillPeriod() != null} ? ${invoice.getBillPeriod().getStartAsDate()} : ''"></td>
             </tr>
             <tr>
-                <td>End date</td>
-                <td><input id="endDate" name="endDate" type="date" th:value="${invoice.getBillPeriod() != null ? invoice.getBillPeriod().getEndAsDate() : ''}"></td>
+                <td>Bill period end date</td>
+                <td><input id="billPeriodEndDate" name="billPeriodEndDate" type="date" th:value="${invoice.getBillPeriod() != null} ? ${invoice.getBillPeriod().getEndAsDate()} : ''"></td>
             </tr>
+            <tr>
+                <td> Reservation period start date</td>
+                <td><input id="reservationPeriodStartDate" name="reservationPeriodStartDate" type="date" th:value="${invoice.getReservationPeriod() != null} ? ${invoice.getReservationPeriod().getStartAsDate()} : ''"></td>
+            </tr>
+            <tr>
+                <td>Reservation period end date</td>
+                <td><input id="reservationPeriodEndDate" name="reservationPeriodEndDate" type="date" th:value="${invoice.getReservationPeriod() != null} ? ${invoice.getReservationPeriod().getEndAsDate()} : ''"></td>
+            <tr>
             <tr>
                 <td>Motorhome</td>
                 <td>
@@ -62,13 +70,15 @@
                         </td>
                         <td>
                             <form action="/invoices/create/addservice" method="post" th:id="${'availableS'+service.getServiceID()}">
-                                <input type="hidden"  name="serviceID" th:value="${service.getServiceID()}">
-                                <input type="hidden" id="hidden-startdate-addservice" name="hidden-startdate-addservice">
-                                <input type="hidden" id="hidden-enddate-addservice" name="hidden-enddate-addservice">
-                                <input type="hidden" id="hidden-customerid-addservice" name="hidden-customerid-addservice">
-                                <input type="hidden" id="hidden-motorhomeid-addservice" name="hidden-motorhomeid-addservice">
+                                <input type="hidden" class="billPeriodStartDate-service" name="billPeriodStartDate-service">
+                                <input type="hidden" class="billPeriodEndDate-service" name="billPeriodEndDate-service">
+                                <input type="hidden" class="reservationPeriodStartDate-service" name="reservationPeriodStartDate-service">
+                                <input type="hidden" class="reservationPeriodEndDate-service" name="reservationPeriodEndDate-service">
+                                <input type="hidden" class="customerID-service" name="customerID-service">
+                                <input type="hidden" class="motorhomeID-service" name="motorhomeID-service">
+                                <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
                                 <div>
-                                    <button class="animate border-8px" type="submit" onclick="setAddServiceParameters()" th:form="${'availableS'+service.getServiceID()}">Add Service</button>
+                                    <button class="animate border-8px" type="submit" onclick="setServiceParameters()" th:form="${'availableS'+service.getServiceID()}">Add Service</button>
                                 </div>
                             </form>
                         </td>
@@ -97,14 +107,16 @@
                         </td>
                         <td>
                             <form action="/invoices/create/removeservice" method="post" th:id="${'chosenS'+service.getServiceID()}">
-                                <input type="hidden" id="hidden-startdate-removeservice" name="hidden-startdate-removeservice">
-                                <input type="hidden" id="hidden-enddate-removeservice" name="hidden-enddate-removeservice">
-                                <input type="hidden" id="hidden-customerid-removeservice" name="hidden-customerid-removeservice">
-                                <input type="hidden" id="hidden-motorhomeid-removeservice" name="hidden-motorhomeid-removeservice">
+                                <input type="hidden" class="billPeriodStartDate-service" name="billPeriodStartDate-service">
+                                <input type="hidden" class="billPeriodEndDate-service" name="billPeriodEndDate-service">
+                                <input type="hidden" class="reservationPeriodStartDate-service" name="reservationPeriodStartDate-service">
+                                <input type="hidden" class="reservationPeriodEndDate-service" name="reservationPeriodEndDate-service">
+                                <input type="hidden" class="customerID-service" name="customerID-service">
+                                <input type="hidden" class="motorhomeID-service" name="motorhomeID-service">
                                 <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
 
                                 <div>
-                                    <button class="animate border-8px" onclick="setRemoveServiceParameters()" th:form="${'chosenS'+service.getServiceID()}">Remove Service</button>
+                                    <button class="animate border-8px" onclick="setServiceParameters()" th:form="${'chosenS'+service.getServiceID()}">Remove Service</button>
                                 </div>
                             </form>
                         </td>
@@ -143,19 +155,40 @@
 </script>
 
 <script>
-    function setAddServiceParameters() {
-        document.getElementById("hidden-startdate-addservice").value = document.getElementById("startDate").value;
-        document.getElementById("hidden-enddate-addservice").value = document.getElementById("endDate").value;
-        document.getElementById("hidden-motorhomeid-addservice").value = document.getElementById("motorhome").value;
-        document.getElementById("hidden-customerid-addservice").value = document.getElementById("customer").value;
-    }
+    function setServiceParameters() {
+        var billStarts = document.getElementsByClassName("billPeriodStartDate-service");
+        var billEnds = document.getElementsByClassName("billPeriodEndDate-service");
+        var reservationStarts = document.getElementsByClassName("reservationPeriodStartDate-service");
+        var reservationEnds = document.getElementsByClassName("reservationPeriodEndDate-service");
+        var motorHomeIDs = document.getElementsByClassName("motorhomeID-service");
+        var customerIDs = document.getElementsByClassName("customerID-service");
 
-    function setRemoveServiceParameters() {
-        document.getElementById("hidden-startdate-removeservice").value = document.getElementById("startDate").value;
-        document.getElementById("hidden-enddate-removeservice").value = document.getElementById("endDate").value;
-        document.getElementById("hidden-motorhomeid-removeservice").value = document.getElementById("motorhome").value;
-        document.getElementById("hidden-customerid-removeservice").value = document.getElementById("customer").value;
+        for (var i = 0; i < billStarts.length; i=i+1)
+        {
+            billStarts[i].value = document.getElementById("billPeriodStartDate").value;
+        }
+        for (var i = 0; i < billStarts.length; i=i+1)
+        {
+            billEnds[i].value = document.getElementById("billPeriodEndDate").value;
+        }
+        for (var i = 0; i < billStarts.length; i=i+1)
+        {
+            reservationStarts[i].value = document.getElementById("reservationPeriodStartDate").value;
+        }
+        for (var i = 0; i < billStarts.length; i=i+1)
+        {
+            reservationEnds[i].value = document.getElementById("reservationPeriodEndDate").value;
+        }
+        for (var i = 0; i < billStarts.length; i=i+1)
+        {
+            motorHomeIDs[i].value = document.getElementById("motorhome").value;
+        }
+        for (var i = 0; i < billStarts.length; i=i+1)
+        {
+            customerIDs[i].value = document.getElementById("customer").value;
+        }
     }
 </script>
+
 </body>
 </html>

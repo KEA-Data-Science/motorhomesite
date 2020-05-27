@@ -25,7 +25,7 @@
                     <div class="box">
 
                         <button class="collapsible">
-                            <span th:text="${'Invoice ID: '+invoice.getInvoiceID()}"></span>
+                            <span th:text="${'Invoice ID: '+invoice.getInvoiceID() + ' - Customer ID: '+invoice.getCustomerID() + ' - Total price: '+calculator.calculateTotalPriceOfInvoice(invoice)}"></span>
                         </button>
                         <div class="collapsible-content">
                             <table>
@@ -34,10 +34,12 @@
                                         <div class="period-item">
                                             <br />
                                             <div th:text="${'Customer: '+invoice.getCustomerID()}"></div>
-                                            <div th:text="${'Start date: '+invoice.getBillPeriod().getStartAsDate()}"></div>
-                                            <div th:text="${'End date: '+invoice.getBillPeriod().getEndAsDate()}"></div>
+                                            <div th:text="${'Bill period start date: '+invoice.getBillPeriod().getStartAsDate()}"></div>
+                                            <div th:text="${'Bill period start end date: '+invoice.getBillPeriod().getEndAsDate()}"></div>
+                                            <div th:text="${'Reservation period start date :'+invoice.getReservationPeriod().getStartAsDate()}"></div>
+                                            <div th:text="${'Reservation period end date :'+invoice.getReservationPeriod().getEndAsDate()}"></div>
                                             <div th:text="${'Motorhome: '+invoice.getMotorhome().getModel().getModelName()}"></div>
-                                            <div th:text="${'Price for period: '+calculator.calculatePriceOfPeriod(invoice.getMotorhome(), invoice.getBillPeriod())}"></div>
+                                            <div th:text="${'Price for period: '+calculator.calculatePriceOfPeriod(invoice.getMotorhome(), invoice.getReservationPeriod())}"></div>
 
                                         </div>
                                         <br />

@@ -71,34 +71,36 @@ public class InvoiceController
     {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        Invoice invoice = getInvoiceFromWR(wr, null, "startDate", "endDate",
-                                           "motorhome", "customer");
+        Invoice invoice = getInvoiceFromWR(wr, null);
 
         dao.invoiceDAO().update(invoice);
 
         return "redirect:/invoices";
     }
 
-    public Invoice getInvoiceFromWR(WebRequest wr, Invoice invoice, String startDateName, String endDateName, String motorhomeName, String customerName)
+    public Invoice getInvoiceFromWR(WebRequest wr, Invoice invoice)
     {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         int invoiceID = -200;
-        Period period;
+        Period billPeriod;
+        Period reservationPeriod;
         Motorhome motorhome;
         String customerID;
 
         if(invoice == null)
             invoiceID = Integer.parseInt((wr.getParameter("invoiceID")));
 
-        customerID = wr.getParameter(customerName);
-        period = new Period(LocalDate.parse(wr.getParameter(startDateName), dtf), LocalDate.parse(wr.getParameter(endDateName), dtf));
-        motorhome = dao.motorhomeDAO().read(Integer.parseInt(wr.getParameter(motorhomeName)));
+        customerID = wr.getParameter("customer");
+        billPeriod = new Period(LocalDate.parse(wr.getParameter("billPeriodStartDate"), dtf), LocalDate.parse(wr.getParameter("billPeriodEndDate"), dtf));
+        reservationPeriod = new Period(LocalDate.parse(wr.getParameter("reservationPeriodStartDate"), dtf), LocalDate.parse(wr.getParameter("reservationPeriodEndDate"), dtf));
+        motorhome = dao.motorhomeDAO().read(Integer.parseInt(wr.getParameter("motorhome")));
 
         if(invoice == null)
-            return new Invoice(invoiceID, customerID, period, motorhome, dao.invoiceDAO().read(invoiceID).getServices(), true);
+            return new Invoice(invoiceID, customerID, billPeriod, motorhome, dao.invoiceDAO().read(invoiceID).getServices(), true, reservationPeriod);
 
         invoice.setCustomerID(customerID);
-        invoice.setBillPeriod(period);
+        invoice.setBillPeriod(billPeriod);
+        invoice.setReservationPeriod(reservationPeriod);
         invoice.setMotorhome(motorhome);
         return invoice;
     }
@@ -113,7 +115,7 @@ public class InvoiceController
     @PostMapping("/invoices/update/addservice")
     public String addServiceToInvoiceUpdate(@RequestParam int invoiceID,
                                             @RequestParam int serviceID,
-                                            Model model)
+                                            Model model, WebRequest wr)
     {
         Invoice invoice = dao.invoiceDAO().read(invoiceID);
 
@@ -121,7 +123,9 @@ public class InvoiceController
 
         invoice.getServices().add(service); // multiple copies of the same service is possible on 1 res.
 
-        addAttributesToModel(model, invoiceID, null);
+        invoice = getInvoiceFromWRService(wr, invoice);
+
+        addAttributesToModel(model, invoiceID, invoice);
 
         return "invoices/edit";
     }
@@ -129,7 +133,7 @@ public class InvoiceController
     @PostMapping("/invoices/update/removeservice")
     public String removeServiceFromInvoiceUpdate(@RequestParam int invoiceID,
                                                  @RequestParam int serviceID,
-                                                 Model model)
+                                                 Model model, WebRequest wr)
     {
         Invoice invoice = dao.invoiceDAO().read(invoiceID);
 
@@ -142,7 +146,9 @@ public class InvoiceController
             }
         }
 
-        addAttributesToModel(model, invoiceID, null);
+        invoice = getInvoiceFromWRService(wr, invoice);
+
+        addAttributesToModel(model, invoiceID, invoice);
 
         return "invoices/edit";
     }
@@ -159,6 +165,8 @@ public class InvoiceController
             invoice.setServices(new ArrayList<Service>());
             invoice.setCompleted(false);
             invoice.setInvoiceID(-200);
+            invoice.setBillPeriod(new Period());
+            invoice.setReservationPeriod(new Period());
         }
         dao.invoiceDAO().readall().add(invoice);
         addAttributesToModel(model, -200, invoice);
@@ -170,13 +178,14 @@ public class InvoiceController
     public String createNewInvoice(WebRequest wr, Model model)
     {
         Invoice invoice = dao.invoiceDAO().read(-200); //
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // ??
-        PriceCalculator priceCalculator = new PriceCalculator(); // ??
         invoice.setCompleted(true); // fra KCN; er regningen betalt?
-        invoice = getInvoiceFromWR(wr, dao.invoiceDAO().read(-200), "startDate", "endDate", "motorhome", "customer");
+        System.out.println(invoice);
+        invoice = getInvoiceFromWR(wr, invoice);
+        System.out.println(invoice);
         dao.invoiceDAO().delete(-200);
         invoice.setInvoiceID(dao.invoiceDAO().readall().size() + 1);
         dao.invoiceDAO().create(invoice);
+        addAttributesToModel(model, invoice.getInvoiceID(), invoice);
         return "redirect:/invoices";
     }
 
@@ -184,54 +193,49 @@ public class InvoiceController
     public String addServiceToNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr)
     {
         Invoice invoice = dao.invoiceDAO().read(-200);
+        System.out.println("Before wr: "+ invoice);
 
         invoice.getServices().add(dao.serviceDAO().read(serviceID));
 
-        invoice = getInvoiceFromWRService(wr, invoice, "hidden-startdate-addservice", "hidden-enddate-addservice",
-                                          "hidden-motorhomeid-addservice", "hidden-customerid-addservice");
+        invoice = getInvoiceFromWRService(wr, invoice);
+        System.out.println("After wr: "+ invoice);
 
         addAttributesToModel(model, -200, invoice);
         return "/invoices/new";
     }
 
-    public Invoice getInvoiceFromWRService(WebRequest wr, Invoice invoice, String startDateName, String endDateName, String motorhomeName, String customerName)
+    public Invoice getInvoiceFromWRService(WebRequest wr, Invoice invoice)
     {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String customerID = "";
-        int motorhomeID = 0;
-        LocalDate startDate;
-        LocalDate endDate;
-        Motorhome motorhome = null;
-        Period period = null;
+        String customerID;
+        LocalDate billStartDate;
+        LocalDate billEndDate;
+        LocalDate reservationStartDate;
+        LocalDate reservationEndDate;
+        Motorhome motorhome;
+        Period billPeriod;
+        Period reservationPeriod;
 
+        customerID =  (wr.getParameter("customerID-service").equals("")) ? invoice.getCustomerID() :  wr.getParameter("customerID-service");
 
-        if(wr.getParameter(customerName).equals(""))
-            customerID = invoice.getCustomerID();
-        else
-            customerID = wr.getParameter(customerName);
+        motorhome = (wr.getParameter("motorhomeID-service").equals("")) ? invoice.getMotorhome() : dao.motorhomeDAO().read(Integer.parseInt(wr.getParameter("motorhomeID-service")));
 
-        if(wr.getParameter(startDateName).equals("") && wr.getParameter(endDateName).equals(""))
-        {
-            period = invoice.getBillPeriod();
-        } else
-        {
-            startDate = LocalDate.parse(wr.getParameter(startDateName));
-            endDate = LocalDate.parse(wr.getParameter(endDateName));
-            period = new Period(startDate, endDate);
-        }
+        billStartDate = (wr.getParameter("billPeriodStartDate-service").equals("")) ? invoice.getBillPeriod().getStart() : LocalDate.parse(wr.getParameter("billPeriodStartDate-service"));
 
-        if(wr.getParameter(motorhomeName).equals(""))
-        {
-            motorhome = invoice.getMotorhome();
-        } else
-        {
-            motorhomeID = Integer.parseInt(wr.getParameter(motorhomeName));
-            motorhome = dao.motorhomeDAO().read(motorhomeID);
-        }
+        billEndDate = (wr.getParameter("billPeriodEndDate-service").equals("")) ? invoice.getBillPeriod().getEnd() : LocalDate.parse(wr.getParameter("billPeriodEndDate-service"));
+
+        billPeriod = new Period(billStartDate, billEndDate);
+
+        reservationStartDate = (wr.getParameter("reservationPeriodStartDate-service").equals("")) ? invoice.getReservationPeriod().getStart() : LocalDate.parse(wr.getParameter("reservationPeriodStartDate-service"));
+
+        reservationEndDate = (wr.getParameter("reservationPeriodEndDate-service").equals("")) ? invoice.getReservationPeriod().getEnd() : LocalDate.parse(wr.getParameter("reservationPeriodEndDate-service"));
+
+        reservationPeriod = new Period(reservationStartDate, reservationEndDate);
 
         invoice.setCustomerID(customerID);
-        invoice.setBillPeriod(period);
+        invoice.setBillPeriod(billPeriod);
+        invoice.setReservationPeriod(reservationPeriod);
         invoice.setMotorhome(motorhome);
+
         return invoice;
     }
 
@@ -239,10 +243,12 @@ public class InvoiceController
     public String removeServiceFromNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr)
     {
         Invoice invoice = dao.invoiceDAO().read(-200);
+
         invoice.getServices().remove(dao.serviceDAO().read(serviceID));
-        invoice = getInvoiceFromWRService(wr, invoice, "hidden-startdate-removeservice", "hidden-enddate-removeservice",
-                                          "hidden-motorhomeid-removeservice", "hidden-customerid-removeservice");
-        addAttributesToModel(model, 0, invoice);
+
+        invoice = getInvoiceFromWRService(wr, invoice);
+
+        addAttributesToModel(model, -200, invoice);
 
         return "/invoices/new";
     }
@@ -274,7 +280,8 @@ public class InvoiceController
                               new Period(LocalDate.now(), LocalDate.now().plusWeeks(2)),
                               r.getMotorhome(),
                               r.getServices(),
-                              false);
+                              false,
+                              r.getPeriod());
 
         dao.invoiceDAO().create(invoice); /* entering invoice from reservation into database */
 
@@ -288,7 +295,7 @@ public class InvoiceController
         model.addAttribute("customers", customers);
         model.addAttribute("services", services);
 
-        model.addAttribute(invoice);
+        model.addAttribute("invoice", invoice);
 
         return "/invoices/edit";
     }

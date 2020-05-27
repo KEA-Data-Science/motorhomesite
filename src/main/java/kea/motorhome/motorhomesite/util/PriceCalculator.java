@@ -20,7 +20,7 @@ public class PriceCalculator
 
     public float calculateTotalPriceOfInvoice(Invoice invoice)
     {
-        float totalPrice = calculatePriceOfPeriod(invoice.getMotorhome(), invoice.getBillPeriod());
+        float totalPrice = calculatePriceOfPeriod(invoice.getMotorhome(), invoice.getReservationPeriod());
 
         totalPrice += calculatePriceOfService(invoice.getServices());
 
