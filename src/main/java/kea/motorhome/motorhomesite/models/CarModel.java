@@ -2,6 +2,7 @@ package kea.motorhome.motorhomesite.models;
 
 public class CarModel
 {
+    int carModelID;
     String modelName;
     String modelnumber;
     int horsePower;
@@ -19,8 +20,9 @@ public class CarModel
     boolean shower;
 
 
-    public CarModel(String modelName, String modelnumber, int horsePower, int beds, float engineCapacity, float length, float width,
+    public CarModel(int carModelID, String modelName, String modelnumber, int horsePower, int beds, float engineCapacity, float length, float width,
                     float height, float weight, float hotWaterCapacity, float coldWaterCapacity, int numberOfSeats, boolean oven, boolean cruiseControl, boolean shower) {
+        this.carModelID = carModelID;
         this.modelName = modelName;
         this.modelnumber = modelnumber;
         this.horsePower = horsePower;
@@ -36,6 +38,14 @@ public class CarModel
         this.oven = oven;
         this.cruiseControl = cruiseControl;
         this.shower = shower;
+    }
+
+    public int getCarModelID() {
+        return carModelID;
+    }
+
+    public void setCarModelID(int carModelID) {
+        this.carModelID = carModelID;
     }
 
     public float getEngineCapacity() {

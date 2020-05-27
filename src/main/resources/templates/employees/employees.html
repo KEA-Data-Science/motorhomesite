@@ -46,25 +46,5 @@
     </div>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
-<!-- javascript -->
-<script>
-    <!--    script adds an event listener to all elements with class name collapsible -->
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-            this.classList.toggle("active"); // defaults to false
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        });
-    }
-</script>
 </body>
 </html>
-<!-- Sources of knowledge and template code: -->
-<!-- https://www.w3schools.com/howto/howto_js_collapsible.asp -->

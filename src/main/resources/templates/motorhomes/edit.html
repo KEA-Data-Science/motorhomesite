@@ -68,82 +68,15 @@
                 <td><input type="text" th:field="*{imageURL}" name="imageURL"/></td>
             </tr>
             <tr>
+                <td>Car Model</td>
+                <td>
+                    <select name="carModelID">
+                        <option th:each="carModel:${carModels}" th:value="${carModel.getCarModelID()}" th:attr="selected=${motorhome.getModel()==carModel ? true : false}" th:text="${carModel.getModelName()}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2"><button class="button animate border-8px" type="submit">Save</button></td>
-            </tr>
-            <tr>
-                <td>Model Name</td>
-                <td><input type="text" th:field="*{model.modelName}" name="model.modelName"/></td>
-            </tr>
-            <tr>
-                <td>Model No.</td>
-                <td><input type="text" th:field="*{model.modelnumber}" name="model.modelnumber"/></td>
-            </tr>
-            <tr>
-                <td>Horsepower</td>
-                <td><input type="number" th:field="*{model.horsePower}" name="model.horsePower"/></td>
-            </tr>
-            <tr>
-                <td>Beds</td>
-                <td><input type="number" th:field="*{model.beds}" name="model.beds"/></td>
-            </tr>
-            <tr>
-                <td>Engine Capacity</td>
-                <td><input type="number" th:field="*{model.engineCapacity}" name="model.engineCapacity"/></td>
-            </tr>
-            <tr>
-                <td>Length</td>
-                <td><input type="number" th:field="*{model.length}" name="model.length"/></td>
-            </tr>
-            <tr>
-                <td>Width</td>
-                <td><input type="number" th:field="*{model.width}" name="model.width"/></td>
-            </tr>
-            <tr>
-                <td>Height</td>
-                <td><input type="number" th:field="*{model.height}" name="model.height"/></td>
-            </tr>
-            <tr>
-                <td>Weight</td>
-                <td><input type="number" th:field="*{model.weight}" name="model.weight"/></td>
-            </tr>
-            <tr>
-                <td>Hot Water Capacity</td>
-                <td><input type="number" th:field="*{model.hotWaterCapacity}" name="model.hotWaterCapacity"/></td>
-            </tr>
-            <tr>
-                <td>Cold Water Capacity</td>
-                <td><input type="number" th:field="*{model.coldWaterCapacity}" name="model.coldWaterCapacity"/></td>
-            </tr>
-            <tr>
-                <td>Number of Seats</td>
-                <td><input type="number" th:field="*{model.numberOfSeats}" name="model.numberOfSeats"/></td>
-            </tr>
-            <tr>
-                <td>Oven</td>
-                <td>
-                    <input type="radio" id="true1" th:field="*{model.oven}" value="true" name="model.oven" />
-                    <label for="true1">Yes</label>
-                    <input type="radio" id="false1" th:field="*{model.oven}" value="false" name="model.oven"/>
-                    <label for="false1">No</label>
-                </td>
-            </tr>
-            <tr>
-                <td>Cruise Control</td>
-                <td>
-                    <input type="radio" id="true2" th:field="*{model.cruiseControl}" value="true" name="model.cruiseControl" />
-                    <label for="true2">Yes</label>
-                    <input type="radio" id="false2" th:field="*{model.cruiseControl}" value="false" name="model.cruiseControl"/>
-                    <label for="false2">No</label>
-                </td>
-            </tr>
-            <tr>
-                <td>Shower</td>
-                <td>
-                    <input type="radio" id="true3" th:field="*{model.shower}" value="true" name="model.shower" />
-                    <label for="true3">Yes</label>
-                    <input type="radio" id="false3" th:field="*{model.shower}" value="false" name="model.shower"/>
-                    <label for="false3">No</label>
-                </td>
             </tr>
         </table>
     </form>

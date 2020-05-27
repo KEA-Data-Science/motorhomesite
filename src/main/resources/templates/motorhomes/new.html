@@ -70,78 +70,11 @@
                 <td><input type="text" th:field="*{motorhomeID}" readonly="readonly"/></td>
             </tr>
             <tr>
-                <td>Model Name</td>
-                <td><input type="text" th:field="*{model.modelName}"/></td>
-            </tr>
-            <tr>
-                <td>Model No.</td>
-                <td><input type="text" th:field="*{model.modelnumber}"/></td>
-            </tr>
-            <tr>
-                <td>Horse Power</td>
-                <td><input type="number" th:field="*{model.horsePower}"/></td>
-            </tr>
-            <tr>
-                <td>Beds</td>
-                <td><input type="number" th:field="*{model.beds}"/></td>
-            </tr>
-            <tr>
-                <td>Engine Capacity</td>
-                <td><input type="number" th:field="*{model.engineCapacity}"/></td>
-            </tr>
-            <tr>
-                <td>Length</td>
-                <td><input type="number" th:field="*{model.length}"/></td>
-            </tr>
-            <tr>
-                <td>Width</td>
-                <td><input type="number" th:field="*{model.width}"/></td>
-            </tr>
-            <tr>
-                <td>Height</td>
-                <td><input type="number" th:field="*{model.height}"/></td>
-            </tr>
-            <tr>
-                <td>Weight</td>
-                <td><input type="number" th:field="*{model.weight}"/></td>
-            </tr>
-            <tr>
-                <td>Hot Water Capacity</td>
-                <td><input type="number" th:field="*{model.hotWaterCapacity}"/></td>
-            </tr>
-            <tr>
-                <td>Cold Water Capacity</td>
-                <td><input type="number" th:field="*{model.coldWaterCapacity}"/></td>
-            </tr>
-            <tr>
-                <td>Number of Seats</td>
-                <td><input type="number" th:field="*{model.numberOfSeats}"/></td>
-            </tr>
-            <tr>
-                <td>Oven</td>
+                <td>Car Model</td>
                 <td>
-                    <input type="radio" id="true1" th:field="*{model.oven}" value="true" />
-                    <label for="true1">Yes</label>
-                    <input type="radio" id="false1" th:field="*{model.oven}" value="false" />
-                    <label for="false1">No</label>
-                </td>
-            </tr>
-            <tr>
-                <td>Cruise Control</td>
-                <td>
-                    <input type="radio" id="true2" th:field="*{model.cruiseControl}" value="true" />
-                    <label for="true2">Yes</label>
-                    <input type="radio" id="false2" th:field="*{model.cruiseControl}" value="false" />
-                    <label for="false2">No</label>
-                </td>
-            </tr>
-            <tr>
-                <td>Shower</td>
-                <td>
-                    <input type="radio" id="true3" th:field="*{model.shower}" value="true" />
-                    <label for="true3">Yes</label>
-                    <input type="radio" id="false3" th:field="*{model.shower}" value="false" />
-                    <label for="false3">No</label>
+                    <select name="carModelID">
+                        <option th:each="carModel:${carModels}" th:value="${carModel.getCarModelID()}" th:attr="selected=${motorhome.getModel()==carModel ? true : false}" th:text="${carModel.getModelName()}"></option>
+                    </select>
                 </td>
             </tr>
         </table>

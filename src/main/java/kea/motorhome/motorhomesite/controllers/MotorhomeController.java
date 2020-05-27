@@ -34,6 +34,7 @@ public class MotorhomeController {
         motorhome.setSeasonalDailyCharge(new float[3]);
         model.addAttribute("motorhome", motorhome);
         model.addAttribute("services", dao.serviceDAO().readall());
+        model.addAttribute("carModels", dao.carModelDAO().readall());
         return "motorhomes/new";
     }
 
@@ -44,7 +45,9 @@ public class MotorhomeController {
     }
 
     @RequestMapping(value ="/updatemotorhome", method = RequestMethod.POST)
-    public String updateMotorhome(@ModelAttribute("motorhome") Motorhome motorhome) {
+    public String updateMotorhome(@ModelAttribute("motorhome") Motorhome motorhome, @RequestParam int carModelID) {
+        CarModel carModel = dao.carModelDAO().read(carModelID);
+        motorhome.setModel(carModel);
         dao.motorhomeDAO().update(motorhome);
         return "redirect:/motorhomes/motorhomes";
     }
@@ -53,6 +56,7 @@ public class MotorhomeController {
     public String showEditMotorhomeForm(Model model, @RequestParam int id) {
         model.addAttribute("motorhome", dao.motorhomeDAO().read(id));
         model.addAttribute("services", dao.serviceDAO().readall());
+        model.addAttribute("carModels",dao.carModelDAO().readall());
         return "motorhomes/edit";
     }
 

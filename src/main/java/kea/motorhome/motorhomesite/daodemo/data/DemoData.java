@@ -88,17 +88,24 @@ public class DemoData
         dao.employeeDAO().readall().add(employee1);
         dao.employeeDAO().readall().add(employee2);
 
+
+        /* CarModels */
+        CarModel carModel1 = new CarModel(1,"Big One Runnrunn", "UHYTG4334", 120, 3, 20, 4.5f, 2.7f, 2.2f,
+                1500, 25, 30, 5, true, true, true);
+        CarModel carModel2 = new CarModel(2,"Busty Deep Seater", "UHYTG4564", 145, 4, 25, 4.1f, 3.0f, 2.5f,
+                2000, 27, 29, 4, true, true, false);
+        CarModel carModel3 = new CarModel(3,"Normal Motor Home", "UHYTG4564", 145, 4, 30, 3.4f, 3.1f, 2.4f,
+                1700, 30, 40, 6, true, false, true );
+        CarModel carModel4 = new CarModel(4,"Abnormal Motor Home", "UHYTG6565", 202, 4, 40, 4.3f, 3.2f, 2.8f,
+                3000, 35, 50, 5, false, true, true);
+
+        dao.carModelDAO().create(carModel1);
+        dao.carModelDAO().create(carModel2);
+        dao.carModelDAO().create(carModel3);
+        dao.carModelDAO().create(carModel4);
+
         /*motorhomes*/
         List<Service> servicesAvailable = dao.serviceDAO().readall();
-
-        CarModel carModel1 = new CarModel("Big One Runnrunn", "UHYTG4334", 120, 3, 20, 4.5f, 2.7f, 2.2f,
-                1500, 25, 30, 5, true, true, true);
-        CarModel carModel2 = new CarModel("Busty Deep Seater", "UHYTG4564", 145, 4, 25, 4.1f, 3.0f, 2.5f,
-                2000, 27, 29, 4, true, true, false);
-        CarModel carModel3 = new CarModel("Normal Motor Home", "UHYTG4564", 145, 4, 30, 3.4f, 3.1f, 2.4f,
-                1700, 30, 40, 6, true, false, true );
-        CarModel carModel4 = new CarModel("Abnormal Motor Home", "UHYTG6565", 202, 4, 40, 4.3f, 3.2f, 2.8f,
-                3000, 35, 50, 5, false, true, true);
 
         dao.motorhomeDAO().readall().add(new Motorhome(1, carModel1, "15-14-AH4",
                 new float[]{230, 270, 380}, "This wonderful vehicle can take you anywhere as long as it is not uphill" +

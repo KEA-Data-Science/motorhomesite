@@ -1,0 +1,109 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>Edit Car Model</title>
+</head>
+
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<h1 class="hl">Edit Car Model</h1>
+
+<form action="#" th:action="@{/updatecarmodel}" th:object="${carModel}" method="post">
+    <table>
+        <tr>
+            <td>Car Model ID</td>
+            <td><input type="text" th:field="*{carModelID}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td>Model Name</td>
+            <td><input type="text" th:field="*{modelName}"/></td>
+        </tr>
+        <tr>
+            <td>Model Number</td>
+            <td><input type="text" th:field="*{modelnumber}"/></td>
+        </tr>
+        <tr>
+            <td>Horse Power</td>
+            <td><input type="number" th:field="*{horsePower}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td>Beds</td>
+            <td><input type="number" th:field="*{beds}"/></td>
+        </tr>
+        <tr>
+            <td>Engine Capacity</td>
+            <td><input type="number" th:field="*{engineCapacity}"/></td>
+        </tr>
+        <tr>
+            <td>Length</td>
+            <td><input type="number" th:field="*{length}"/></td>
+        </tr>
+        <tr>
+            <td>Width</td>
+            <td><input type="number" th:field="*{width}"/></td>
+        </tr>
+        <tr>
+            <td>Height</td>
+            <td><input type="number" th:field="*{height}"/></td>
+        </tr>
+        <tr>
+            <td>Weight</td>
+            <td><input type="number" th:field="*{weight}"/></td>
+        </tr>
+        <tr>
+            <td>Hot Water Capacity</td>
+            <td><input type="number" th:field="*{hotWaterCapacity}"></td>
+        </tr>
+        <tr>
+            <td>Cold Water Capacity</td>
+            <td><input type="number" th:field="*{coldWaterCapacity}"/></td>
+        </tr>
+        <tr>
+            <td>Number of Seats</td>
+            <td><input type="number" th:field="*{numberOfSeats}"> </td>
+        </tr>
+        <tr>
+            <td>Oven</td>
+            <td>
+                <input type="radio" id="true1" th:field="*{oven}" value="true"/>
+                <label for="true1">Yes</label>
+                <input type="radio" id="false1" th:field="*{oven}" value="false"/>
+                <label for="false1">No</label>
+            </td>
+        </tr>
+        <tr>
+            <td>Cruise Control</td>
+            <td>
+                <input type="radio" id="true2" th:field="*{cruiseControl}" value="true"/>
+                <label for="true2">Yes</label>
+                <input type="radio" id="false2" th:field="*{cruiseControl}" value="false"/>
+                <label for="false2">No</label>
+            </td>
+        </tr>
+        <tr>
+            <td>Shower</td>
+            <td>
+                <input type="radio" id="true3" th:field="*{shower}" value="true"/>
+                <label for="true3">Yes</label>
+                <input type="radio" id="false3" th:field="*{shower}" value="false"/>
+                <label for="false3">No</label>
+            </td>
+        </tr>
+        <tr>
+            <td><button class="button animate border-8px" type="submit">Save</button></td>
+        </tr>
+    </table>
+</form>
+<div>
+    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
+</div>
+<div th:replace="fragments/footer.html :: footer"></div>
+</body>
+</html>

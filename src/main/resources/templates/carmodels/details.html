@@ -1,0 +1,96 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>Car Model Details</title>
+</head>
+
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<h1 class="hl">Car Model Details</h1>
+
+<table>
+    <tr>
+        <td>Car Model ID</td>
+        <td th:text="${carModel.getCarModelID()}"></td>
+    </tr>
+    <tr>
+        <td>Model Name</td>
+        <td th:text="${carModel.getModelName()}"></td>
+    </tr>
+    <tr>
+        <td>Model Number</td>
+        <td th:text="${carModel.getModelnumber()}"></td>
+    </tr>
+    <tr>
+        <td>Horsepower</td>
+        <td th:text="${carModel.getHorsePower()}"></td>
+    </tr>
+    <tr>
+        <td>Beds</td>
+        <td th:text="${carModel.getBeds()}"></td>
+    </tr>
+    <tr>
+        <td>Engine Capacity</td>
+        <td th:text="${carModel.getEngineCapacity()}"></td>
+    </tr>
+    <tr>
+        <td>Length</td>
+        <td th:text="${carModel.getLength()}"></td>
+    </tr>
+    <tr>
+        <td>Width</td>
+        <td th:text="${carModel.getWidth()}"></td>
+    </tr>
+        <td>Height</td>
+        <td th:text="${carModel.getHeight()}"></td>
+    </tr>
+    <tr>
+        <td>Weight</td>
+        <td th:text="${carModel.getHotWaterCapacity()}"></td>
+    </tr>
+    <tr>
+        <td>Hot Water Capacity:</td>
+        <td th:text="${carModel.getHotWaterCapacity()}"></td>
+    </tr>
+    <tr>
+        <td>Cold Water Capacity</td>
+        <td th:text="${carModel.getColdWaterCapacity()}"></td>
+    </tr>
+    <tr>
+        <td>Number of Seats</td>
+        <td th:text="${carModel.getNumberOfSeats()}"></td>
+    </tr>
+    <tr th:switch="${carModel.isOven()}">
+        <td>Oven</td>
+        <td th:case="true">Yes</td>
+        <td th:case="false">No</td>
+    </tr>
+    <tr th:switch="${carModel.isCruiseControl()}">
+        <td>Cruise Control</td>
+        <td th:case="true">Yes</td>
+        <td th:case="false">No</td>
+    </tr>
+    <tr th:switch="${carModel.isShower()}">
+        <td>Shower</td>
+        <td th:case="true">Yes</td>
+        <td th:case="false">No</td>
+    </tr>
+</table>
+<div>
+    <a th:href="@{/carmodels/edit(id=${carModel.getCarModelID()})}">
+        <button class="button animate border-8px"><span>Update</span></button>
+    </a>
+</div>
+<div>
+    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
+</div>
+<div th:replace="fragments/footer.html :: footer"></div>
+</body>
+</html>

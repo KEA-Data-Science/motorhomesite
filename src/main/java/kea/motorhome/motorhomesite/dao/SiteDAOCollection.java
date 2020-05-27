@@ -22,6 +22,7 @@ public class SiteDAOCollection
     private IDAO<Reservation, Integer> reservationDAO;
     private IDAO<Service, Integer> serviceDAO;
     private IDAO<Invoice, Integer> invoiceDAO;
+    private IDAO<CarModel, Integer> carModelDAO;
 
     private DemoData demoData; // don't use
 
@@ -38,6 +39,7 @@ public class SiteDAOCollection
         this.reservationDAO = new ReservationDAODemo();
         this.serviceDAO = new ServiceDAODemo();
         this.invoiceDAO = new InvoiceDAODemo();
+        this.carModelDAO = new CarModelDAODemo();
 
     }
 
@@ -78,4 +80,7 @@ public class SiteDAOCollection
     public IDAO<Service, Integer> serviceDAO(){ return serviceDAO; }
 
     public IDAO<Invoice, Integer> invoiceDAO(){return invoiceDAO;}
+
+    public IDAO<CarModel, Integer> carModelDAO(){return carModelDAO;}
+
 }

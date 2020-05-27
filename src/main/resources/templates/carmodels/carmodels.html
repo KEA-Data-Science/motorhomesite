@@ -1,0 +1,49 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>Car Models</title>
+</head>
+
+<body>
+<!-- Styling fragment -->
+<div th:replace="fragments/styling.html :: styling"></div>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar.html :: navigation"></div>
+
+<h1 class="hl">Car Models</h1>
+<!-- Main area of page -->
+<div class="container">
+    <!--   Car Fleet grid layout -->
+    <div><a href="/carmodels/new"><button id="create">Create New Car Model</button></a> </div>
+    <div class="wrapper">
+        <div th:each="carModel:${carModels}">
+            <div class="box">
+                <table>
+                    <tr>
+                        <td class="item-description">
+                            <div th:text="${'Model Name: ' + carModel.getModelName()}"></div>
+                            <div th:text="${'Model Number: '+ carModel.getModelnumber()}"></div>
+                        </td>
+                        <td>
+                            <div>
+                                <a th:href="@{/carmodels/details(id=${carModel.getCarModelID()})}"><button class="button animate border-8px"><span>Details</span></button></a>
+                            </div>
+                            <div>
+                                <a th:href="@{/carmodels/edit(id=${carModel.getCarModelID()})}"><button class="button animate border-8px"><span>Update</span></button></a>
+                            </div>
+                            <div>
+                                <a th:href="@{/carmodels/delete(id=${carModel.getCarModelID()})}"><button class="button animate border-8px"><span>Delete</span></button></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer.html :: footer"></div>
+</body>
+</html>
