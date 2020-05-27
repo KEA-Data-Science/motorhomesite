@@ -277,6 +277,7 @@ public class InvoiceController
                               false);
 
         dao.invoiceDAO().create(invoice); /* entering invoice from reservation into database */
+
         // the view demands some lists, and we want no choices, only display of specific options.
         List<Motorhome> motorhomes = new ArrayList<>();
         List<Customer> customers = new ArrayList<>();
