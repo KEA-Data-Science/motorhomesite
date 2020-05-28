@@ -10,7 +10,7 @@ public class Motorhome
     private int motorhomeID;
     private CarModel model;
     private String licensePlate;
-    private float[] seasonalDailyCharge;
+    private float seasonalDailyCharge;
     private String notes;
     private String imageURL;
     private List<Service> servicesAvailable;
@@ -21,7 +21,7 @@ public class Motorhome
 
     public Motorhome(){}
 
-    public Motorhome(int motorhomeID, CarModel model, String licensePlate, float[] seasonalDailyCharge, String notes, String imageURL, List<Service> servicesAvailable, int productionYear, String description, int minimumDaysOfRental, String fuelType)
+    public Motorhome(int motorhomeID, CarModel model, String licensePlate, float seasonalDailyCharge, String notes, String imageURL, List<Service> servicesAvailable, int productionYear, String description, int minimumDaysOfRental, String fuelType)
     {
         this.motorhomeID = motorhomeID;
         this.model = model;
@@ -102,12 +102,16 @@ public class Motorhome
 
     public float[] getSeasonalDailyCharge()
     {
-        return seasonalDailyCharge;
+        float[] seasonalCharges = new float[]{
+                seasonalDailyCharge,
+                seasonalDailyCharge*1.3f,
+                seasonalDailyCharge*1.6f};
+        return seasonalCharges;
     }
 
     public void setSeasonalDailyCharge(float[] seasonalDailyCharge)
     {
-        this.seasonalDailyCharge = seasonalDailyCharge;
+        this.seasonalDailyCharge = seasonalDailyCharge[0]; // low season
     }
 
     public String getNotes()
@@ -180,7 +184,7 @@ public class Motorhome
                "motorhomeID=" + motorhomeID +
                ", model=" + model +
                ", licensePlate='" + licensePlate + '\'' +
-               ", seasonalDailyCharge=" + Arrays.toString(seasonalDailyCharge) +
+               ", seasonalDailyCharge=" + seasonalDailyCharge +
                ", notes='" + notes + '\'' +
                ", imageURL='" + imageURL + '\'' +
                ", servicesAvailable=" + servicesAvailable +

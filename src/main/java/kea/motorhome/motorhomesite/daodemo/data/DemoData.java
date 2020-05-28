@@ -108,25 +108,25 @@ public class DemoData
         List<Service> servicesAvailable = dao.serviceDAO().readall();
 
         dao.motorhomeDAO().readall().add(new Motorhome(1, carModel1, "15-14-AH4",
-                new float[]{230, 270, 380}, "This wonderful vehicle can take you anywhere as long as it is not uphill" +
+                230, "This wonderful vehicle can take you anywhere as long as it is not uphill" +
                 ".", "/img/MH1.jpg", servicesAvailable,
                 2008, "One of the few seven wheeled vehicles that make the cut.",
                 5, "R3COH"));
         dao.motorhomeDAO().readall().add(new Motorhome(2, carModel2, "15-14-AH4",
-                new float[]{260, 300, 460}, "This wonderful vehicle can take you " +
+                260, "This wonderful vehicle can take you " +
                 "anywhere as long as it is not downhill" +
                 ".", "/img/MH2.jpg", servicesAvailable,
                 2008, "Unlimited that make the cut.",
                 5, "H2O"));
         dao.motorhomeDAO().readall().add(new Motorhome(3, carModel3, "15-14-AH4",
-                new float[]{260, 300, 460}, "This vehicle is hilarious" +
+                260, "This vehicle is hilarious" +
                 " but only on flat terrain." +
                 ".", "/img/MH3.jpg", servicesAvailable,
                 2008, "Unlimited that make the cut.",
                 5, "Joy"));
         dao.motorhomeDAO().readall().add(new Motorhome(4, carModel4, "15-14" +
                 "-AH4",
-                new float[]{1320, 1660, 2560}, "This vehicle is hilarious" +
+                1320, "This vehicle is hilarious" +
                 " but only on flat terrain." +
                 ".", "/img/MH3.jpg", servicesAvailable,
                 2008, "Unlimited that make the cut.",
