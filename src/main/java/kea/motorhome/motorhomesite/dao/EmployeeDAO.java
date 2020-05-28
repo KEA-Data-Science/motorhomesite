@@ -1,6 +1,8 @@
 package kea.motorhome.motorhomesite.dao;
 
 import kea.motorhome.motorhomesite.models.Employee;
+import kea.motorhome.motorhomesite.util.DBConnectionManager;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,11 @@ public class EmployeeDAO implements IDAO<Employee,Integer> {
 	/* access to all dao*/
 	private SiteDAOCollection dao;
 
+	public EmployeeDAO()
+	{
+		connection = DBConnectionManager.getConnection(); // singlton instance
+		dao = SiteDAOCollection.getInstance(); // singleton ditto
+	}
 	/**
 	 * @param thing
 	 */
