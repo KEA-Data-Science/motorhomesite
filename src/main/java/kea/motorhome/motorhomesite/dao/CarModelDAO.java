@@ -27,22 +27,23 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO motorhome.carModel (modelName, horsePower, beds, engineCapacity, length, height, width, weight, hotWaterCapacity, coldWaterCapacity, numberOfSeats, oven, cruiseControl, shower) " +
-                            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    "INSERT INTO motorhome.carModel (modelName, modelNumber, horsePower, beds, engineCapacity, length, height, width, weight, hotWaterCapacity, coldWaterCapacity, numberOfSeats, oven, cruiseControl, shower) " +
+                            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             preparedStatement.setString(1, thing.getModelName());
             preparedStatement.setInt(2, thing.getHorsePower());
-            preparedStatement.setInt(3, thing.getBeds());
-            preparedStatement.setFloat(4, thing.getEngineCapacity());
-            preparedStatement.setFloat(5, thing.getLength());
-            preparedStatement.setFloat(6, thing.getHeight());
-            preparedStatement.setFloat(7, thing.getWidth());
-            preparedStatement.setFloat(8, thing.getWeight());
-            preparedStatement.setFloat(9, thing.getHotWaterCapacity());
-            preparedStatement.setFloat(10, thing.getColdWaterCapacity());
-            preparedStatement.setInt(11, thing.getNumberOfSeats());
-            preparedStatement.setBoolean(12, thing.isOven());
-            preparedStatement.setBoolean(13, thing.isCruiseControl());
-            preparedStatement.setBoolean(14, thing.isShower());
+            preparedStatement.setString(3, thing.getModelnumber());
+            preparedStatement.setInt(4, thing.getBeds());
+            preparedStatement.setFloat(5, thing.getEngineCapacity());
+            preparedStatement.setFloat(6, thing.getLength());
+            preparedStatement.setFloat(7, thing.getHeight());
+            preparedStatement.setFloat(8, thing.getWidth());
+            preparedStatement.setFloat(9, thing.getWeight());
+            preparedStatement.setFloat(10, thing.getHotWaterCapacity());
+            preparedStatement.setFloat(11, thing.getColdWaterCapacity());
+            preparedStatement.setInt(12, thing.getNumberOfSeats());
+            preparedStatement.setBoolean(13, thing.isOven());
+            preparedStatement.setBoolean(14, thing.isCruiseControl());
+            preparedStatement.setBoolean(15, thing.isShower());
 
             return preparedStatement.executeUpdate() > 0;
 
@@ -55,19 +56,20 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
     {
         carModel.setCarModelID(resultSet.getInt(1));
         carModel.setModelName(resultSet.getString(2));
-        carModel.setHorsePower(resultSet.getInt(3));
-        carModel.setBeds(resultSet.getInt(4));
-        carModel.setEngineCapacity(resultSet.getFloat(5));
-        carModel.setLength(resultSet.getFloat(6));
-        carModel.setHeight(resultSet.getFloat(7));
-        carModel.setWidth(resultSet.getFloat(8));
-        carModel.setWeight(resultSet.getFloat(9));
-        carModel.setHotWaterCapacity(resultSet.getFloat(10));
-        carModel.setColdWaterCapacity(resultSet.getFloat(11));
-        carModel.setNumberOfSeats(resultSet.getInt(12));
-        carModel.setOven(resultSet.getBoolean(13));
-        carModel.setCruiseControl(resultSet.getBoolean(14));
-        carModel.setShower(resultSet.getBoolean(15));
+        carModel.setModelnumber(resultSet.getString(3));
+        carModel.setHorsePower(resultSet.getInt(4));
+        carModel.setBeds(resultSet.getInt(5));
+        carModel.setEngineCapacity(resultSet.getFloat(6));
+        carModel.setLength(resultSet.getFloat(7));
+        carModel.setHeight(resultSet.getFloat(8));
+        carModel.setWidth(resultSet.getFloat(9));
+        carModel.setWeight(resultSet.getFloat(10));
+        carModel.setHotWaterCapacity(resultSet.getFloat(11));
+        carModel.setColdWaterCapacity(resultSet.getFloat(12));
+        carModel.setNumberOfSeats(resultSet.getInt(13));
+        carModel.setOven(resultSet.getBoolean(14));
+        carModel.setCruiseControl(resultSet.getBoolean(15));
+        carModel.setShower(resultSet.getBoolean(16));
     }
 
     @Override
@@ -120,6 +122,7 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE motorhome.carModel SET " +
                             "modelName = ?," +
+                            "modelNumber = ?," +
                             "horsePower = ?," +
                             "beds = ?," +
                             "enginecapacity = ?" +
@@ -136,19 +139,20 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
                             "WHERE idcarModel = ?");
 
             preparedStatement.setString(1, thing.getModelName());
-            preparedStatement.setInt(2, thing.getHorsePower());
-            preparedStatement.setInt(3, thing.getBeds());
-            preparedStatement.setFloat(4, thing.getEngineCapacity());
-            preparedStatement.setFloat(5, thing.getLength());
-            preparedStatement.setFloat(6, thing.getHeight());
-            preparedStatement.setFloat(7, thing.getWidth());
-            preparedStatement.setFloat(8, thing.getWeight());
-            preparedStatement.setFloat(9, thing.getHotWaterCapacity());
-            preparedStatement.setFloat(10, thing.getColdWaterCapacity());
-            preparedStatement.setInt(11, thing.getNumberOfSeats());
-            preparedStatement.setBoolean(12, thing.isOven());
-            preparedStatement.setBoolean(13, thing.isCruiseControl());
-            preparedStatement.setBoolean(14, thing.isShower());
+            preparedStatement.setString(2, thing.getModelnumber());
+            preparedStatement.setInt(3, thing.getHorsePower());
+            preparedStatement.setInt(4, thing.getBeds());
+            preparedStatement.setFloat(5, thing.getEngineCapacity());
+            preparedStatement.setFloat(6, thing.getLength());
+            preparedStatement.setFloat(7, thing.getHeight());
+            preparedStatement.setFloat(8, thing.getWidth());
+            preparedStatement.setFloat(9, thing.getWeight());
+            preparedStatement.setFloat(10, thing.getHotWaterCapacity());
+            preparedStatement.setFloat(11, thing.getColdWaterCapacity());
+            preparedStatement.setInt(12, thing.getNumberOfSeats());
+            preparedStatement.setBoolean(13, thing.isOven());
+            preparedStatement.setBoolean(14, thing.isCruiseControl());
+            preparedStatement.setBoolean(15, thing.isShower());
 
             return preparedStatement.executeUpdate() > 0;
 
