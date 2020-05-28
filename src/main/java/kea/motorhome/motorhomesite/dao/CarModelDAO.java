@@ -21,6 +21,30 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
         dao = SiteDAOCollection.getInstance();
     }
 
+    // For use in both create() and update() methods
+    private boolean setValuesInDatabase(CarModel thing, PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setString(1, thing.getModelName());
+        preparedStatement.setString(2, thing.getModelnumber());
+        preparedStatement.setInt(3, thing.getHorsePower());
+        preparedStatement.setInt(4, thing.getBeds());
+        preparedStatement.setFloat(5, thing.getEngineCapacity());
+        preparedStatement.setFloat(6, thing.getLength());
+        preparedStatement.setFloat(7, thing.getHeight());
+        preparedStatement.setFloat(8, thing.getWidth());
+        preparedStatement.setFloat(9, thing.getWeight());
+        preparedStatement.setFloat(10, thing.getHotWaterCapacity());
+        preparedStatement.setFloat(11, thing.getColdWaterCapacity());
+        preparedStatement.setInt(12, thing.getNumberOfSeats());
+        byte ovenAsByte = (byte) (thing.isOven() ? 1 : 0); // Byte to represent boolean value in database
+        preparedStatement.setByte(13, ovenAsByte);
+        byte cruiseControlAsByte = (byte) (thing.isCruiseControl() ? 1 : 0); // Byte to represent boolean value in database
+        preparedStatement.setByte(14, cruiseControlAsByte);
+        byte showerAsByte = (byte) (thing.isShower() ? 1 : 0); // Byte to represent boolean value in database
+        preparedStatement.setByte(15, showerAsByte);
+
+        return preparedStatement.executeUpdate() > 0;
+    }
+
     @Override
     public boolean create(CarModel thing)
     {
@@ -29,23 +53,7 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO motorhome.carModel (modelName, modelNumber, horsePower, beds, engineCapacity, length, height, width, weight, hotWaterCapacity, coldWaterCapacity, numberOfSeats, oven, cruiseControl, shower) " +
                             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            preparedStatement.setString(1, thing.getModelName());
-            preparedStatement.setInt(2, thing.getHorsePower());
-            preparedStatement.setString(3, thing.getModelnumber());
-            preparedStatement.setInt(4, thing.getBeds());
-            preparedStatement.setFloat(5, thing.getEngineCapacity());
-            preparedStatement.setFloat(6, thing.getLength());
-            preparedStatement.setFloat(7, thing.getHeight());
-            preparedStatement.setFloat(8, thing.getWidth());
-            preparedStatement.setFloat(9, thing.getWeight());
-            preparedStatement.setFloat(10, thing.getHotWaterCapacity());
-            preparedStatement.setFloat(11, thing.getColdWaterCapacity());
-            preparedStatement.setInt(12, thing.getNumberOfSeats());
-            preparedStatement.setBoolean(13, thing.isOven());
-            preparedStatement.setBoolean(14, thing.isCruiseControl());
-            preparedStatement.setBoolean(15, thing.isShower());
-
-            return preparedStatement.executeUpdate() > 0;
+            return setValuesInDatabase(thing, preparedStatement);
 
         } catch(SQLException e) { e.printStackTrace(); }
 
@@ -67,9 +75,9 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
         carModel.setHotWaterCapacity(resultSet.getFloat(11));
         carModel.setColdWaterCapacity(resultSet.getFloat(12));
         carModel.setNumberOfSeats(resultSet.getInt(13));
-        carModel.setOven(resultSet.getBoolean(14));
-        carModel.setCruiseControl(resultSet.getBoolean(15));
-        carModel.setShower(resultSet.getBoolean(16));
+        carModel.setOven(resultSet.getBoolean(14)); // TINYINT(1) in database hopefully interpreted as boolean
+        carModel.setCruiseControl(resultSet.getBoolean(15)); // TINYINT(1) in database hopefully interpreted as boolean
+        carModel.setShower(resultSet.getBoolean(16)); // TINYINT(1) in database hopefully interpreted as boolean
     }
 
     @Override
@@ -138,23 +146,7 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
                             "shower = ?" +
                             "WHERE idcarModel = ?");
 
-            preparedStatement.setString(1, thing.getModelName());
-            preparedStatement.setString(2, thing.getModelnumber());
-            preparedStatement.setInt(3, thing.getHorsePower());
-            preparedStatement.setInt(4, thing.getBeds());
-            preparedStatement.setFloat(5, thing.getEngineCapacity());
-            preparedStatement.setFloat(6, thing.getLength());
-            preparedStatement.setFloat(7, thing.getHeight());
-            preparedStatement.setFloat(8, thing.getWidth());
-            preparedStatement.setFloat(9, thing.getWeight());
-            preparedStatement.setFloat(10, thing.getHotWaterCapacity());
-            preparedStatement.setFloat(11, thing.getColdWaterCapacity());
-            preparedStatement.setInt(12, thing.getNumberOfSeats());
-            preparedStatement.setBoolean(13, thing.isOven());
-            preparedStatement.setBoolean(14, thing.isCruiseControl());
-            preparedStatement.setBoolean(15, thing.isShower());
-
-            return preparedStatement.executeUpdate() > 0;
+            return setValuesInDatabase(thing, preparedStatement);
 
         } catch(SQLException e) { e.printStackTrace(); }
 
