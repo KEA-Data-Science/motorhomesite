@@ -30,8 +30,8 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
                     "INSERT INTO motorhome.carModel (modelName, modelNumber, horsePower, beds, engineCapacity, length, height, width, weight, hotWaterCapacity, coldWaterCapacity, numberOfSeats, oven, cruiseControl, shower) " +
                             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             preparedStatement.setString(1, thing.getModelName());
-            preparedStatement.setInt(2, thing.getHorsePower());
-            preparedStatement.setString(3, thing.getModelnumber());
+            preparedStatement.setString(2, thing.getModelnumber());
+            preparedStatement.setInt(3, thing.getHorsePower());
             preparedStatement.setInt(4, thing.getBeds());
             preparedStatement.setFloat(5, thing.getEngineCapacity());
             preparedStatement.setFloat(6, thing.getLength());
