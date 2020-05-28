@@ -16,7 +16,7 @@ public class CarModelController {
     }
 
     @GetMapping("/carmodels/carmodels")
-    public String carmodelsPage(Model model) {
+    public String carModelsPage(Model model) {
         model.addAttribute("carModels", dao.carModelDAO().readall());
         return "carmodels/carmodels";
     }
