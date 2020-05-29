@@ -11,15 +11,13 @@
     <!--    Navbar -->
     <div th:replace="fragments/navbar.html :: navigation"></div>
 
-    <h1 class="hl">Invoices :: Update Invoice</h1>
+    <h1 id="headline">Invoices :: Update Invoice</h1>
 
-    <div class="container content-auto-margins">
-
-        <br /> <br /> <br /> <br /> <br /> <br /> <br />
-
-
+    <div class="container">
+        <h3 class="hl">Invoice Information</h3>
+        <div class="padded-blue-area">
         <form id="mainForm" th:action="@{/invoices/perfomupdate}" method="post">
-            <table>
+            <table class="createTables">
                 <tr>
                     <td>Id</td>
                     <td><input id="invoiceID" name="invoiceID" type="number" th:value="${invoice.getInvoiceID()}" readonly></td>
@@ -57,13 +55,12 @@
                 </tr>
             </table>
         </form>
-        <div class="hl">Availible Services</div>
-
+    </div>
+        <h3 class="hl">Available Services</h3>
+        <div class="padded-blue-area">
         <div class="wrapper" id="servicesavailable">
             <div th:each="service:${services}">
-
-                <div class="box">
-                    <table>
+                    <table class="tableBoxes">
                         <tr>
                             <td class="item-description">
                                 <div th:text="${'Service ID: '+service.getServiceID()}"></div>
@@ -84,7 +81,7 @@
                                     <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
                                     <input type="hidden" name="invoiceID" th:value="${invoice.getInvoiceID()}">
                                     <div>
-                                        <button class="animate border-8px" type="submit" onclick="setServiceParameters()" th:form="${'availableS'+service.getServiceID()}">Add Service</button>
+                                        <button class="button animate border-8px" type="submit" onclick="setServiceParameters()" th:form="${'availableS'+service.getServiceID()}"><span>Add Service</span></button>
                                     </div>
                                 </form>
                             </td>
@@ -94,15 +91,12 @@
             </div>
         </div>
 
-
         <!--                Services offered for vehicle -->
-        <div class="hl" id="serviceschosen">Services Chosen</div>
+        <h3 class="hl" id="serviceschosen">Services Chosen</h3>
+        <div class="padded-blue-area">
         <div class="wrapper">
-
             <div th:each="service:${invoice.getServices()}">
-
-                <div class="box">
-                    <table>
+                    <table class="tableBoxes">
                         <tr>
                             <td class="item-description">
                                 <div th:text="${'Service ID: '+service.getServiceID()}"></div>
@@ -122,25 +116,21 @@
                                     <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
                                     <input type="hidden" name="invoiceID" th:value="${invoice.getInvoiceID()}">
                                     <div>
-                                        <button class="animate border-8px" onclick="setServiceParameters()" th:form="${'chosenS'+service.getServiceID()}">Remove Service</button>
+                                        <button class="button animate border-8px" onclick="setServiceParameters()" th:form="${'chosenS'+service.getServiceID()}"><span>Remove Service</span></button>
                                     </div>
                                 </form>
                             </td>
                         </tr>
                     </table>
                 </div>
-
             </div>
-
+            <button class="button animate border-8px" form="mainForm" type="submit"><span>Submit</span></button>
+            <form id="emailInvoiceToCustomer" th:action="@{/invoices/sendinvoice}" method="post">
+                <input type="hidden" th:name="invoiceID" th:value="${invoice.getInvoiceID()}">
+                <button class="button animate border-8px" form="emailInvoiceToCustomer" type="submit"><span>Email Invoice To Customer</span></button>
+            </form>
         </div>
-
-            <input form="mainForm" type="submit">
-
-        <form id="emailInvoiceToCustomer" th:action="@{/invoices/sendinvoice}" method="post">
-            <input type="hidden" th:name="invoiceID" th:value="${invoice.getInvoiceID()}">
-            <input form="emailInvoiceToCustomer" type="submit" value="Email Invoice To Customer">
-        </form>
-
+        <div class="backLine"><a href="javascript:history.back()"><button class="back button animate border-8px"><span>Back</span></button></a></div>
     </div>
 
     <!-- footer-->

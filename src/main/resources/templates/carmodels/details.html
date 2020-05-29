@@ -13,9 +13,11 @@
 <!-- Navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
-<h1 class="hl">Car Model Details</h1>
-
-<table>
+<h1 id="headline">Car Model :: Details</h1>
+<div class="container">
+<h3 class="hl" th:text="${carModel.getModelName()} + ' Details'"></h3>
+    <div class="padded-blue-area">
+    <table class="createTables">
     <tr>
         <td>Car Model ID</td>
         <td th:text="${carModel.getCarModelID()}"></td>
@@ -88,9 +90,10 @@
         <button class="button animate border-8px"><span>Update</span></button>
     </a>
 </div>
-<div>
-    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
+    </div>
+    <div class="backLine"><a href="javascript:history.back()"><button class="back button animate border-8px"><span>Back</span></button></a></div>
 </div>
+
 <div th:replace="fragments/footer.html :: footer"></div>
 </body>
 </html>

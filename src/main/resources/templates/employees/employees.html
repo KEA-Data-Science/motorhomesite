@@ -15,13 +15,12 @@
 
 <h1 class="hl">Employees</h1>
 <!-- Main area of page -->
-<div class="body container">
-    <!--   Car Fleet grid layout -->
-    <div><a href="/employees/new"><button id="create">Create New Employee</button></a> </div>
+<div class="container">
+    <div class="padded-blue-area">
     <div class="wrapper">
+        <a href="/employees/new"><button class="createbt button animate border-8px" id="create"><span>Create New Employee</span></button></a>
         <div th:each="employee:${employees}">
-            <div class="box">
-                <table>
+                <table class="tableBoxes">
                     <tr>
                         <td class="item-description">
                             <div th:text="${'First Name: ' + employee.getPerson().getFirstName()}"></div>
@@ -44,7 +43,9 @@
             </div>
         </div>
     </div>
+    <div class="backLine"><a href="/tasks"><button class="back button animate border-8px"><span>Back</span></button></a></div>
 </div>
+
 <div th:replace="fragments/footer.html :: footer"></div>
 </body>
 </html>

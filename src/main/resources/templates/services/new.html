@@ -12,17 +12,12 @@
 
 <!--    Navbar -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
-<h1 class="hl">Services :: Create New Service</h1>
-<div id="form">
-<br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
+<h1 id="headline">Services :: Create New Service</h1>
+<div class="container">
+    <h3 class="hl">Create New Service</h3>
+    <div class="padded-blue-area">
     <form th:action="@{/services/getdata}" method="post">
-        <table>
+        <table class="createTables">
             <tr>
                 <td>Name</td>
                 <td><input id="name" name="name" type="text"></td>
@@ -36,10 +31,16 @@
                 <td><input id="unitPrice" name="unitPrice" type="number"></td>
             </tr>
             <tr>
-                <td><input type="submit"></td>
+                <td><input class="button animate border-8px" type="submit"></td>
             </tr>
         </table>
     </form>
+    </div>
+    <div class="backLine">
+        <a href="javascript:history.back()"><button class="back button animate border-8px"><span>Back</span></button></a>
+    </div>
 </div>
+</div>
+<div th:replace="fragments/footer.html :: footer"></div>
 </body>
 </html>

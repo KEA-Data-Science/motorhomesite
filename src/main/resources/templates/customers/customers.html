@@ -17,11 +17,11 @@
 <!-- Main area of page -->
 <div class="container">
     <!--   Car Fleet grid layout -->
-    <div><a href="/customers/new"><button id="create">Create New Customer</button></a> </div>
+    <div class="padded-blue-area">
     <div class="wrapper">
+        <a href="/customers/new"><button class="createbt button animate border-8px" id="create"><span>Create New Customer</span></button></a>
         <div th:each="customer:${customers}">
-            <div class="box">
-                <table>
+                <table class="tableBoxes">
                     <tr>
                         <td class="item-description">
                             <div th:text="${'First Name: ' + customer.getPerson().getFirstName()}"></div>
@@ -48,6 +48,7 @@
             </div>
         </div>
     </div>
+    <div class="backLine"><a href="/tasks"><button class="back button animate border-8px"><span>Back</span></button></a></div>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
 </body>

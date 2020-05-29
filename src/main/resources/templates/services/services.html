@@ -17,14 +17,14 @@
 <h1 class="hl">Available Services</h1>
 <div class="container">
     <!--   Car Fleet grid layout -->
-    <div><a href="/createservice"><button id="create"> Create</button></a> </div>
+    <div class="padded-blue-area">
     <div class="wrapper">
+        <a href="/createservice"><button class="createbt button animate border-8px" id="create"><span>Create New Service</span></button></a>
         <div th:each="service:${services}">
-            <div class="box">
                 <!-- <div class="fuel-type" th:text="${mobileHome.getFuelType()}"></div>
                 <img class="thumbnail" th:src="@{${mobileHome.imageURL}}" alt="Image Coming Up!"/> -->
                 <table>
-                    <tr>
+                    <tr class="tableBoxes">
                         <td class="item-description">
                             <div th:text="${'Service ID: '+service.getServiceID()}"></div>
                             <div th:text="${'Name: '+service.getName()}"></div>
@@ -46,6 +46,7 @@
             </div>
         </div>
     </div>
+    <div class="backLine"><a href="/tasks"><button class="back button animate border-8px"><span>Back</span></button></a></div>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
 <!-- javascript -->

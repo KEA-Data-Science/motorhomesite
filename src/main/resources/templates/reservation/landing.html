@@ -16,7 +16,6 @@
 
 <!-- Main container-->
 <h1 class="hl"> Reservation :: Create or Find</h1>
-<div class="body container95">
     <div class="container">
         <h3 class="hl">Customer ID and Vehicle ID</h3>
         <div class="container95 content-auto-margins">
@@ -29,15 +28,14 @@
                     </tr>
                     <tr>
                         <td>
-                            <img src="/img/man-the-product-white-200x220.png"
-                                 height="50"/><span>Customer ID:</span>
+                            <span>Customer ID:</span>
                         </td>
                         <td>
                             <input type="text" name="customerID" value="Drivers Licence">
                         </td>
                     <tr>
                         <td>
-                            <img src="/img/mobilehome_transparent_icon.png" height="50"/><span>Motorhome ID:</span>
+                            <span>Motorhome ID:</span>
                         </td>
                         <td>
                             <input type="number" name="motorhomeID" value="0">
@@ -56,13 +54,12 @@
                         <td align="center">
                             <input type="date" name="dateB" th:value="${dateUtil.getToday().plusWeeks(2)}">
                         </td>
+                        <td>
+                                <button class="button animate border-8px" type="submit" name="newReservation"><span>Check availability!</span></button>
+                        </td>
                     </tr>
                 </table>
                 <p></p>
-                <span>
-                    <img src="../img/transparent-200-10.png"/>
-                    <input class="button" type="submit" value="Check availability!" name="newReservation">
-                </span>
             </form>
             <p></p>
         </div>
@@ -73,28 +70,20 @@
             <form class="padded-blue-area" action="/reservation/details" method="post">
                 <table>
                     <tr>
-                        <td><p><img src="/img/transparent-200-10.png"/><img src="/img/transparent-200-10.png"/></p></td>
-                    </tr>
-                    <tr>
                         <td>
-                            <img src="/img/man-the-product-white-200x220.png" height="50"/>
-                            <img src="/img/mobilehome_transparent_icon.png" height="50"/>
                             <span>Reservation ID:</span>
                         </td>
                         <td>
                             <input type="number" name="reservationID" value="0">
                         </td>
+                        <td>
+                                <button class="button animate border-8px" type="submit" name="reservationID"><span>Look it up!</span></button>
+                        </td>
                     </tr>
                 </table>
-                <p></p>
-                <span>
-                    <img src="../img/transparent-200-10.png"/>
-                    <input class="button" type="submit" value="Look it up!" name="reservationID">
-                </span>
             </form>
         </div>
     </div>
-</div>
 
 <!-- footer-->
 <div th:replace="fragments/footer.html :: footer"></div>

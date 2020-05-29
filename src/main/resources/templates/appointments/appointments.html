@@ -13,14 +13,15 @@
 <!-- Navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
-<h1 class="hl">Appointments</h1>
+<h1 class="hl">Appointments :: new Appointment</h1>
 <!-- Main area of page -->
-<div class="body container">
+<div class="container">
+    <div class="padded-blue-area">
     <!--   Car Fleet grid layout -->
-    <div><a href="/appointments/new"><button id="create">Create New Appointment</button></a> </div>
     <div class="wrapper">
+        <a href="/appointments/new"><button class="createbt button animate border-8px" id="create"><span>Create New Appointment</span></button></a>
         <div th:each="appointment:${appointments}">
-            <div class="box">
+            <div class="tableBoxes">
                 <table>
                     <tr>
                         <td class="item-description">
@@ -44,6 +45,8 @@
             </div>
         </div>
     </div>
+    </div>
+    <div class="backLine"><a href="/tasks"><button class="back button animate border-8px"><span>Back</span></button></a></div>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
 <!-- javascript -->

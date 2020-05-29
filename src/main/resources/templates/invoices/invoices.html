@@ -14,15 +14,13 @@
         <!--    Navbar -->
         <div th:replace="fragments/navbar.html :: navigation"></div>
 
-
+    <h1 class="hl">Available invoices</h1>
         <!-- Main area of page -->
-        <div class="body container">
+        <div class="container">
             <!--   Car Fleet grid layout -->
-            <h1 id="headline">Availible invoices</h1>
-            <div><a href="/invoices/create"><button id="create"> Create</button></a> </div>
-            <div class="wrapper">
+            <div class="wrapper padded-blue-area">
+                <a href="/invoices/create"><button class="createInvoicesButton animate border-8px" id="create"><span>Create New Invoice</span></button></a>
                 <div th:each="invoice:${invoices}">
-                    <div class="box">
 
                         <button class="collapsible">
                             <span th:text="${'Invoice ID: '+invoice.getInvoiceID() + ' - Customer ID: '+invoice.getCustomerID() + ' - Total price: '+calculator.calculateTotalPriceOfInvoice(invoice)}"></span>
@@ -72,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            <div class="backLine"><a href="/tasks"><button class="back button animate border-8px"><span>Back</span></button></a></div>
         </div>
 
         <!-- footer-->

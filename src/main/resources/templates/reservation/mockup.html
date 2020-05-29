@@ -17,22 +17,20 @@
 <h1 class="hl">Customer and Mobilehome</h1>
 <div class="container">
 
-    <div class="container">
+
 
 
         <!-- Customer info segment -->
-        <h3 class="hl">Customer: </h3>
-        <table>
-            <tr>
-                <td>
-                    <div class="fuel-type"
-                         th:text="${customer.getPerson().getFirstName() + ' '} + ${customer.getPerson().getLastName() ?: 'UNKNOWN'}"></div>
-                </td>
-            </tr>
-            <tr>
+        <h3 class="hl" th:text="'Customer: ' + ${customer.getPerson().getFirstName() + ' '} + ${customer.getPerson().getLastName() ?: 'UNKNOWN'}"></h3>
+        <div class="padded-blue-area">
+            <div class="wrapper">
+
+
 
                 <!--                    Setting customer image depending on customer approval status -->
-                <td class="center">
+                    <table>
+                        <tr>
+                            <td>
                     <div th:switch="${customer.isApproved()}">
                         <img th:case="true" class="customer-approval-img" src="/img/man-the-product-black-200x220.png"
                              alt="Customer Approved"/>
@@ -40,85 +38,58 @@
                              alt="Customer Not Approved"/>
                     </div>
                     <div class="center" th:text="${customer.isApproved()? 'Approved': 'Not Approved' }"></div>
-                </td>
+                            </td>
+                    </tr>
+                    </table>
+               <table>
+                   <tr>
                 <td>
-                    <span class="model-name">Address </span><img src="/img/transparent-100-10.png"/>
-                    <div th:text="${'Road: '}"></div>
-                    <div th:text="${'Area-code: '}" }></div>
-                    <div th:text="${'Country: '}"></div>
+                    <span class="model-name">Address </span>
+                    <div th:text="${'Road: '} + ${customer.getPerson().getAddress().getRoadName() + ' ' +customer.getPerson().getAddress().getHouseNumber() }"></div>
+                    <div th:text="${'Area-code: '} + ${customer.getPerson().getAddress().getPostCode() }" }></div>
+                    <div th:text="${'Country: '} + ${customer.getPerson().getAddress().getCountry() }"></div>
                 </td>
-                <td>
-                    <div class="model-name" th:text="${''}" th:alt="${'Information about the poor bloke.'}"></div>
-                    <div th:text="${customer.getPerson().getAddress().getRoadName() + ' ' +customer.getPerson().getAddress().getHouseNumber() }"></div>
-                    <div th:text="${customer.getPerson().getAddress().getPostCode() }"></div>
-                    <div th:text="${customer.getPerson().getAddress().getCountry() }"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span class="model-name"> Driver's Licence Number: </span>
-                </td>
-                <td></td>
-                <td>
-                    <span class="padded-blue-area" th:text="${'[ '+customer.getDriversLicence() +' ]'}"></span>
-                </td>
-            </tr>
-        </table>
-
+                   </tr>
+               </table>
+                    <div> <span class="model-name">Driver's Licence Number: </span><span th:text="${'[ '+customer.getDriversLicence() +' ]'}"></span></div>
+            </div>
+        </div>
         <!--    Motorhome info segment -->
-        <h3 id="headline">Motorhome: </h3>
-
-        <div class="fuel-type" th:text="${motorhome.getLicensePlate()}"></div>
+        <h3 class="hl">Motorhome: </h3>
+        <div class="padded-blue-area">
         <div class="wrapper350">
             <div class="box350">
+                <div class="fuel-type" th:text="${motorhome.getLicensePlate()}"></div>
                 <img class="thumbnail" th:src="@{${motorhome.imageURL}}" alt="Image Coming Up!"/>
+
             </div>
 
             <!-- Reservation Period Segment-->
             <div class="box350">
 
-                <div class="padded-blue-area">
-                    <table>
+                <div class="tableBoxes">
+                    <table class="centerText">
                         <tr>
                             <td>Price of period:</td>
                             <td th:text="${priceCalculator.calculatePriceOfPeriod(motorhome, periodAB) + ' kr.'}"></td>
                         </tr>
                         <tr>
                             <td>
-                                <!--                             bad styling hack, in case of confustion   -->
-                                <img src="/img/transparent-200-10.png"/>
+                                <div th:text="'Start: ' + ${dateA}"></div>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                Start:
-                            </td>
-                            <td>
-                                <div class="" th:text="${dateA}"></div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                End:
-                            </td>
-                            <td>
-                                <div class="" th:text="${dateB}"></div>
+                                <div th:text="'End: ' + ${dateB}"></div>
                             </td>
                         </tr>
                     </table>
-                </div>
 
                 <!--                        update period searched -->
                 <div class="collapsible">Adjust period</div>
                 <div class="collapsible-content content-auto-margins">
                     <form id="updatePeriod" action="/reservation/mockup" method="post">
                         <table>
-                            <!--                            <tr>-->
-                            <!--                                <td>-->
-                            <!--                                    Update Period-->
-                            <!--                                </td>-->
-                            <!--                            </tr>-->
                             <tr>
                                 <td>
                                     Start:
@@ -139,21 +110,33 @@
                             <tr>
                                 <td><input type="hidden" th:name="customerID" th:value="${customer.getDriversLicence()}"></td>
                                 <td><input type="hidden" th:name="motorhomeID" th:value="${motorhome.getMotorhomeID()}">
-                                    <input class="button" type="submit" value="Update Period"></td>
+                                    <button class="button animate border-8px" type="submit"><span>Update Period</span></button></td>
                             </tr>
                         </table>
                     </form>
                 </div>
+                </div>
+            </div>
+                <table>
+                    <tr>
+                        <td>
+                <div th:text="${'Model name: ' + motorhome.getModel().getModelName()}"></div>
+                <div th:text="${'Licence Plate: ' + motorhome.getModel().getModelName()}"></div>
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <div class="" th:text="'Winter daily charge:'+${motorhome.getSeasonalDailyCharge()[0]}"></div>
+                            <div class="" th:text="'Spring daily charge: '+${motorhome.getSeasonalDailyCharge()[1]}"></div>
+                            <div class="" th:text="'Summer daily charge: '+${motorhome.getSeasonalDailyCharge()[2]}"></div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
-
         <!--        Vehicle description-->
-        <div class="model-name" th:text="${'Model name: ' + motorhome.getModel().getModelName()}"></div>
-        <div th:text="${'Licence Plate: ' + motorhome.getModel().getModelName()}"></div>
-        <div class="" th:text="'Winter daily charge:'+${motorhome.getSeasonalDailyCharge()[0]}"></div>
-        <div class="" th:text="'Spring daily charge: '+${motorhome.getSeasonalDailyCharge()[1]}"></div>
-        <div class="" th:text="'Summer daily charge: '+${motorhome.getSeasonalDailyCharge()[2]}"></div>
-
 
         <!--                Collapsible Model details-->
         <button class="collapsible"><span th:text="${'Details of ' + motorhome.getModel().getModelName()}"></span></button>
@@ -297,7 +280,7 @@
                 </tr>
             </table>
         </div>
-        <p></p>
+
         <div class="wrapper350">
             <!--        Buttons relative to whether user is approved -->
             <div th:switch="${customer.isApproved()}">

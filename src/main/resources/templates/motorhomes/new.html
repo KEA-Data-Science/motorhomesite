@@ -12,13 +12,11 @@
 <!-- Navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
-<br/><br/><br/><br/>
-
-<h1 id="headline">New Motorhome</h1>
-
-<div class="box">
-    <form action="#" th:action="@{/savemotorhome}" th:object="${motorhome}" method="post">
-        <table>
+<h1 id="headline">Motorhomes :: New Motorhome</h1>
+<div class="container">
+    <h3 class="hl">Create New Motorhome</h3>
+    <form class="padded-blue-area" action="#" th:action="@{/savemotorhome}" th:object="${motorhome}" method="post">
+        <table class="createTables">
             <tr>
                 <td>License Plate</td>
                 <td><input type="text" th:field="*{licensePlate}"/></td>
@@ -82,8 +80,8 @@
             <td><button class="button animate border-8px" type="submit"><span>Save</span></button></td>
         </tr>
     </form>
+    <div class="backLine"><a href="javascript:history.back()"><button class="back button animate border-8px"><span>Back</span></button></a></div>
 </div>
-<div><a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a></div>
 <!-- Footer fragment -->
 <div th:replace="fragments/footer.html :: footer"></div>
 <!-- javascript -->

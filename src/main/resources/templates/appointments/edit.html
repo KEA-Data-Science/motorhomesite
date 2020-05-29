@@ -13,8 +13,10 @@
 <!-- Navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
-<h1 class="hl">Edit Appointment</h1>
-
+<h1 id="headline">Appointments :: Edit Appointment</h1>
+<div class="container">
+    <h3 class="hl">Edit Appointment</h3>
+    <div class="padded-blue-area">
 <form action="#" th:action="@{/updateappointment}" th:object="${appointment}" method="post">
     <table>
         <tr>
@@ -71,12 +73,14 @@
             <td><input type="number" th:field="*{distance}" name="distance"/></td>
         </tr>
         <tr>
-            <td><button class="button animate border-8px" type="submit">Save</button></td>
+            <td><button class="button animate border-8px" type="submit"><span>Save</span></button></td>
         </tr>
     </table>
 </form>
-<div>
-    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
+</div>
+<div class="backLine">
+    <a href="javascript:history.back()"><button class="back button animate border-8px"><span>Back</span></button></a>
+</div>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
 </body>

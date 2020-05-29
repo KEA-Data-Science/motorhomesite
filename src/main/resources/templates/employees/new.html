@@ -15,6 +15,9 @@
 
 <h1 class="hl">Employees :: New Employee</h1>
 
+<div class="container">
+    <h3 class="hl">Hire New Employee</h3>
+    <div class="padded-blue-area">
 <form action="#" th:action="@{/saveemployee}" th:object="${employee}" method="post">
     <table>
         <tr>
@@ -87,8 +90,8 @@
         </tr>
     </table>
 </form>
-<div>
-    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
+    </div>
+    <div class="backLine"><a href="javascript:history.back()"><button class="back button animate border-8px"><span>Back</span></button></a></div>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
 </body>

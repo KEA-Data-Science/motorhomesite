@@ -13,10 +13,14 @@
 <!-- Navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
-<h1 class="hl">Edit Employee</h1>
+<h1 id="headline">Employee :: Edit Employee Details</h1>
+
+<div class=container>
+    <h3 class="hl" th:text="'Edit Employee ' + ${employee.getPerson().getFirstName()} + ' ' + ${employee.getPerson().getLastName()} + 's Details'"></h3>
+    <div class="padded-blue-area">
 
 <form action="#" th:action="@{/updateemployee}" th:object="${employee}" method="post">
-    <table>
+    <table class="createTables">
         <tr>
             <td>Person ID</td>
             <td><input type="text" th:field="*{person.personID}" name="person.personID" readonly="readonly"/></td>
@@ -87,9 +91,10 @@
         </tr>
     </table>
 </form>
-<div>
-    <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>
+    </div>
+    <div class="backLine"><a href="javascript:history.back()"><button class="back button animate border-8px"><span>Back</span></button></a></div>
 </div>
+
 <div th:replace="fragments/footer.html :: footer"></div>
 </body>
 </html>
