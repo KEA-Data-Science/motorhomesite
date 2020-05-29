@@ -11,22 +11,23 @@ import java.util.List;
 public class MotorhomeDAO implements IDAO<Motorhome, Integer>
 {
 	private Connection connection;
-	private SiteDAOCollection dao;
+
 
 	public MotorhomeDAO()
 	{
 		connection = DBConnectionManager.getConnection();
-		dao = SiteDAOCollection.getInstance();
+
 	}
 
-	// TODO: Tabellen mangler servicesAvailable VARCHAR(200), og seasonalDailyCharge skal ændres til VARCHAR(200)
+	// TODO: Tabellen mangler servicesAvailable VARCHAR(200)
 	// TODO: Efter servicesAvailable er tiføjet til tabellen: Check om indekserne stadig passer
 	@Override
 	public boolean create(Motorhome thing) {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
-					"INSERT INTO motorhome.motorhome (licensePlate, notes, imageURL, /* not in table */ servicesAvailable /* not in table */, productionYear, description, minimumDaysOfRental, fuelType, SeasonalDailyCharge, carModel_idcarModel) " +
-							"VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+					"INSERT INTO motorhome.motorhome (licensePlate, notes, imageURL, productionYear, " +
+					"description, minimumDaysOfRental, fuelType, seasonalDailyCharges, carModel_idcarModel) " +
+							"VALUES (?,?,?,?,?,?,?,?,?)");
 
 			// CSV String to hold serviceIDs
 			String servicesAvailableAsCSVString = "";
@@ -35,23 +36,20 @@ public class MotorhomeDAO implements IDAO<Motorhome, Integer>
 				servicesAvailableAsCSVString.concat(thing.getServicesAvailable().get(i).getServiceID() + ",");
 			}
 
-			// CSV String to hold 3 element float[]
-			String seasonalDailyChargeAsCSVString = thing.getSeasonalDailyCharge()[0] + "," +
-					thing.getSeasonalDailyCharge()[1] + "," +
-					thing.getSeasonalDailyCharge()[2] + ",";
-
 			preparedStatement.setString(1, thing.getLicensePlate());
 			preparedStatement.setString(2, thing.getNotes());
 			preparedStatement.setString(3, thing.getImageURL());
-			// servicesAvailableAsCSVString represents a List<Service>
-			preparedStatement.setString(4, servicesAvailableAsCSVString);
-			preparedStatement.setInt(5, thing.getProductionYear());
-			preparedStatement.setString(6, thing.getDescription());
-			preparedStatement.setInt(7, thing.getMinimumDaysOfRental());
-			preparedStatement.setString(8, thing.getFuelType());
-			// seasonalDailyChargesAsCSVString represents a float array
-			preparedStatement.setString(9, seasonalDailyChargeAsCSVString);
-			preparedStatement.setInt(10, thing.getModel().getCarModelID());
+			preparedStatement.setInt(4, thing.getProductionYear());
+			preparedStatement.setString(5, thing.getDescription());
+			preparedStatement.setInt(6, thing.getMinimumDaysOfRental());
+			preparedStatement.setString(7, thing.getFuelType());
+			preparedStatement.setFloat(8, thing.getSeasonDailyChargeLowSeason());
+			preparedStatement.setInt(9, thing.getModel().getCarModelID());
+
+			// todo: segment taking care of services list	query junction table to write a row with
+			//  res-id and service-id
+			// Hej Laurits, i den her metode er ændret en del, jeg er sikker på det er ok
+			// ændringer.
 
 			return preparedStatement.executeUpdate() > 0;
 		} catch(SQLException e) { e.printStackTrace(); }
@@ -65,12 +63,15 @@ public class MotorhomeDAO implements IDAO<Motorhome, Integer>
 		motorhome.setNotes(resultSet.getString(3));
 		motorhome.setImageURL(resultSet.getString(4));
 		// List of every services at all
-		ArrayList<Service> everyService = (ArrayList<Service>) dao.serviceDAO().readall();
-		// List of serviceIDs from CSV String
+		ArrayList<Service> everyService = (ArrayList<Service>) SiteDAOCollection.getInstance().serviceDAO().readall();
+		// List of serviceIDs from CSV String// csv is out todo: this becomes it's own segment,
+		// querying the db, cycling through the junction table, joining to services table and reading;
+		// or it still be done through the SiteDAOCollection route. (KCN slet når uddateret.)
 		ArrayList<Integer> listOfServiceIDs = Grouper.splitCSVString_IntList(resultSet.getString(5),",",-1,true);
 		// List of available services taken from their ids
 		ArrayList<Service> servicesFromListOfServiceIDs = new ArrayList<>();
 		for (int i = 0; i < listOfServiceIDs.size(); i++) {
+
 			servicesFromListOfServiceIDs.add(everyService.get(listOfServiceIDs.get(i)));
 		}
 		motorhome.setServicesAvailable(servicesFromListOfServiceIDs);
@@ -81,14 +82,14 @@ public class MotorhomeDAO implements IDAO<Motorhome, Integer>
 		// List of 3 Strings (representing floats) from CSV String
 		ArrayList<String> numbersFromCSVString = Grouper.splitStringAsCSV(resultSet.getString(10),",",-1);
 		// Float array to set as seasonDailyCharges, values from numbersFromCSVString
-		float floatArrayFromListOfStrings[] = {
+		float floatArrayFromListOfStrings[] = { // todo: changes to single float
 				Float.parseFloat(numbersFromCSVString.get(0)),
 				Float.parseFloat(numbersFromCSVString.get(1)),
 				Float.parseFloat(numbersFromCSVString.get(2)),
 		};
 		motorhome.setSeasonalDailyCharge(floatArrayFromListOfStrings);
 		// Set CarModel with corresponding carModelID
-		motorhome.setModel(dao.carModelDAO().read(resultSet.getInt(11)));
+		motorhome.setModel(SiteDAOCollection.getInstance().carModelDAO().read(resultSet.getInt(11)));
 	}
 
 	@Override
@@ -149,12 +150,11 @@ public class MotorhomeDAO implements IDAO<Motorhome, Integer>
 							"licensePlate = ?," +
 							"notes = ?," +
 							"imageURL = ?," +
-							"servicesAvailable = ?" +
-							"productionYear = ?" +
-							"description = ?" +
-							"minimumDaysOfRental = ?" +
-							"fuelType = ?" +
-							"seasonalDailyCharges = ?" +
+							"productionYear = ?," +
+							"description = ?," +
+							"minimumDaysOfRental = ?," +
+							"fuelType = ?," +
+							"seasonalDailyCharges = ?," +
 							"carModel_idcarModel = ?" +
 							"WHERE idMotorhome = ?");
 

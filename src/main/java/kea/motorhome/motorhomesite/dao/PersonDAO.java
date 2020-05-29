@@ -14,13 +14,10 @@ public class PersonDAO implements IDAO<Person, Integer>
 {
 
     private Connection connection;
-    /* DAOs for all the models, in one place as a singleton */
-    private SiteDAOCollection dao;
 
     public PersonDAO()
     {
-        connection = DBConnectionManager.getConnection(); // fetching Singlton instance
-        dao = SiteDAOCollection.getInstance(); // dao also singleton for easy hook-up
+        connection = DBConnectionManager.getConnection(); // fetching Singleton instance
     }
 
     /**
@@ -110,7 +107,7 @@ public class PersonDAO implements IDAO<Person, Integer>
             person.setUserType(SiteRole.valueOf(resultSet.getString(6)));
             person.setBirthDate(resultSet.getDate(7).toLocalDate());
             person.setJoinDate(resultSet.getDate(8).toLocalDate());
-            person.setAddress(dao.addressDAO().read(resultSet.getInt(9)));
+            person.setAddress(SiteDAOCollection.getInstance().addressDAO().read(resultSet.getInt(9)));
             // done, nothing to return
         } catch(SQLException e) { e.printStackTrace(); }
     }

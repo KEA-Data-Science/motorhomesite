@@ -17,13 +17,11 @@ public class PayCardDAO implements IDAO<PayCard, Integer>
 {
     /* sql connection to db motorhome */
     private Connection connection;
-    /* access to all dao*/
-    private SiteDAOCollection dao;
+
 
     public PayCardDAO()
     {
         connection = DBConnectionManager.getConnection(); // singlton instance
-        dao = SiteDAOCollection.getInstance(); // singleton ditto
     }
 
     /**

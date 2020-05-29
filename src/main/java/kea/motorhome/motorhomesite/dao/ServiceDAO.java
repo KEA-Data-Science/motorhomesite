@@ -14,12 +14,10 @@ public class ServiceDAO implements IDAO<Service, Integer>
 {
 
     private Connection connection;
-    private SiteDAOCollection dao;
 
     public ServiceDAO()
     {
         connection = DBConnectionManager.getConnection();
-        dao = SiteDAOCollection.getInstance();
     }
 
     /**
