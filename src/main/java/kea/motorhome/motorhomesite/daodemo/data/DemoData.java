@@ -77,8 +77,8 @@ public class DemoData
         dao.personDAO().readall().add(person4);
 
         /* Customers */
-        Customer customer1 = new Customer ("1111-1234-1234", payCard1, person1, true);
-        Customer customer2 = new Customer ("1234-1234-1235", payCard2, person2, true);
+        Customer customer1 = new Customer (1,"1111-1234-1234", payCard1, person1, true);
+        Customer customer2 = new Customer (2,"1234-1234-1235", payCard2, person2, true);
         dao.customerDAO().readall().add(customer1);
         dao.customerDAO().readall().add(customer2);
 
