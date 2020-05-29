@@ -48,10 +48,10 @@ public class PriceCalculator
                     break;           // 0 is low-season
                 case "Medium":
                     result += motorhome.getSeasonalDailyCharge()[1];
-                    break;           // 2 is low-season
+                    break;           // 1 is low-season
                 case "High":
                     result += motorhome.getSeasonalDailyCharge()[2];
-                    break;         // 3 is low-season
+                    break;         // 2 is low-season
             }
 
             tempDate = tempDate.plusDays(1);
