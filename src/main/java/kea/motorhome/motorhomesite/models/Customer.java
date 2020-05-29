@@ -4,18 +4,28 @@ import java.util.Objects;
 
 public class Customer {
 
-	private String driversLicence;
+	private int customerID; // Not primary key in database // TODO: Decide if customerID is good/bad idea
+	private String driversLicence; // Primary key in database
 	private PayCard payCard;
 	private Person person;
 	private boolean approved;
 
 	public Customer() {}
 
-	public Customer(String driversLicence, PayCard payCard, Person person, boolean approved) {
+	public Customer(int customerID, String driversLicence, PayCard payCard, Person person, boolean approved) {
+		this.customerID = customerID;
 		this.driversLicence = driversLicence;
 		this.payCard = payCard;
 		this.person = person;
 		this.approved = approved;
+	}
+
+	public int getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
 	}
 
 	public String getDriversLicence() {
@@ -63,14 +73,15 @@ public class Customer {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(driversLicence, payCard, person, approved);
+		return Objects.hash(customerID, driversLicence, payCard, person, approved);
 	}
 
 	@Override
 	public String toString() {
 		return "Customer{" +
-				"driversLicence='" + driversLicence + '\'' +
-				", cardID=" + payCard +
+				"customerID=" + customerID +
+				", driversLicence='" + driversLicence + '\'' +
+				", payCard=" + payCard +
 				", person=" + person +
 				", approved=" + approved +
 				'}';

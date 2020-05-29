@@ -1,3 +1,5 @@
+/*** LNS ***/
+
 package kea.motorhome.motorhomesite.dao;
 
 import kea.motorhome.motorhomesite.models.*;
@@ -26,9 +28,10 @@ public class CustomerDAO implements IDAO<Customer, String>
 							"VALUES (?,?,?,?)");
 
 			preparedStatement.setString(1, thing.getDriversLicence());
-			preparedStatement.setBoolean(2, thing.isApproved()); // TODO: Virker dette? Værdien skal gemmes som TINYINT(1) i databasen
-			preparedStatement.setInt(3, thing.getPerson().getPersonID());
-			preparedStatement.setInt(3, thing.getPayCard().getCardID());
+			byte approvedAsByte = (byte) (thing.isApproved() ? 1 : 0); // Byte to represent boolean value in database
+			preparedStatement.setByte(2, approvedAsByte);
+			preparedStatement.setInt(3, thing.getPerson().getPersonID()); // Sets id of appropriate Person object
+			preparedStatement.setInt(3, thing.getPayCard().getCardID()); // Sets id of appropriate PayCard object
 
 			return preparedStatement.executeUpdate() > 0;
 		} catch(SQLException e) { e.printStackTrace(); }
@@ -37,7 +40,7 @@ public class CustomerDAO implements IDAO<Customer, String>
 	}
 
 	private void fillCustomerValuesFromResultSet(Customer customer, ResultSet resultSet) throws SQLException {
-		// TODO: I tabellen har customer også en idCustomer. Bør den også være med her?
+		customer.setCustomerID(resultSet.getInt(1));
 		customer.setDriversLicence(resultSet.getString(2));
 		customer.setApproved(resultSet.getBoolean(3));
 		// Sets appropriate Person object through its id
@@ -102,11 +105,11 @@ public class CustomerDAO implements IDAO<Customer, String>
 							"Paycard_idPaycard = ?" +
 							"WHERE driversLicense = ?");
 
-			preparedStatement.setBoolean(1, thing.isApproved());
-			// Sets id of appropriate Person object
-			preparedStatement.setInt(2, thing.getPerson().getPersonID());
-			// Sets id of appropriate PayCard object
-			preparedStatement.setInt(3, thing.getPayCard().getCardID());
+			byte approvedAsByte = (byte) (thing.isApproved() ? 1 : 0); // Byte to represent boolean value in database
+			preparedStatement.setByte(1, approvedAsByte);
+			preparedStatement.setInt(2, thing.getPerson().getPersonID()); // Sets id of appropriate Person object
+			preparedStatement.setInt(3, thing.getPayCard().getCardID()); // Sets id of appropriate PayCard object
+
 
 			return preparedStatement.executeUpdate() > 0;
 

@@ -14,12 +14,10 @@ public class PeriodDAO implements IDAO<Period,Integer> {
 	/* sql connection to db motorhome */
 	private Connection connection;
 	/* access to all dao*/
-	private SiteDAOCollection dao;
 
 	public PeriodDAO()
 	{
 		connection = DBConnectionManager.getConnection(); // singlton instance
-		dao = SiteDAOCollection.getInstance(); // singleton ditto
 	}
 
 	/**

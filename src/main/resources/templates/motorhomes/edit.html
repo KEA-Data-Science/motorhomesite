@@ -75,11 +75,92 @@
                     </select>
                 </td>
             </tr>
+
+            <!-- TODO: Add available services to motorhome from all existing services -->
+            <!-- Available services -->
+            <!--
+            <div class="hl">Services Available to Add to Motorhome</div>
+            <div class="wrapper350" id="servicesavailable">
+
+                <div th:each="service:${services}">
+
+                    <div class="box">
+                        <table>
+                            <tr>
+                                <td class="item-description">
+                                    <div th:text="${'Service ID: '+service.getServiceID()}"></div>
+                                    <div th:text="${'Name: '+service.getName()}"></div>
+                                    <div th:text="${'Unit price: '+service.unitPrice}"></div>
+
+                                    <button class="collapsible">Description: ...</button>
+                                    <div class="collapsible-content" th:text="${service.getDescription()}"></div>
+                                </td>
+                                <td>
+                                    <form action="/motorhomes/addservice#servicesavailable" method="post"
+                                          th:id="${'availableS'+service.getServiceID()}">
+                                        <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
+                                        <input type="hidden" name="motorhomeID" th:value="${motorhome.getMotorhomeID()}">
+                                        <input type="hidden" name="requestURL" value="new">
+                                        <div>
+                                            <button class="animate border-8px"
+                                                    th:form="${'availableS'+service.getServiceID()}">Add Service
+                                            </button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            -->
+
+            <!-- Services chosen for vehicle -->
+            <!--
+            <div class="hl" id="serviceschosen">Available Services for this Motorhome</div>
+            <div class="wrapper350">
+
+                <div th:each="service:${motorhome.getServicesAvailable()}">
+                    <div class="box">
+                        <table>
+                            <tr>
+                                <td class="item-description">
+                                    <div th:text="${'Service ID: ' + service.getServiceID()}"></div>
+                                    <div th:text="${'Name: ' + service.getName()}"></div>
+                                    <div th:text="${'Unit price: ' + service.unitPrice}"></div>
+                                    <button class="collapsible">Description: ...</button>
+                                    <div class="collapsible-content" th:text="${service.getDescription()}"></div>
+                                </td>
+                                <td>
+                                    <form action="/motorhomes/removeservice#serviceschosen" method="post"
+                                          th:id="${'chosenS'+service.getServiceID()}">
+                                        <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
+                                        <input type="hidden" name="motorhomeID" th:value="${motorhome.getMotorhomeID()}">
+                                        <input type="hidden" name="requestURL" value="new">
+                                        <div>
+                                            <button class="animate border-8px"
+                                                    th:form="${'chosenS' + service.getServiceID()}">Remove Service
+                                            </button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            -->
+
             <tr>
                 <td colspan="2"><button class="button animate border-8px" type="submit">Save</button></td>
             </tr>
         </table>
     </form>
+
+
+
+
+
 </div>
 <div>
     <a href="javascript:history.back()"><button class="button animate border-8px"><span>Back</span></button></a>

@@ -1,3 +1,5 @@
+/** LNS **/
+
 package kea.motorhome.motorhomesite.dao;
 
 import kea.motorhome.motorhomesite.models.CarModel;

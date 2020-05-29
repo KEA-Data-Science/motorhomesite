@@ -35,6 +35,7 @@ public class CustomerController
     public String showNewCustomerForm(Model model)
     {
         Customer customer = new Customer();
+        customer.setCustomerID(dao.customerDAO().readall().size()+1);
         Person person = new Person();
         person.setPersonID(dao.personDAO().readall().size()+1);
         customer.setPerson(person);
