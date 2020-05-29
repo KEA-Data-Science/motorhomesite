@@ -109,6 +109,8 @@ public class Motorhome
         return seasonalCharges;
     }
 
+    public float getSeasonDailyChargeLowSeason(){return seasonalDailyCharge;}
+
     public void setSeasonalDailyCharge(float[] seasonalDailyCharge)
     {
         this.seasonalDailyCharge = seasonalDailyCharge[0]; // low season
