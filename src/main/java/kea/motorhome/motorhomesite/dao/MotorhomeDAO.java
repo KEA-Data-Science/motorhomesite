@@ -46,6 +46,11 @@ public class MotorhomeDAO implements IDAO<Motorhome, Integer>
 			preparedStatement.setFloat(8, thing.getSeasonDailyChargeLowSeason());
 			preparedStatement.setInt(9, thing.getModel().getCarModelID());
 
+			// todo: segment taking care of services list	query junction table to write a row with
+			//  res-id and service-id
+			// Hej Laurits, i den her metode er ændret en del, jeg er sikker på det er ok
+			// ændringer.
+
 			return preparedStatement.executeUpdate() > 0;
 		} catch(SQLException e) { e.printStackTrace(); }
 
@@ -59,11 +64,14 @@ public class MotorhomeDAO implements IDAO<Motorhome, Integer>
 		motorhome.setImageURL(resultSet.getString(4));
 		// List of every services at all
 		ArrayList<Service> everyService = (ArrayList<Service>) SiteDAOCollection.getInstance().serviceDAO().readall();
-		// List of serviceIDs from CSV String
+		// List of serviceIDs from CSV String// csv is out todo: this becomes it's own segment,
+		// querying the db, cycling through the junction table, joining to services table and reading;
+		// or it still be done through the SiteDAOCollection route. (KCN slet når uddateret.)
 		ArrayList<Integer> listOfServiceIDs = Grouper.splitCSVString_IntList(resultSet.getString(5),",",-1,true);
 		// List of available services taken from their ids
 		ArrayList<Service> servicesFromListOfServiceIDs = new ArrayList<>();
 		for (int i = 0; i < listOfServiceIDs.size(); i++) {
+
 			servicesFromListOfServiceIDs.add(everyService.get(listOfServiceIDs.get(i)));
 		}
 		motorhome.setServicesAvailable(servicesFromListOfServiceIDs);
