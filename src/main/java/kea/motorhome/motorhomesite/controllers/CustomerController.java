@@ -73,17 +73,36 @@ public class CustomerController
     }
 
     @RequestMapping(value = "/updatecustomer", method = RequestMethod.POST)
-    public String updateCustomer(@ModelAttribute("customer") Customer customer)
+    public String updateCustomer(@ModelAttribute("customer") Customer customer/*,
+                                 @ModelAttribute("person") Person person,
+                                 @ModelAttribute("address") Address address,
+                                 @ModelAttribute("payCard") PayCard payCard*/)
     {
         dao().customerDAO().update(customer);
+        dao().personDAO().update(customer.getPerson());
+        dao().addressDAO().update(customer.getPerson().getAddress());
+        dao().paycardDAO().update(customer.getPayCard());
+
         return "redirect:/customers/customers";
     }
 
     @GetMapping("/customers/edit")
     public String showEditCustomerForm(Model model, @RequestParam String id)
     {
-        model.addAttribute("customer", dao().customerDAO().read(id));
-        return "customers/edit";
+        Customer customer = dao().customerDAO().read(id);
+
+        if(customer!=null)
+        {
+            model.addAttribute("customer", customer);
+            model.addAttribute("person", customer.getPerson());
+            model.addAttribute("address", customer.getPerson().getAddress());
+            model.addAttribute("payCard", customer.getPayCard());
+            return "customers/edit";
+        }
+
+        model.addAttribute("feedbackMessage","The customer (id " + id + ") you are trying to edit" +
+                                             "was not found in the system.");
+        return "feedback";
     }
 
     @RequestMapping("customers/delete")

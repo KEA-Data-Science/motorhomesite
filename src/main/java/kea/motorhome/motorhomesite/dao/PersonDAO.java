@@ -145,6 +145,9 @@ public class PersonDAO implements IDAO<Person, Integer>
     @Override
     public boolean update(Person thing)
     {
+        System.out.println("\n\n\n Show me the data!\n"
+                          +thing.toString());
+
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -155,8 +158,8 @@ public class PersonDAO implements IDAO<Person, Integer>
                     "email = ?," +
                     "siteRole = ?," +
                     "birthDate = ?," +
-                    "joinDate = ?," +
-                    "Address_idAddress = ?" +
+                    "joinDate = ?" +
+//                    "Address_idAddress = ?" + // adresse-id kan ikke ændres her; gå ad AddressDAO
                     "WHERE idPerson = ?");
             /*filling in the attribute values from Person object, id last because of 'preppedSt.' */
             preparedStatement.setString(1, thing.getPassword());
@@ -166,8 +169,8 @@ public class PersonDAO implements IDAO<Person, Integer>
             preparedStatement.setString(5, thing.getUserType().toString());
             preparedStatement.setDate(6, Date.valueOf(thing.getBirthDate()));
             preparedStatement.setDate(7, Date.valueOf(thing.getJoinDate()));
-            preparedStatement.setInt(8, thing.getAddress().getAddressID());
-            preparedStatement.setInt(9, thing.getPersonID());
+//            preparedStatement.setInt(8, thing.getAddress().getAddressID());
+            preparedStatement.setInt(8, thing.getPersonID());
             /* e.Update returns the num of rows manipulated. */
             int numChanges = preparedStatement.executeUpdate();
             /* if numChanges above zero, DB was written to */

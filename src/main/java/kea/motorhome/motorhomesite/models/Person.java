@@ -132,4 +132,43 @@ public class Person {
 	{
 		this.password = password;
 	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o) return true;
+		if(!(o instanceof Person)) return false;
+		Person person = (Person)o;
+		return getPersonID() == person.getPersonID() &&
+			   Objects.equals(getFirstName(), person.getFirstName()) &&
+			   Objects.equals(getLastName(), person.getLastName()) &&
+			   Objects.equals(getAddress(), person.getAddress()) &&
+			   Objects.equals(getBirthDate(), person.getBirthDate()) &&
+			   Objects.equals(getEmail(), person.getEmail()) &&
+			   getUserType() == person.getUserType() &&
+			   Objects.equals(getJoinDate(), person.getJoinDate()) &&
+			   Objects.equals(getPassword(), person.getPassword());
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(getPersonID(), getFirstName(), getLastName(), getAddress(), getBirthDate(), getEmail(), getUserType(), getJoinDate(), getPassword());
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Person{" +
+			   "personID=" + personID +
+			   ", firstName='" + firstName + '\'' +
+			   ", lastName='" + lastName + '\'' +
+			   ", address=" + address +
+			   ", birthDate=" + birthDate +
+			   ", email='" + email + '\'' +
+			   ", userType=" + userType +
+			   ", joinDate=" + joinDate +
+			   ", password='" + password + '\'' +
+			   '}';
+	}
 }

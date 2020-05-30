@@ -128,24 +128,10 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE motorhome.carModel SET " +
-                            "modelName = ?," +
-                            "modelNumber = ?," +
-                            "horsePower = ?," +
-                            "beds = ?," +
-                            "enginecapacity = ?," +
-                            "length = ?," +
-                            "height = ?," +
-                            "width = ?," +
-                            "weight = ?," +
-                            "hotWaterCapacity = ?," +
-                            "coldWaterCapacity = ?," +
-                            "numberOfSeats = ?," +
-                            "oven = ?," +
-                            "cruiseControl = ?," +
-                            "shower = ?" +
-                            "WHERE idcarModel = ?");
-
+                    "UPDATE `motorhome`.`carmodel` SET `modelName` = ?, `modelNumber` = ?, `horsePower` = " +
+                    "?, `beds` = ?, `engineCapacity` = ?, `length` = ?, `height` = ?, `width` = ?, `weight` = ?, `hotWaterCapacity` = ?, `coldWaterCapacity` = ?, `numberOfSeats` = ?, `oven` = ?, `cruiseControl` = ?, `shower` = ? WHERE (`idcarModel` = ?);"
+                                                                             );
+            preparedStatement.setInt(16,thing.getCarModelID());
             return setValuesInDatabase(thing, preparedStatement);
 
         } catch(SQLException e) { e.printStackTrace(); }

@@ -10,17 +10,19 @@ public enum ReservationStatus
 
     public static ReservationStatus status(String statusString)
     {
-        switch(statusString)
+        String lowerCaseStatus = statusString.toLowerCase();
+
+        switch(lowerCaseStatus)
         {
-            case "Initialized":
+            case "initialized":
                 return Initialized;
-            case "Accepted":
+            case "accepted":
                 return Accepted;
-            case "Ongoing":
+            case "ongoing":
                 return Ongoing;
-            case "Sealed":
+            case "sealed":
                 return Sealed;
-            case "Finalized":
+            case "finalized":
                 return Finalized;
             default:
                 return Error;
