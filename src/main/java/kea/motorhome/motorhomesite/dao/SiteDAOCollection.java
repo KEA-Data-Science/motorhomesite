@@ -53,7 +53,7 @@ public class SiteDAOCollection
         this.personDAO = new PersonDAO();
         this.reservationDAO = new ReservationDAO();
         this.serviceDAO = new ServiceDAO();
-        this.invoiceDAO = new InvoiceDAODemo();
+        this.invoiceDAO = new InvoiceDAO();
         this.carModelDAO = new CarModelDAO();
 
     }

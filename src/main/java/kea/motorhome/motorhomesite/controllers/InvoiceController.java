@@ -45,8 +45,9 @@ public class InvoiceController
     }
 
     @GetMapping("/invoices/update")
-    public String showUpdateForm(@RequestParam int id, Model model)
+    public String showUpdateForm(@RequestParam int id, Model model, HttpSession session)
     {
+        session.setAttribute("invoiceUpdate", dao().invoiceDAO().read(id));
         addAttributesToModel(model, dao().invoiceDAO().read(id));
         return "/invoices/edit";
     }
@@ -60,17 +61,19 @@ public class InvoiceController
     }
 
     @PostMapping("/invoices/perfomupdate")
-    public String performUpdate(WebRequest wr, Model model)
+    public String performUpdate(WebRequest wr, Model model, HttpSession session)
     {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        Invoice invoice = new Invoice();
-        invoice.setInvoiceID(Integer.parseInt((wr.getParameter("invoiceID"))));
-        invoice.setServices(dao().invoiceDAO().read(invoice.getInvoiceID()).getServices());
-        invoice = getInvoiceFromStandardWR(wr, invoice);
+        Invoice invoice = (Invoice) session.getAttribute("invoiceUpdate");
 
+        invoice.setInvoiceID(Integer.parseInt((wr.getParameter("invoiceID"))));
+
+        invoice = getInvoiceFromStandardWR(wr, invoice);
 
         dao().invoiceDAO().update(invoice);
 
+        System.out.println("update: " + invoice.getBillPeriod().getPeriodID());
+
+        addAttributesToModel(model, invoice);
         return "redirect:/invoices";
     }
 
@@ -87,6 +90,10 @@ public class InvoiceController
         Motorhome motorhome;
         String customerID;
 
+        //When updating, it is necessary to remember the period ids because they are fk's
+        int billPeriodID = invoice.getBillPeriod().getPeriodID();
+        int reservationPeriodID = invoice.getReservationPeriod().getPeriodID();
+
         customerID = wr.getParameter("customer");
         billPeriod = new Period(LocalDate.parse(wr.getParameter("billPeriodStartDate"), dtf), LocalDate.parse(wr.getParameter("billPeriodEndDate"), dtf));
         reservationPeriod = new Period(LocalDate.parse(wr.getParameter("reservationPeriodStartDate"), dtf), LocalDate.parse(wr.getParameter("reservationPeriodEndDate"), dtf));
@@ -96,6 +103,9 @@ public class InvoiceController
         invoice.setBillPeriod(billPeriod);
         invoice.setReservationPeriod(reservationPeriod);
         invoice.setMotorhome(motorhome);
+
+        invoice.getBillPeriod().setPeriodID(billPeriodID);
+        invoice.getReservationPeriod().setPeriodID(reservationPeriodID);
         return invoice;
     }
 
@@ -109,9 +119,9 @@ public class InvoiceController
     @PostMapping("/invoices/update/addservice")
     public String addServiceToInvoiceUpdate(@RequestParam int invoiceID,
                                             @RequestParam int serviceID,
-                                            Model model, WebRequest wr)
+                                            Model model, WebRequest wr, HttpSession session)
     {
-        Invoice invoice = dao().invoiceDAO().read(invoiceID);
+        Invoice invoice = (Invoice) session.getAttribute("invoiceUpdate");
 
         Service service = dao().serviceDAO().read(serviceID);
 
@@ -120,16 +130,15 @@ public class InvoiceController
         invoice = getInvoiceFromServiceWR(wr, invoice);
 
         addAttributesToModel(model, invoice);
-
         return "invoices/edit";
     }
 
     @PostMapping("/invoices/update/removeservice")
     public String removeServiceFromInvoiceUpdate(@RequestParam int invoiceID,
                                                  @RequestParam int serviceID,
-                                                 Model model, WebRequest wr)
+                                                 Model model, WebRequest wr, HttpSession session)
     {
-        Invoice invoice = dao().invoiceDAO().read(invoiceID);
+        Invoice invoice = (Invoice) session.getAttribute("invoiceUpdate");
 
         for(int i = 0; i < invoice.getServices().size(); i++)
         {

@@ -81,7 +81,7 @@
                                     <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
                                     <input type="hidden" name="invoiceID" th:value="${invoice.getInvoiceID()}">
                                     <div>
-                                        <button class="button animate border-8px" type="submit" onclick="setServiceParameters()" th:form="${'availableS'+service.getServiceID()}"><span>Add Service</span></button>
+                                        <button class="animate border-8px" type="submit" onclick="setServiceParameters()" th:form="${'availableS'+service.getServiceID()}">Add Service</button>
                                     </div>
                                 </form>
                             </td>
@@ -116,7 +116,7 @@
                                     <input type="hidden" name="serviceID" th:value="${service.getServiceID()}">
                                     <input type="hidden" name="invoiceID" th:value="${invoice.getInvoiceID()}">
                                     <div>
-                                        <button class="button animate border-8px" onclick="setServiceParameters()" th:form="${'chosenS'+service.getServiceID()}"><span>Remove Service</span></button>
+                                        <button class="animate border-8px" onclick="setServiceParameters()" th:form="${'chosenS'+service.getServiceID()}">Remove Service</button>
                                     </div>
                                 </form>
                             </td>
@@ -135,58 +135,58 @@
 
     <!-- footer-->
     <div th:replace="fragments/footer.html :: footer"></div>
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
 
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active"); // defaults to false
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+    <script>
+        function setServiceParameters() {
+            var billStarts = document.getElementsByClassName("billPeriodStartDate-service");
+            var billEnds = document.getElementsByClassName("billPeriodEndDate-service");
+            var reservationStarts = document.getElementsByClassName("reservationPeriodStartDate-service");
+            var reservationEnds = document.getElementsByClassName("reservationPeriodEndDate-service");
+            var motorHomeIDs = document.getElementsByClassName("motorhomeID-service");
+            var customerIDs = document.getElementsByClassName("customerID-service");
+
+            for (var i = 0; i < billStarts.length; i=i+1)
+            {
+                billStarts[i].value = document.getElementById("billPeriodStartDate").value;
+            }
+            for (var i = 0; i < billStarts.length; i=i+1)
+            {
+                billEnds[i].value = document.getElementById("billPeriodEndDate").value;
+            }
+            for (var i = 0; i < billStarts.length; i=i+1)
+            {
+                reservationStarts[i].value = document.getElementById("reservationPeriodStartDate").value;
+            }
+            for (var i = 0; i < billStarts.length; i=i+1)
+            {
+                reservationEnds[i].value = document.getElementById("reservationPeriodEndDate").value;
+            }
+            for (var i = 0; i < billStarts.length; i=i+1)
+            {
+                motorHomeIDs[i].value = document.getElementById("motorhome").value;
+            }
+            for (var i = 0; i < billStarts.length; i=i+1)
+            {
+                customerIDs[i].value = document.getElementById("customer").value;
+            }
+        }
+    </script>
 </body>
 
-<script>
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
 
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-            this.classList.toggle("active"); // defaults to false
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        });
-    }
-</script>
-<script>
-    function setServiceParameters() {
-        var billStarts = document.getElementsByClassName("billPeriodStartDate-service");
-        var billEnds = document.getElementsByClassName("billPeriodEndDate-service");
-        var reservationStarts = document.getElementsByClassName("reservationPeriodStartDate-service");
-        var reservationEnds = document.getElementsByClassName("reservationPeriodEndDate-service");
-        var motorHomeIDs = document.getElementsByClassName("motorhomeID-service");
-        var customerIDs = document.getElementsByClassName("customerID-service");
-
-        for (var i = 0; i < billStarts.length; i=i+1)
-        {
-            billStarts[i].value = document.getElementById("billPeriodStartDate").value;
-        }
-        for (var i = 0; i < billStarts.length; i=i+1)
-        {
-            billEnds[i].value = document.getElementById("billPeriodEndDate").value;
-        }
-        for (var i = 0; i < billStarts.length; i=i+1)
-        {
-            reservationStarts[i].value = document.getElementById("reservationPeriodStartDate").value;
-        }
-        for (var i = 0; i < billStarts.length; i=i+1)
-        {
-            reservationEnds[i].value = document.getElementById("reservationPeriodEndDate").value;
-        }
-        for (var i = 0; i < billStarts.length; i=i+1)
-        {
-            motorHomeIDs[i].value = document.getElementById("motorhome").value;
-        }
-        for (var i = 0; i < billStarts.length; i=i+1)
-        {
-            customerIDs[i].value = document.getElementById("customer").value;
-        }
-    }
-</script>
 </html>
