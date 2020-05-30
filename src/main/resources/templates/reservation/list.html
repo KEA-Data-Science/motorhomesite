@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="smoothScroll" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- styling fragment -->
     <div th:replace="fragments/styling.html :: styling"></div>
@@ -8,10 +8,8 @@
     <title>Reservations :: Lists</title>
 </head>
 <body>
-
 <!-- navbar fragment -->
 <div th:replace="fragments/navbar.html :: navigation"></div>
-
 
 <h1 class="hl">Reservation :: Search </h1>
 
@@ -41,60 +39,97 @@
     <br>
     <form id="searchByEmployeeID" onclick="pageScroll()" action="/reservation/searchByEmployeeID#scrollTo" method="post">
         <input type="number" name="employeeID" value="0">
-        <button id="EmployeeID" class="animate border-8px" form="searchByEmployeeID">
+        <button id="EmployeeID" class="button animate border-8px" form="searchByEmployeeID">
             <span>Employee ID</span>
         </button>
     </form>
     <br>
     <form id="searchByCustomerID" action="/reservation/searchByCustomerID#scrollTo" method="post">
         <input type="text" name="driversLicence" value="Enter">
-        <button id="CustomerID" class="animate border-8px" form="searchByCustomerID">
+        <button id="CustomerID" class="button animate border-8px" form="searchByCustomerID">
             <span>Driver's Licence</span>
         </button>
     </form>
+    <br>
+    <form></form>
+    <br>
+    <form id="searchByPeriod" action="/reservation/searchByPeriod#scrollTo" method="post">
+        <table>
+            <tr>
+                <td>
+                    <span>Starting: </span>
+                    <input type="date" name="dateA" th:value="${dateUtil.getToday().plusDays(1)}">
+                </td>
+                <td>
+                    <span>Ending: </span>
+                    <input type="date" name="dateB" th:value="${dateUtil.getToday().plusWeeks(2)}">
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table>
+            <tr>
+                <td>
+                    <span>
+                        <input type="radio" id="Start Date" name="resultCriteria" value="Start Date" checked>
+                        <label for="Start Date">Start Date </label>
+                        <input type="radio" id="End Date" name="resultCriteria" value="End Date">
+                        <label for="End Date">End Date</label>
+                        <button class="button animate border-8px" form="searchByPeriod"><span>Search by Date</span></button>
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
-
+</div>
 <!---->
+<div id="divider"></div>
 <div th:unless="${reservations.isEmpty()}">
 
-    <div class="container95">
+    <div class="padded-blue-area">
         <div th:each="reservation:${reservations}">
 
-                <div class="container border-8px">
-                    <table class="container95">
+                <div>
+                    <table class="listBoxCenter tableBoxes">
                         <tr>
-                            <th class="box-margin">Reservation ID</th>
-                            <td th:text="${reservation.getReservationID()}"></td>
-                            <th class="box-margin">Customer Driver's Licence</th>
-                            <td th:text="${reservation.getCustomer().getDriversLicence()}"></td>
-                            <th class="box-margin">Employee ID</th>
-                            <td th:text="${reservation.getEmployee().getEmployeeID()}"></td>
+                            <th class="box-margin">Reservation ID:</th>
+                            <td class="box-margin" th:text="${reservation.getReservationID()}"></td>
+                            <th class="box-margin">Customer Driver's License:</th>
+                            <td class="box-margin" th:text="${reservation.getCustomer().getDriversLicence()}"></td>
+                            <th class="box-margin">Employee ID:</th>
+                            <td class="box-margin" th:text="${reservation.getEmployee().getEmployeeID()}"></td>
                         </tr>
                         <tr>
-                            <th class="box-margin">Period Start</th>
-                            <td class="" th:text="${reservation.getPeriod().getStart()}"></td>
-                            <th class="box-margin">Period End</th>
-                            <td class="" th:text="${reservation.getPeriod().getEnd()}"></td>
-                            <th class="box-margin">Motorhome ID</th>
-                            <td class="" th:text="${reservation.getMotorhome().getMotorhomeID()}"></td>
+                            <th class="box-margin">Period Start:</th>
+                            <td class="box-margin" th:text="${reservation.getPeriod().getStart()}"></td>
+                            <th class="box-margin">Period End:</th>
+                            <td class="box-margin" th:text="${reservation.getPeriod().getEnd()}"></td>
+                            <th class="box-margin">Motorhome ID:</th>
+                            <td class="box-margin" th:text="${reservation.getMotorhome().getMotorhomeID()}"></td>
                         </tr>
                         <tr>
                             <th class="box-margin">Status:</th>
                             <td class="box-margin" th:text="${reservation.getStatus()}"></td>
                         </tr>
+                        <tr>
+                        <td>
+                            <form th:id="'reservationDetails'+${reservation.getReservationID()}" action="/reservation/details" method="post">
+                                <input type="hidden" name="reservationID" th:value="${reservation.getReservationID()}">
+                                <button class="button animate border-8px" th:form="'reservationDetails'+${reservation.getReservationID()}"><span>Details</span></button>
+                            </form>
+                        </td>
+                        </tr>
                     </table>
                 </div>
-
         </div>
     </div>
-
 </div>
 
 <div th:if="${reservations.isEmpty()}">
     <div class="wrapper350">
         <div class="padded-blue-area "><h2>No reservations returned yet.</h2></div>
     </div>
-</div>
 </div>
 
 <!-- footer -->
