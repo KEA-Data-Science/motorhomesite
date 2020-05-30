@@ -16,12 +16,10 @@ import java.util.List;
 public class AddressDAO implements IDAO<Address, Integer>
 {
     private Connection connection;
-    private SiteDAOCollection dao;
 
     public AddressDAO()
     {
         connection = DBConnectionManager.getConnection();
-        dao = SiteDAOCollection.getInstance();
     }
 
     /**

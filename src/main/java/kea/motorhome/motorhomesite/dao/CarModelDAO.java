@@ -15,12 +15,10 @@ import java.util.List;
 public class CarModelDAO implements IDAO<CarModel, Integer> {
 
     private Connection connection;
-    private SiteDAOCollection dao;
 
     public CarModelDAO()
     {
         connection = DBConnectionManager.getConnection();
-        dao = SiteDAOCollection.getInstance();
     }
 
     // For use in both create() and update() methods
@@ -135,16 +133,16 @@ public class CarModelDAO implements IDAO<CarModel, Integer> {
                             "modelNumber = ?," +
                             "horsePower = ?," +
                             "beds = ?," +
-                            "enginecapacity = ?" +
-                            "length = ?" +
-                            "height = ?" +
-                            "width = ?" +
-                            "weight = ?" +
-                            "hotWaterCapacity = ?" +
-                            "coldWaterCapacity = ?" +
-                            "numberOfSeats = ?" +
-                            "oven = ?" +
-                            "cruiseControl = ?" +
+                            "enginecapacity = ?," +
+                            "length = ?," +
+                            "height = ?," +
+                            "width = ?," +
+                            "weight = ?," +
+                            "hotWaterCapacity = ?," +
+                            "coldWaterCapacity = ?," +
+                            "numberOfSeats = ?," +
+                            "oven = ?," +
+                            "cruiseControl = ?," +
                             "shower = ?" +
                             "WHERE idcarModel = ?");
 

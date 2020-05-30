@@ -11,13 +11,10 @@ public class EmployeeDAO implements IDAO<Employee,Integer> {
 
 	/* sql connection to db motorhome */
 	private Connection connection;
-	/* access to all dao*/
-	private SiteDAOCollection dao;
 
 	public EmployeeDAO()
 	{
 		connection = DBConnectionManager.getConnection(); // singlton instance
-		dao = SiteDAOCollection.getInstance(); // singleton ditto
 	}
 	/**
 	 * @param thing
@@ -70,7 +67,7 @@ public class EmployeeDAO implements IDAO<Employee,Integer> {
 		{
 			employee.setEmployeeID(resultSet.getInt(1));
 			employee.setAccountancyID(resultSet.getInt(2));
-			employee.setPerson(dao.personDAO().read(resultSet.getInt(3)));
+			employee.setPerson(SiteDAOCollection.getInstance().personDAO().read(resultSet.getInt(3)));
 			// done, nothing to return
 		} catch(SQLException e) { e.printStackTrace(); }
 	}

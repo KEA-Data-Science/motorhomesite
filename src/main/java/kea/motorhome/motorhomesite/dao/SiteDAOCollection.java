@@ -28,18 +28,33 @@ public class SiteDAOCollection
 
     private SiteDAOCollection()
     {
-        this.addressDAO = new AddressDAODemo(); // all demos for swapping at appropriate time
-        this.appointmentDAO = new AppointmentDAODemo();
-        this.customerDAO = new CustomerDAODemo();
-        this.employeeDAO = new EmployeeDAODemo();
-        this.motorhomeDAO = new MotorhomeDAODemo();
-        this.paycardDAO = new PayCardDAODemo();
-        this.periodDAO = new PeriodDAODemo();
-        this.personDAO = new PersonDAODemo();
-        this.reservationDAO = new ReservationDAODemo();
-        this.serviceDAO = new ServiceDAODemo();
+        /* pure demo dao */
+//        this.addressDAO = new AddressDAO(); // all demos for swapping at appropriate time
+//        this.appointmentDAO = new AppointmentDAODemo();
+//        this.customerDAO = new CustomerDAODemo();
+//        this.employeeDAO = new EmployeeDAODemo();
+//        this.motorhomeDAO = new MotorhomeDAODemo();
+//        this.paycardDAO = new PayCardDAODemo();
+//        this.periodDAO = new PeriodDAODemo();
+//        this.personDAO = new PersonDAODemo();
+//        this.reservationDAO = new ReservationDAODemo();
+//        this.serviceDAO = new ServiceDAODemo();
+//        this.invoiceDAO = new InvoiceDAODemo();
+//        this.carModelDAO = new CarModelDAODemo();
+
+
+        this.addressDAO = new AddressDAO(); // all demos for swapping at appropriate time
+        this.appointmentDAO = new AppointmentDAO();
+        this.customerDAO = new CustomerDAO();
+        this.employeeDAO = new EmployeeDAO();
+        this.motorhomeDAO = new MotorhomeDAO();
+        this.paycardDAO = new PayCardDAO();
+        this.periodDAO = new PeriodDAO();
+        this.personDAO = new PersonDAO();
+        this.reservationDAO = new ReservationDAO();
+        this.serviceDAO = new ServiceDAO();
         this.invoiceDAO = new InvoiceDAODemo();
-        this.carModelDAO = new CarModelDAODemo();
+        this.carModelDAO = new CarModelDAO();
 
     }
 
@@ -55,7 +70,7 @@ public class SiteDAOCollection
     /* Method supplies demo data in the time of Demos, devourer of Hours. */
     private SiteDAOCollection configure()
     {
-        demoData = new DemoData(this);
+//        demoData = new DemoData(this); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return this;
     }
 

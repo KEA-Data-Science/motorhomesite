@@ -13,7 +13,6 @@ public class PeriodDAO implements IDAO<Period,Integer> {
 
 	/* sql connection to db motorhome */
 	private Connection connection;
-	/* access to all dao*/
 
 	public PeriodDAO()
 	{
@@ -22,7 +21,7 @@ public class PeriodDAO implements IDAO<Period,Integer> {
 
 	/**
 	 * Method writes an entity to period table based on supplied Period-thing.
-	 * Returns the number of rows affected/written, zero not good.
+	 * Returns true if row were written.
 	 *
 	 * @param thing
 	 */
@@ -44,6 +43,37 @@ public class PeriodDAO implements IDAO<Period,Integer> {
 
 		return false;
 	}
+/**
+ * Method writes an entity to period table based on supplied Period-thing.
+ * Returns the auto-generated row id of the newly written entity in the db.
+ *
+ * */
+	public int create_getID(Period thing)
+	{
+		try
+		{
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					"INSERT INTO motorhome.period (start, end) " +
+					"VALUES (?,?)",Statement.RETURN_GENERATED_KEYS);
+
+			preparedStatement.setDate(1, Date.valueOf(thing.getStart()));
+			preparedStatement.setDate(2, Date.valueOf(thing.getEnd()));
+
+			preparedStatement.executeUpdate();
+			ResultSet resultSet = 	preparedStatement.getGeneratedKeys();
+
+			if(resultSet.next()) // if an id was generated
+			{ // resultset has 1 row, with auto-generated key for created entity in db
+				return resultSet.getInt(1);
+			}
+
+		} catch(SQLException e) { e.printStackTrace(); }
+
+		return -1; // return -1 to signal occurred error
+	}
+	/* https://www.mysqltutorial.org/mysql-jdbc-insert/ */
+
+
 
 	/**
 	 * @param id

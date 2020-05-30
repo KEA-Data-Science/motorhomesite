@@ -3,6 +3,7 @@ package kea.motorhome.motorhomesite.dao;
 import kea.motorhome.motorhomesite.models.Appointment;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentDAO implements IDAO<Appointment,Integer> {
@@ -30,7 +31,8 @@ public class AppointmentDAO implements IDAO<Appointment,Integer> {
 	@Override
 	public List<Appointment> readall()
 	{
-		return null;
+
+		return new ArrayList<>(); // proxy until someone writes this
 	}
 
 	/**

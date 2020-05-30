@@ -27,14 +27,14 @@ public class ServiceDAO implements IDAO<Service, Integer>
     public boolean create(Service thing)
     {
         try
-        {        /* construction notes; error in DB-model, will not work before db-fix 28/5 */
+        {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO motorhome.service (name, description, unitPrice) " +
                     "VALUES (?,?,?)");
 
             preparedStatement.setString(1, thing.getName());
-            preparedStatement.setString(1, thing.getName());
-            preparedStatement.setFloat(1, thing.getUnitPrice());
+            preparedStatement.setString(2, thing.getName());
+            preparedStatement.setFloat(3, thing.getUnitPrice());
 
             return preparedStatement.executeUpdate() > 0;
 

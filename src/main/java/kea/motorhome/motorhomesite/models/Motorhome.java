@@ -1,5 +1,6 @@
 package kea.motorhome.motorhomesite.models;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -138,6 +139,7 @@ public class Motorhome
 
     public List<Service> getServicesAvailable()
     {
+        if(servicesAvailable==null){servicesAvailable=new ArrayList<>();}
         return servicesAvailable;
     }
 

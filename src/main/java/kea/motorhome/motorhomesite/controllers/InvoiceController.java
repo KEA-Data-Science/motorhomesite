@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,25 +22,21 @@ import java.util.List;
 public class InvoiceController
 {
 
-    SiteDAOCollection dao;
+//    SiteDAOCollection dao;
 
     public InvoiceController()
     {
-        dao = SiteDAOCollection.getInstance();
+//        dao = SiteDAOCollection.getInstance();
     }
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
+
 
     @GetMapping("/invoices")
     public String showInvoices(Model model)
     {
-        List<Invoice> invoices = new ArrayList<>();
-        SiteDAOCollection dao = SiteDAOCollection.getInstance();
+//        SiteDAOCollection dao = SiteDAOCollection.getInstance();
         PriceCalculator priceCalculator = new PriceCalculator();
-
-        for(Invoice invoice : dao.invoiceDAO().readall())
-        {
-            if(invoice.isCompleted()) // hvorfor kun vise betalte/completed invoices?
-                invoices.add(invoice);
-        }
+        List<Invoice> invoices = new ArrayList<>(dao().invoiceDAO().readall());
 
         model.addAttribute("invoices", invoices);
         model.addAttribute("calculator", priceCalculator);
@@ -48,55 +45,52 @@ public class InvoiceController
     }
 
     @GetMapping("/invoices/update")
-    public String updateinvoice(@RequestParam int id, Model model)
+    public String showUpdateForm(@RequestParam int id, Model model)
     {
-        addAttributesToModel(model, id, null);
+        addAttributesToModel(model, dao().invoiceDAO().read(id));
         return "/invoices/edit";
     }
 
-    public void addAttributesToModel(Model model, int id, Invoice invoice)
+    public void addAttributesToModel(Model model,  Invoice invoice)
     {
-        if(invoice == null)
-            model.addAttribute("invoice", dao.invoiceDAO().read(id));
-        else
-            model.addAttribute("invoice", invoice);
-
-        model.addAttribute("motorhomes", dao.motorhomeDAO().readall());
-        model.addAttribute("customers", dao.customerDAO().readall());
-        model.addAttribute("services", dao.serviceDAO().readall());
+        model.addAttribute("invoice", invoice);
+        model.addAttribute("motorhomes", dao().motorhomeDAO().readall());
+        model.addAttribute("customers", dao().customerDAO().readall());
+        model.addAttribute("services", dao().serviceDAO().readall());
     }
 
     @PostMapping("/invoices/perfomupdate")
     public String performUpdate(WebRequest wr, Model model)
     {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Invoice invoice = new Invoice();
+        invoice.setInvoiceID(Integer.parseInt((wr.getParameter("invoiceID"))));
+        invoice.setServices(dao().invoiceDAO().read(invoice.getInvoiceID()).getServices());
+        invoice = getInvoiceFromStandardWR(wr, invoice);
 
-        Invoice invoice = getInvoiceFromWR(wr, null);
 
-        dao.invoiceDAO().update(invoice);
+        dao().invoiceDAO().update(invoice);
 
         return "redirect:/invoices";
     }
 
-    public Invoice getInvoiceFromWR(WebRequest wr, Invoice invoice)
+    /*
+        This method gets and sets the invoice attributes from a WebRequest.
+        When creating and updating invoices, some of the same parameters need to be extracted from a WebRequest
+        and this method reduces redundancy.
+    */
+    public Invoice getInvoiceFromStandardWR(WebRequest wr, Invoice invoice)
     {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        int invoiceID = -200;
         Period billPeriod;
         Period reservationPeriod;
         Motorhome motorhome;
         String customerID;
 
-        if(invoice == null)
-            invoiceID = Integer.parseInt((wr.getParameter("invoiceID")));
-
         customerID = wr.getParameter("customer");
         billPeriod = new Period(LocalDate.parse(wr.getParameter("billPeriodStartDate"), dtf), LocalDate.parse(wr.getParameter("billPeriodEndDate"), dtf));
         reservationPeriod = new Period(LocalDate.parse(wr.getParameter("reservationPeriodStartDate"), dtf), LocalDate.parse(wr.getParameter("reservationPeriodEndDate"), dtf));
-        motorhome = dao.motorhomeDAO().read(Integer.parseInt(wr.getParameter("motorhome")));
-
-        if(invoice == null)
-            return new Invoice(invoiceID, customerID, billPeriod, motorhome, dao.invoiceDAO().read(invoiceID).getServices(), true, reservationPeriod);
+        motorhome = dao().motorhomeDAO().read(Integer.parseInt(wr.getParameter("motorhome")));
 
         invoice.setCustomerID(customerID);
         invoice.setBillPeriod(billPeriod);
@@ -108,7 +102,7 @@ public class InvoiceController
     @GetMapping("/invoices/delete")
     public String deleteService(@RequestParam int id)
     {
-        dao.invoiceDAO().delete(id);
+        dao().invoiceDAO().delete(id);
         return "redirect:/invoices";
     }
 
@@ -117,15 +111,15 @@ public class InvoiceController
                                             @RequestParam int serviceID,
                                             Model model, WebRequest wr)
     {
-        Invoice invoice = dao.invoiceDAO().read(invoiceID);
+        Invoice invoice = dao().invoiceDAO().read(invoiceID);
 
-        Service service = dao.serviceDAO().read(serviceID);
+        Service service = dao().serviceDAO().read(serviceID);
 
-        invoice.getServices().add(service); // multiple copies of the same service is possible on 1 res.
+        invoice.getServices().add(service);
 
-        invoice = getInvoiceFromWRService(wr, invoice);
+        invoice = getInvoiceFromServiceWR(wr, invoice);
 
-        addAttributesToModel(model, invoiceID, invoice);
+        addAttributesToModel(model, invoice);
 
         return "invoices/edit";
     }
@@ -135,7 +129,7 @@ public class InvoiceController
                                                  @RequestParam int serviceID,
                                                  Model model, WebRequest wr)
     {
-        Invoice invoice = dao.invoiceDAO().read(invoiceID);
+        Invoice invoice = dao().invoiceDAO().read(invoiceID);
 
         for(int i = 0; i < invoice.getServices().size(); i++)
         {
@@ -146,65 +140,52 @@ public class InvoiceController
             }
         }
 
-        invoice = getInvoiceFromWRService(wr, invoice);
+        invoice = getInvoiceFromServiceWR(wr, invoice);
 
-        addAttributesToModel(model, invoiceID, invoice);
+        addAttributesToModel(model, invoice);
 
         return "invoices/edit";
     }
 
     @GetMapping("/invoices/create")
-    public String showCreateForm(Model model)
+    public String showCreateForm(Model model, HttpSession session)
     {
-        Invoice invoice;
+        Invoice invoice = new Invoice();
+        invoice.setServices(new ArrayList<Service>());
+        invoice.setBillPeriod(new Period());
+        invoice.setReservationPeriod(new Period());
 
-        if((invoice = dao.invoiceDAO().read(-200)) == null)
-        {
-            System.out.println("create");
-            invoice = new Invoice();
-            invoice.setServices(new ArrayList<Service>());
-            invoice.setCompleted(false);
-            invoice.setInvoiceID(-200);
-            invoice.setBillPeriod(new Period());
-            invoice.setReservationPeriod(new Period());
-        }
-        dao.invoiceDAO().readall().add(invoice);
-        addAttributesToModel(model, -200, invoice);
+        session.setAttribute("invoice", invoice);
+        addAttributesToModel(model, invoice);
 
         return "/invoices/new";
     }
 
     @PostMapping("/invoices/create")
-    public String createNewInvoice(WebRequest wr, Model model)
+    public String createNewInvoice(WebRequest wr, Model model, HttpSession session)
     {
-        Invoice invoice = dao.invoiceDAO().read(-200); //
-        invoice.setCompleted(true); // fra KCN; er regningen betalt?
-        System.out.println(invoice);
-        invoice = getInvoiceFromWR(wr, invoice);
-        System.out.println(invoice);
-        dao.invoiceDAO().delete(-200);
-        invoice.setInvoiceID(dao.invoiceDAO().readall().size() + 1);
-        dao.invoiceDAO().create(invoice);
-        addAttributesToModel(model, invoice.getInvoiceID(), invoice);
+        Invoice invoice = (Invoice) session.getAttribute("invoice");
+        invoice = getInvoiceFromStandardWR(wr, invoice);
+        dao().invoiceDAO().create(invoice);
+        addAttributesToModel(model, invoice);
         return "redirect:/invoices";
     }
 
     @PostMapping("/invoices/create/addservice")
-    public String addServiceToNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr)
+    public String addServiceToNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr, HttpSession session)
     {
-        Invoice invoice = dao.invoiceDAO().read(-200);
-        System.out.println("Before wr: "+ invoice);
+        Invoice invoice = (Invoice) session.getAttribute("invoice");
 
-        invoice.getServices().add(dao.serviceDAO().read(serviceID));
+        invoice.getServices().add(dao().serviceDAO().read(serviceID));
 
-        invoice = getInvoiceFromWRService(wr, invoice);
-        System.out.println("After wr: "+ invoice);
+        invoice = getInvoiceFromServiceWR(wr, invoice);
 
-        addAttributesToModel(model, -200, invoice);
+        addAttributesToModel(model, invoice);
         return "/invoices/new";
     }
 
-    public Invoice getInvoiceFromWRService(WebRequest wr, Invoice invoice)
+
+    public Invoice getInvoiceFromServiceWR(WebRequest wr, Invoice invoice)
     {
         String customerID;
         LocalDate billStartDate;
@@ -217,7 +198,8 @@ public class InvoiceController
 
         customerID =  (wr.getParameter("customerID-service").equals("")) ? invoice.getCustomerID() :  wr.getParameter("customerID-service");
 
-        motorhome = (wr.getParameter("motorhomeID-service").equals("")) ? invoice.getMotorhome() : dao.motorhomeDAO().read(Integer.parseInt(wr.getParameter("motorhomeID-service")));
+        motorhome = (wr.getParameter("motorhomeID-service").equals("")) ? invoice.getMotorhome() :
+                dao().motorhomeDAO().read(Integer.parseInt(wr.getParameter("motorhomeID-service")));
 
         billStartDate = (wr.getParameter("billPeriodStartDate-service").equals("")) ? invoice.getBillPeriod().getStart() : LocalDate.parse(wr.getParameter("billPeriodStartDate-service"));
 
@@ -240,15 +222,15 @@ public class InvoiceController
     }
 
     @PostMapping("/invoices/create/removeservice")
-    public String removeServiceFromNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr)
+    public String removeServiceFromNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr, HttpSession session)
     {
-        Invoice invoice = dao.invoiceDAO().read(-200);
+        Invoice invoice = (Invoice) session.getAttribute("invoice");
 
-        invoice.getServices().remove(dao.serviceDAO().read(serviceID));
+        invoice.getServices().remove(dao().serviceDAO().read(serviceID));
 
-        invoice = getInvoiceFromWRService(wr, invoice);
+        invoice = getInvoiceFromServiceWR(wr, invoice);
 
-        addAttributesToModel(model, -200, invoice);
+        addAttributesToModel(model, invoice);
 
         return "/invoices/new";
     }
@@ -263,17 +245,15 @@ public class InvoiceController
     public String createInvoiceFromReservation(@RequestParam int reservationID,
                                                Model model)
     {
-        Reservation r = dao.reservationDAO().read(reservationID);
+        Reservation r = dao().reservationDAO().read(reservationID);
         Invoice invoice;
 
         if(r == null) // if reservation id was bad, return ordinary empty create invoice view
         {
-            invoice = dao.invoiceDAO().read(-200);
-            addAttributesToModel(model, -200, invoice);
             return "redirect:/invoices/create";
         }
 
-        int tempID = dao.invoiceDAO().readall().size() + 1; // mechanism good for temp ids? with db?
+        int tempID = dao().invoiceDAO().readall().size() + 1; // mechanism good for temp ids? with db?
 
         invoice = new Invoice(tempID,
                               r.getCustomer().getDriversLicence(),
@@ -283,12 +263,12 @@ public class InvoiceController
                               false,
                               r.getPeriod());
 
-        dao.invoiceDAO().create(invoice); /* entering invoice from reservation into database */
+        dao().invoiceDAO().create(invoice); /* entering invoice from reservation into database */
 
         // the view demands some lists, and we want no choices, only display of specific options.
         List<Motorhome> motorhomes = new ArrayList<>();
         List<Customer> customers = new ArrayList<>();
-        List<Service> services = new ArrayList<>(dao.serviceDAO().readall());
+        List<Service> services = new ArrayList<>(dao().serviceDAO().readall());
         motorhomes.add(r.getMotorhome());
         customers.add(r.getCustomer());
         model.addAttribute("motorhomes", motorhomes);
@@ -304,7 +284,7 @@ public class InvoiceController
     public String sendInvoiceToCustomer(@RequestParam int invoiceID, Model model)
     {
 
-        Invoice invoice = dao.invoiceDAO().read(invoiceID);
+        Invoice invoice = dao().invoiceDAO().read(invoiceID);
 
         if(invoice != null)
         {
@@ -329,7 +309,7 @@ public class InvoiceController
 
         SimpleMessageSender sender = SimpleMessageSender.motorhomeStandardConnection();
 
-        Customer customer = dao.customerDAO().read(invoice.getCustomerID());
+        Customer customer = dao().customerDAO().read(invoice.getCustomerID());
 
         sender.sendEmail(customer.getPerson().getEmail(),
                          "Invoice for " + customer.getPerson().getFullName()

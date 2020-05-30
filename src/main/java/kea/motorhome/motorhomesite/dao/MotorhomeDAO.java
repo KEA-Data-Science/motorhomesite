@@ -7,201 +7,255 @@ import kea.motorhome.motorhomesite.util.Grouper;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/** Class acts as a Data Access Object, facilitating contact between the
+ * data-layer and business logic.*/
 public class MotorhomeDAO implements IDAO<Motorhome, Integer>
 {
-	private Connection connection;
+    private Connection connection;
 
 
-	public MotorhomeDAO()
-	{
-		connection = DBConnectionManager.getConnection();
+    public MotorhomeDAO()
+    {
+        connection = DBConnectionManager.getConnection();
+    }
 
-	}
+    @Override
+    public boolean create(Motorhome thing)
+    {
+        try
+        {
+            PreparedStatement preparedStatement = preparedStatementToWriteRowToMotorhomeTable(thing);
 
-	// TODO: Tabellen mangler servicesAvailable VARCHAR(200)
-	// TODO: Efter servicesAvailable er tiføjet til tabellen: Check om indekserne stadig passer
-	@Override
-	public boolean create(Motorhome thing) {
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(
-					"INSERT INTO motorhome.motorhome (licensePlate, notes, imageURL, productionYear, " +
-					"description, minimumDaysOfRental, fuelType, seasonalDailyCharges, carModel_idcarModel) " +
-							"VALUES (?,?,?,?,?,?,?,?,?)");
+            if(preparedStatement.executeUpdate() > 0) // if rows were written
 
-			// CSV String to hold serviceIDs
-			String servicesAvailableAsCSVString = "";
-			for (int i = 0; i < thing.getServicesAvailable().size(); i++)
-			{
-				servicesAvailableAsCSVString.concat(thing.getServicesAvailable().get(i).getServiceID() + ",");
-			}
+            {    /* if rows were written, get generated key from ResultSet */
+                ResultSet generatedKeyResultset = preparedStatement.getGeneratedKeys();
+                if(generatedKeyResultset.next())
 
-			preparedStatement.setString(1, thing.getLicensePlate());
-			preparedStatement.setString(2, thing.getNotes());
-			preparedStatement.setString(3, thing.getImageURL());
-			preparedStatement.setInt(4, thing.getProductionYear());
-			preparedStatement.setString(5, thing.getDescription());
-			preparedStatement.setInt(6, thing.getMinimumDaysOfRental());
-			preparedStatement.setString(7, thing.getFuelType());
-			preparedStatement.setFloat(8, thing.getSeasonDailyChargeLowSeason());
-			preparedStatement.setInt(9, thing.getModel().getCarModelID());
+                {    /* write rows to junction table Motorhome_has_Service with new key */
+                    int newMotorhomeID = generatedKeyResultset.getInt(1);
 
-			// todo: segment taking care of services list	query junction table to write a row with
-			//  res-id and service-id
-			// Hej Laurits, i den her metode er ændret en del, jeg er sikker på det er ok
-			// ændringer.
+                    writeRowsToMotorhome_has_ServiceTable(thing.getServicesAvailable(), newMotorhomeID);
+                }
+            }
+        } catch(SQLException e) { e.printStackTrace(); }
 
-			return preparedStatement.executeUpdate() > 0;
-		} catch(SQLException e) { e.printStackTrace(); }
+        return false;
+    }
 
-		return false;
-	}
+    private PreparedStatement preparedStatementToWriteRowToMotorhomeTable(Motorhome thing) throws SQLException
+    {
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO motorhome.motorhome" +
+                "(licensePlate," +
+                " notes," +
+                " imageURL," +
+                " productionYear, " +
+                " description," +
+                " minimumDaysOfRental," +
+                " fuelType," +
+                " seasonalDailyCharges," +
+                " carModel_idcarModel) " +
+                "VALUES (?,?,?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-	private void fillMotorhomeValuesFromResultSet(Motorhome motorhome, ResultSet resultSet) throws SQLException {
-		motorhome.setMotorhomeID(resultSet.getInt(1));
-		motorhome.setLicensePlate(resultSet.getString(2));
-		motorhome.setNotes(resultSet.getString(3));
-		motorhome.setImageURL(resultSet.getString(4));
-		// List of every services at all
-		ArrayList<Service> everyService = (ArrayList<Service>) SiteDAOCollection.getInstance().serviceDAO().readall();
-		// List of serviceIDs from CSV String// csv is out todo: this becomes it's own segment,
-		// querying the db, cycling through the junction table, joining to services table and reading;
-		// or it still be done through the SiteDAOCollection route. (KCN slet når uddateret.)
-		ArrayList<Integer> listOfServiceIDs = Grouper.splitCSVString_IntList(resultSet.getString(5),",",-1,true);
-		// List of available services taken from their ids
-		ArrayList<Service> servicesFromListOfServiceIDs = new ArrayList<>();
-		for (int i = 0; i < listOfServiceIDs.size(); i++) {
+        preparedStatement.setString(1, thing.getLicensePlate());
+        preparedStatement.setString(2, thing.getNotes());
+        preparedStatement.setString(3, thing.getImageURL());
+        preparedStatement.setInt(4, thing.getProductionYear());
+        preparedStatement.setString(5, thing.getDescription());
+        preparedStatement.setInt(6, thing.getMinimumDaysOfRental());
+        preparedStatement.setString(7, thing.getFuelType());
+        preparedStatement.setFloat(8, thing.getSeasonDailyChargeLowSeason());
+        preparedStatement.setInt(9, thing.getModel().getCarModelID());
 
-			servicesFromListOfServiceIDs.add(everyService.get(listOfServiceIDs.get(i)));
-		}
-		motorhome.setServicesAvailable(servicesFromListOfServiceIDs);
-		motorhome.setProductionYear(resultSet.getInt(6));
-		motorhome.setDescription(resultSet.getString(7));
-		motorhome.setMinimumDaysOfRental(resultSet.getInt(8));
-		motorhome.setFuelType(resultSet.getString(9));
-		// List of 3 Strings (representing floats) from CSV String
-		ArrayList<String> numbersFromCSVString = Grouper.splitStringAsCSV(resultSet.getString(10),",",-1);
-		// Float array to set as seasonDailyCharges, values from numbersFromCSVString
-		float floatArrayFromListOfStrings[] = { // todo: changes to single float
-				Float.parseFloat(numbersFromCSVString.get(0)),
-				Float.parseFloat(numbersFromCSVString.get(1)),
-				Float.parseFloat(numbersFromCSVString.get(2)),
-		};
-		motorhome.setSeasonalDailyCharge(floatArrayFromListOfStrings);
-		// Set CarModel with corresponding carModelID
-		motorhome.setModel(SiteDAOCollection.getInstance().carModelDAO().read(resultSet.getInt(11)));
-	}
+        return preparedStatement;
+    }
 
-	@Override
-	public Motorhome read(Integer id)
-	{
-		Motorhome motorhome = new Motorhome();
+    private void writeRowsToMotorhome_has_ServiceTable(List<Service> services, int motorhomeID) throws
+                                                                                                SQLException
+    {
+        for(Service service : services)
+        {
+            PreparedStatement reservationsServicesStatement = connection.prepareStatement(
+                    "INSERT INTO motorhome.motorhome_has_service " +
+                    "(Service_idService, Motorhome_idMotorhome) VALUES (?,?)");
+            reservationsServicesStatement.setInt(1, service.getServiceID());
+            reservationsServicesStatement.setInt(2, motorhomeID);
+            reservationsServicesStatement.executeUpdate();
+        }
+    }
+
+
+    @Override
+    public Motorhome read(Integer id)
+    {
+        Motorhome motorhome = new Motorhome();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM motorhome.motorhome WHERE idMotorhome = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()){ reconstructMotorhomeValuesFromResultSet(motorhome, resultSet); }
+
+            return motorhome;
+
+        } catch(SQLException e) { e.printStackTrace(); }
+
+        return null;
+    }
+
+    private void reconstructMotorhomeValuesFromResultSet(Motorhome motorhome, ResultSet resultSet) throws
+                                                                                                   SQLException
+    {
+        motorhome.setMotorhomeID(resultSet.getInt(1));
+        motorhome.setLicensePlate(resultSet.getString(2));
+        motorhome.setNotes(resultSet.getString(3));
+        motorhome.setImageURL(resultSet.getString(4));
+        motorhome.setProductionYear(resultSet.getInt(5));
+        motorhome.setDescription(resultSet.getString(6));
+        motorhome.setMinimumDaysOfRental(resultSet.getInt(7));
+        motorhome.setFuelType(resultSet.getString(8));
+        float[] pricesArray = new float[]{resultSet.getFloat(9), 0, 0};
+        motorhome.setSeasonalDailyCharge(pricesArray); // only first field read; remainders are calculated
+        // Set CarModel with corresponding carModelID
+        motorhome.setModel(SiteDAOCollection.getInstance().carModelDAO().read(resultSet.getInt(10)));
+
+        motorhome.setServicesAvailable(reconstructServicesListForMotorhome(motorhome.getMotorhomeID()));
+
+    }
+
+    private List<Service> reconstructServicesListForMotorhome(int motorhomeID)
+    {
+        List<Service> services = new ArrayList<>();
+
 		try
 		{
-			PreparedStatement preparedStatement = connection.prepareStatement(
-					"SELECT * FROM motorhome.motorhome WHERE idMotorhome = ?");
-			preparedStatement.setInt(1, id);
-			ResultSet resultSet = preparedStatement.executeQuery();
+        PreparedStatement serviceAssWithMotorhomeID = connection.prepareStatement(
+                "SELECT s.idService, " +
+                "	s.name, " +
+                "	s.description, " +
+                "	s.unitPrice " +
+                "	FROM motorhome.motorhome_has_service mhs " +
+                "	JOIN motorhome.service s " +
+                "	ON mhs.Service_idService = s.idService " +
+                "	WHERE mhs.Motorhome_idMotorhome = ?;");
+        serviceAssWithMotorhomeID.setInt(1, motorhomeID);
 
-			while(resultSet.next()) { fillMotorhomeValuesFromResultSet(motorhome, resultSet); }
+        ResultSet serviceRowsResultSet = serviceAssWithMotorhomeID.executeQuery();
 
-			return motorhome;
+            while(serviceRowsResultSet.next())
+            {
+                Service service = new Service();
+                service.setServiceID(serviceRowsResultSet.getInt(1));
+                service.setName(serviceRowsResultSet.getString(2));
+                service.setDescription(serviceRowsResultSet.getString(3));
+                service.setUnitPrice(serviceRowsResultSet.getFloat(4));
+                services.add(service);
+            }
+        } catch(SQLException e) {e.printStackTrace();}
 
-		} catch(SQLException e) { e.printStackTrace(); }
+        return services;
+    }
 
-		return null;
-	}
+    @Override
+    public List<Motorhome> readall()
+    {
+        List<Motorhome> motorhomes = new ArrayList<>();
 
+        PreparedStatement preparedStatement = null;
+        try
+        {
+            preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM motorhome.motorhome");
 
-	@Override
-	public List<Motorhome> readall()
-	{
-		List<Motorhome> motorhomes = new ArrayList<>();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-		PreparedStatement preparedStatement = null;
-		try
-		{
-			preparedStatement = connection.prepareStatement(
-					"SELECT * FROM motorhome.motorhome");
+            while(resultSet.next())
+            {
+                Motorhome motorhome = new Motorhome();
+                reconstructMotorhomeValuesFromResultSet(motorhome, resultSet);
+                motorhomes.add(motorhome);
+            }
+        } catch(SQLException e) { e.printStackTrace(); }
 
-			ResultSet resultSet = preparedStatement.executeQuery();
+        return motorhomes;
+    }
 
-			while(resultSet.next())
-			{
-				Motorhome motorhome = new Motorhome();
-				fillMotorhomeValuesFromResultSet(motorhome, resultSet);
-				motorhomes.add(motorhome);
-			}
-		} catch(SQLException e) { e.printStackTrace(); }
+    /**
+     * @param thing
+     */
+    @Override
+    public boolean update(Motorhome thing)
+    {
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE motorhome.motorhome SET " +
+                    "licensePlate = ?," +
+                    "notes = ?," +
+                    "imageURL = ?," +
+                    "productionYear = ?," +
+                    "description = ?," +
+                    "minimumDaysOfRental = ?," +
+                    "fuelType = ?," +
+                    "seasonalDailyCharges = ?" +
+//                    "carModel_idcarModel = ?" +
+                    "WHERE idMotorhome = ?");
 
-		return motorhomes;
-	}
+            preparedStatement.setString(1, thing.getLicensePlate());
+            preparedStatement.setString(2, thing.getNotes());
+            preparedStatement.setString(3, thing.getImageURL());
+            preparedStatement.setInt(4, thing.getProductionYear());
+            preparedStatement.setString(5, thing.getDescription());
+            preparedStatement.setInt(6, thing.getMinimumDaysOfRental());
+            preparedStatement.setString(7, thing.getFuelType());
+            preparedStatement.setFloat(8, thing.getSeasonDailyChargeLowSeason());
+//            preparedStatement.setInt(9, thing.getModel().getCarModelID());
+            preparedStatement.setInt(9,thing.getMotorhomeID());
 
-	/**
-	 * @param thing
-	 */
-	@Override
-	public boolean update(Motorhome thing)
-	{
-		try
-		{
-			PreparedStatement preparedStatement = connection.prepareStatement(
-					"UPDATE motorhome.motorhome SET " +
-							"licensePlate = ?," +
-							"notes = ?," +
-							"imageURL = ?," +
-							"productionYear = ?," +
-							"description = ?," +
-							"minimumDaysOfRental = ?," +
-							"fuelType = ?," +
-							"seasonalDailyCharges = ?," +
-							"carModel_idcarModel = ?" +
-							"WHERE idMotorhome = ?");
+            /* refreshing junction table connections, by first removing all previous junction-entries*/
+            removeEntriesFromMotorhomeServiceJunction(thing.getMotorhomeID());
+            /* and adding the entries from supplied motorhome; the possibilities of changes between updates
+            * are chaotic, and this way is safe. I think.*/
+            writeRowsToMotorhome_has_ServiceTable(thing.getServicesAvailable(),thing.getMotorhomeID());
 
-			preparedStatement.setString(1, thing.getLicensePlate());
-			preparedStatement.setString(2, thing.getNotes());
-			preparedStatement.setString(3, thing.getImageURL());
-			// CSV String to hold serviceIDs
-			String servicesAvailableAsCSVString = "";
-			for (int i = 0; i < thing.getServicesAvailable().size(); i++)
-			{
-				servicesAvailableAsCSVString.concat(thing.getServicesAvailable().get(i).getServiceID() + ",");
-			}
-			preparedStatement.setString(4, servicesAvailableAsCSVString);
-			preparedStatement.setInt(5, thing.getProductionYear());
-			preparedStatement.setString(6, thing.getDescription());
-			preparedStatement.setInt(7, thing.getMinimumDaysOfRental());
-			preparedStatement.setString(8, thing.getFuelType());
-			// CSV String to hold 3 element float[]
-			String seasonalDailyChargeAsCSVString = thing.getSeasonalDailyCharge()[0] + "," +
-					thing.getSeasonalDailyCharge()[1] + "," +
-					thing.getSeasonalDailyCharge()[2] + ",";
-			preparedStatement.setString(9, seasonalDailyChargeAsCSVString);
-			preparedStatement.setInt(10, thing.getModel().getCarModelID());
+            return preparedStatement.executeUpdate() > 0;
 
-			return preparedStatement.executeUpdate() > 0;
+        } catch(SQLException e) { e.printStackTrace(); }
 
-		} catch(SQLException e) { e.printStackTrace(); }
+        return false;
+    }
 
-		return false;
-	}
+    private void removeEntriesFromMotorhomeServiceJunction(int motorhomeID) throws SQLException
+    {
+        PreparedStatement deleteAssServicesStatement = connection.prepareStatement(
+                "DELETE FROM motorhome.motorhome_has_service" +
+                " WHERE Motorhome_idMotorhome = ?");
+        deleteAssServicesStatement.setInt(1, motorhomeID);
+        deleteAssServicesStatement.executeUpdate();
+    }
 
-	/**
-	 * @param id
-	 */
-	@Override
-	public boolean delete(Integer id)
-	{
-		try
-		{
-			PreparedStatement preparedStatement = connection.prepareStatement(
-					"DELETE FROM motorhome.motorhome WHERE idMotorhome = ?");
-			preparedStatement.setInt(1, id);
+    /**
+     * @param id
+     */
+    @Override
+    public boolean delete(Integer id)
+    {
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "DELETE FROM motorhome.motorhome WHERE idMotorhome = ?");
+            preparedStatement.setInt(1, id);
 
-			return preparedStatement.executeUpdate() > 0;
+            if(preparedStatement.executeUpdate() > 0) // motorhome was deleted from db
+            {
+                removeEntriesFromMotorhomeServiceJunction(id);
+                return true;
+            }
+        } catch(SQLException e) { e.printStackTrace(); }
 
-		} catch(SQLException e) { e.printStackTrace(); }
-
-		return false;
-	}
+        return false;
+    }
 }

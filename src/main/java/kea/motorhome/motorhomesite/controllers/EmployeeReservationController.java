@@ -1,6 +1,7 @@
 package kea.motorhome.motorhomesite.controllers;
 //  kcn
 
+import kea.motorhome.motorhomesite.dao.PeriodDAO;
 import kea.motorhome.motorhomesite.mail.PreparedOutGoingMessage;
 import kea.motorhome.motorhomesite.mail.SimpleMessageSender;
 import kea.motorhome.motorhomesite.util.DateUtil;
@@ -19,12 +20,14 @@ import java.util.List;
 @Controller // annotation marking class as controller class
 public class EmployeeReservationController
 {
-    private SiteDAOCollection dao; // all DAOs in one
+//    private SiteDAOCollection dao; // all DAOs in one
 
     public EmployeeReservationController()
     {
-        dao = SiteDAOCollection.getInstance();
+        /*dao = SiteDAOCollection.getInstance();*/
     }
+
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
     @GetMapping("/reservation/")
     public String employeeMakeReservation(Model model)
@@ -53,13 +56,13 @@ public class EmployeeReservationController
                                            @RequestParam java.sql.Date dateB,
                                            Model model)
     {
-        Motorhome motorhome = dao.motorhomeDAO().read(motorhomeID);
-        Customer customer = dao.customerDAO().read(customerID);
+        Motorhome motorhome = dao().motorhomeDAO().read(motorhomeID);
+        Customer customer = dao().customerDAO().read(customerID);
 
         /* if the motorhome and customer exist */
         if(motorhome != null && customer != null)
         {   /* looking through reservations */
-            for(Reservation reservation : dao.reservationDAO().readall())
+            for(Reservation reservation : dao().reservationDAO().readall())
             {   /* checking if motorhome already reserved in period */
                 if(reservation.getMotorhome().getMotorhomeID() == motorhomeID)
                 {
@@ -105,26 +108,37 @@ public class EmployeeReservationController
                                  @RequestParam java.sql.Date dateB,
                                  Model model)
     {
-        Customer customer = dao.customerDAO().read(customerID);
-        Motorhome motorhome = dao.motorhomeDAO().read(motorhomeID);
+        Customer customer = dao().customerDAO().read(customerID);
+        Motorhome motorhome = dao().motorhomeDAO().read(motorhomeID);
 
         if(customer != null && motorhome != null)
         {
+            // todo: period needs to present in datalayer before the rest of this process
+            // specific DAO because of pattern breaking method create_getID
+            PeriodDAO periodDAO = new PeriodDAO();
+
+            Period period = new Period(dateA.toLocalDate(), dateB.toLocalDate());
+            int periodID = periodDAO.create_getID(period);
+            period = dao().periodDAO().read(periodID); // this jump ensures the auto-generated ID is set
+            if(period==null) {
+                return showErrorPage("An error happened, could not create reservation" +
+                                     "period. Report to support.",model);
+            }
 
             Reservation reservation = // nb. some fields are yet unknown
                     new Reservation().
                             setStatus(ReservationStatus.Initialized).
-                            setReservationID(dao.reservationDAO().readall().size() + 1).
+                            setReservationID(dao().reservationDAO().readall().size() + 1).
                             setCustomer(customer).
                             setMotorhome(motorhome).
-                            setPeriod(new Period(dateA.toLocalDate(), dateB.toLocalDate())).
-                            setEmployee(dao.employeeDAO().read(1)).
+                            setPeriod(period).
+                            setEmployee(dao().employeeDAO().read(1)).
                             setInternalNotes("Reservation was placed on: " + LocalDate.now());
 
             model.addAttribute("reservation", reservation);
             model.addAttribute("priceCalculator", new PriceCalculator());
 
-            dao.reservationDAO().create(reservation);
+            dao().reservationDAO().create(reservation);
 
             return "reservation/new";
         }
@@ -146,20 +160,20 @@ public class EmployeeReservationController
                                          @RequestParam int employeeID,
                                          Model model)
     {
-        Reservation reservation = dao.reservationDAO().read(reservationID);
+        Reservation reservation = dao().reservationDAO().read(reservationID);
 
         if(reservation != null)
         {
             reservation.setStatus(ReservationStatus.Accepted);
 
-            Employee employee = dao.employeeDAO().read(employeeID);
+            Employee employee = dao().employeeDAO().read(employeeID);
 
             if(employee != null)
             {
                 reservation.setEmployee(employee);
             } else
             { // in case of bad employee ID, Employee ID 1 is used
-                employee = dao.employeeDAO().read(1);
+                employee = dao().employeeDAO().read(1);
                 reservation.setEmployee(employee);
             }
 
@@ -197,15 +211,15 @@ public class EmployeeReservationController
                                           @RequestParam String requestURL, // std: "reservation/new" / update
                                           Model model)
     {
-        Reservation reservation = dao.reservationDAO().read(reservationID);
+        Reservation reservation = dao().reservationDAO().read(reservationID);
 
-        Service service = dao.serviceDAO().read(serviceID); //
+        Service service = dao().serviceDAO().read(serviceID); //
 
         if(reservation != null && service != null)
         {
             reservation.getServices().add(service); // multiple copies of the same service is possible on 1 res.
 
-            dao.reservationDAO().update(reservation); // reservation is updated
+            dao().reservationDAO().update(reservation); // reservation is updated
 
             model.addAttribute("reservation", reservation);
             addControllerStandardAttributes(model);
@@ -222,7 +236,7 @@ public class EmployeeReservationController
                                                @RequestParam String requestURL,
                                                Model model)
     {
-        Reservation reservation = dao.reservationDAO().read(reservationID);
+        Reservation reservation = dao().reservationDAO().read(reservationID);
 
         for(int i = 0; i < reservation.getServices().size(); i++)
         {
@@ -233,7 +247,7 @@ public class EmployeeReservationController
             }
         }
 
-        dao.reservationDAO().update(reservation); // reservation is updated
+        dao().reservationDAO().update(reservation); // reservation is updated
 
         model.addAttribute("reservation", reservation);
         addControllerStandardAttributes(model);
@@ -250,7 +264,7 @@ public class EmployeeReservationController
         /* Making sure that reservation is added to model, even if null */
         Reservation reservation = null;
 
-        for(Reservation rsrvation : dao.reservationDAO().readall())
+        for(Reservation rsrvation : dao().reservationDAO().readall())
         {
             if(rsrvation.getReservationID() == reservationID)
             {
@@ -291,7 +305,7 @@ public class EmployeeReservationController
     {
         addControllerStandardAttributes(model);
 
-        Reservation reservation = dao.reservationDAO().read(reservationID);
+        Reservation reservation = dao().reservationDAO().read(reservationID);
 
         if(reservation != null)
         {
@@ -315,11 +329,11 @@ public class EmployeeReservationController
                                           @RequestParam int reservationID,
                                           Model model)
     {
-        Reservation reservation = dao.reservationDAO().read(reservationID);
+        Reservation reservation = dao().reservationDAO().read(reservationID);
         if(reservation != null)
         {
             reservation.setStatus(ReservationStatus.status(reservationStatus));
-            dao.reservationDAO().update(reservation);
+            dao().reservationDAO().update(reservation);
 
             model.addAttribute("reservation", reservation);
             model.addAttribute("reservationID", reservation.getReservationID());
@@ -335,11 +349,11 @@ public class EmployeeReservationController
                                           @RequestParam java.sql.Date dateB,
                                           Model model)
     {
-        Reservation reservation = dao.reservationDAO().read(reservationID);
+        Reservation reservation = dao().reservationDAO().read(reservationID);
         reservation.getPeriod().setStart(dateA.toLocalDate());
         reservation.getPeriod().setEnd(dateB.toLocalDate());
 
-        dao.reservationDAO().update(reservation);
+        dao().reservationDAO().update(reservation);
 
         model.addAttribute("reservation", reservation);
         model.addAttribute("reservationID", reservation.getReservationID());
@@ -352,13 +366,13 @@ public class EmployeeReservationController
                                          @RequestParam String internalNotes,
                                          Model model)
     {
-        Reservation reservation = dao.reservationDAO().read(reservationID);
+        Reservation reservation = dao().reservationDAO().read(reservationID);
 
         if(reservation != null)
         {
             reservation.setNotes(notes);
             reservation.setInternalNotes(internalNotes);
-            dao.reservationDAO().update(reservation);
+            dao().reservationDAO().update(reservation);
 
             model.addAttribute("reservation", reservation);
             model.addAttribute("reservationID", reservationID);
@@ -377,11 +391,11 @@ public class EmployeeReservationController
     public String deleteReservation(@RequestParam int reservationID,
                                     Model model)
     {
-        boolean deleteWasASuccess = dao.reservationDAO().delete(reservationID);
+        boolean deleteWasASuccess = dao().reservationDAO().delete(reservationID);
 
         if(deleteWasASuccess)
         {
-            model.addAttribute("reservations", dao.reservationDAO().readall());
+            model.addAttribute("reservations", dao().reservationDAO().readall());
             addControllerStandardAttributes(model);
             return "/reservation/list";
         }
@@ -397,7 +411,7 @@ public class EmployeeReservationController
     @GetMapping("reservation/list")
     public String listReservationOptions(Model model)
     {
-        model.addAttribute("reservations", dao.reservationDAO().readall());
+        model.addAttribute("reservations", dao().reservationDAO().readall());
         addControllerStandardAttributes(model);
 
         return "reservation/list";
@@ -408,7 +422,7 @@ public class EmployeeReservationController
     {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
-        for(Reservation reservation : dao.reservationDAO().readall())
+        for(Reservation reservation : dao().reservationDAO().readall())
         {
             if(reservation.getReservationID() == reservationID)
             {
@@ -430,7 +444,7 @@ public class EmployeeReservationController
     {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
-        for(Reservation reservation : dao.reservationDAO().readall())
+        for(Reservation reservation : dao().reservationDAO().readall())
         {
             if(reservation.getEmployee().getEmployeeID() == employeeID)
             {
@@ -453,7 +467,7 @@ public class EmployeeReservationController
     {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
-        for(Reservation reservation : dao.reservationDAO().readall())
+        for(Reservation reservation : dao().reservationDAO().readall())
         {
             if(reservation.getCustomer().getDriversLicence().toLowerCase().contentEquals(driversLicence.toLowerCase()))
             {
@@ -481,7 +495,7 @@ public class EmployeeReservationController
         /* list where search result positives show up */
         ArrayList<Reservation> reservations = new ArrayList<>();
         // local copy to avoid multiple calls to database
-        List<Reservation> inDatabaseReservations = dao.reservationDAO().readall();
+        List<Reservation> inDatabaseReservations = dao().reservationDAO().readall();
 
         Period period = new Period(dateA.toLocalDate(), dateB.toLocalDate());
         /* if dateA/dateB overlaps with period start or end, include in search */

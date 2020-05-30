@@ -15,12 +15,14 @@ public class DemoController
 {
     List<Motorhome> mobileHomes;
 
-    SiteDAOCollection dao; // all dao in one. dao is the way
+//    SiteDAOCollection dao; // all dao in one. dao is the way
 
     public DemoController()
     {
-        dao = SiteDAOCollection.getInstance();
+        /*dao = SiteDAOCollection.getInstance();*/
     }
+
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
     @GetMapping("/")
     public String home(){ return "index"; }
@@ -29,7 +31,7 @@ public class DemoController
     @GetMapping("/gallery")
     public String galleryPage(Model model)
     {
-        model.addAttribute("mobileHomes", dao.motorhomeDAO().readall());
+        model.addAttribute("mobileHomes", dao().motorhomeDAO().readall());
 
         return "gallery";
     }

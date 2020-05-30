@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController
 {
 
-    private SiteDAOCollection dao;
+    public CustomerController() { /*dao = SiteDAOCollection.getInstance();*/ }
 
-    public CustomerController() { dao = SiteDAOCollection.getInstance(); }
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
     @GetMapping("/customers/customers")
     public String customersPage(Model model)
     {
-        model.addAttribute("customers", dao.customerDAO().readall());
+        model.addAttribute("customers", dao().customerDAO().readall());
         return "customers/customers";
     }
 
     @GetMapping("/customers/details")
     public String getCustomerByParameter(Model model, @RequestParam String id)
     {
-        model.addAttribute("customer", dao.customerDAO().read(id));
+        model.addAttribute("customer", dao().customerDAO().read(id));
         return "customers/details";
     }
 
@@ -35,15 +35,15 @@ public class CustomerController
     public String showNewCustomerForm(Model model)
     {
         Customer customer = new Customer();
-        customer.setCustomerID(dao.customerDAO().readall().size()+1);
+        customer.setCustomerID(dao().customerDAO().readall().size()+1);
         Person person = new Person();
-        person.setPersonID(dao.personDAO().readall().size()+1);
+        person.setPersonID(dao().personDAO().readall().size()+1);
         customer.setPerson(person);
         Address address = new Address();
-        address.setAddressID(dao.addressDAO().readall().size()+1);
+        address.setAddressID(dao().addressDAO().readall().size()+1);
         customer.getPerson().setAddress(address);
         PayCard payCard = new PayCard();
-        payCard.setCardID(dao.paycardDAO().readall().size()+1);
+        payCard.setCardID(dao().paycardDAO().readall().size()+1);
         customer.setPayCard(payCard);
         model.addAttribute("customer", customer);
         model.addAttribute("person", person);
@@ -58,31 +58,38 @@ public class CustomerController
                                  @ModelAttribute("address") Address address,
                                  @ModelAttribute("payCard") PayCard payCard)
     {
-        dao.paycardDAO().create(payCard);
-        dao.addressDAO().create(address);
-        dao.personDAO().create(person);
-        dao.customerDAO().create(customer);
+        System.out.println("From CUSTOMERCONTROLLER::createCustomer\n" +
+                           "" + customer+ "\n"+
+                           "" + person + "\n"+
+                           "" + address + "\n" +
+                           "" + payCard + "\n"
+                          ); // dataen bliver ikke ført med fra formuleren
+
+        dao().paycardDAO().create(payCard);
+        dao().addressDAO().create(address);
+        dao().personDAO().create(person);
+        dao().customerDAO().create(customer);
         return "redirect:/customers/customers";
     }
 
     @RequestMapping(value = "/updatecustomer", method = RequestMethod.POST)
     public String updateCustomer(@ModelAttribute("customer") Customer customer)
     {
-        dao.customerDAO().update(customer);
+        dao().customerDAO().update(customer);
         return "redirect:/customers/customers";
     }
 
     @GetMapping("/customers/edit")
     public String showEditCustomerForm(Model model, @RequestParam String id)
     {
-        model.addAttribute("customer", dao.customerDAO().read(id));
+        model.addAttribute("customer", dao().customerDAO().read(id));
         return "customers/edit";
     }
 
     @RequestMapping("customers/delete")
     public String deleteCustomer(@RequestParam String id)
     {
-        dao.customerDAO().delete(id);
+        dao().customerDAO().delete(id);
         return "redirect:/customers/customers";
     }
 }

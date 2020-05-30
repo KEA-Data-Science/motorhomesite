@@ -13,18 +13,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ServiceController {
 
-    SiteDAOCollection dao;
+//    SiteDAOCollection dao;
 
     public ServiceController()
     {
-        dao = SiteDAOCollection.getInstance();
+//        dao = SiteDAOCollection.getInstance();
 //        serviceDAODemo.addServices();
-
     }
+
+
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
+
+
     @GetMapping("/services")
     public String showServices(Model model)
     {
-        model.addAttribute("services", dao.serviceDAO().readall());
+        model.addAttribute("services", dao().serviceDAO().readall());
         return "/services/services";
     }
 
@@ -37,22 +41,22 @@ public class ServiceController {
     @PostMapping("/services/getdata")
     public String getData(@ModelAttribute Service service)
     {
-        service.setServiceID(dao.serviceDAO().readall().size());
-        dao.serviceDAO().create(service);
+        service.setServiceID(dao().serviceDAO().readall().size());
+        dao().serviceDAO().create(service);
         return "redirect:/services";
     }
 
     @GetMapping("/updateservice")
     public String showUpdateService(@RequestParam int id, Model model)
     {
-        model.addAttribute("service", dao.serviceDAO().read(id));
+        model.addAttribute("service", dao().serviceDAO().read(id));
         return "/services/edit";
     }
 
     @PostMapping("/performUpdate")
     public String performUpdate(@ModelAttribute Service service)
     {
-        dao.serviceDAO().update(service);
+        dao().serviceDAO().update(service);
         System.out.println(service);
         return "redirect:/services";
     }
@@ -60,7 +64,7 @@ public class ServiceController {
     @GetMapping("/deleteservice")
     public String deleteService(@RequestParam int id)
     {
-        dao.serviceDAO().delete(id);
+        dao().serviceDAO().delete(id);
         return "redirect:/services";
     }
 }

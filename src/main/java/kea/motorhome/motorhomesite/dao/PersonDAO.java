@@ -29,6 +29,8 @@ public class PersonDAO implements IDAO<Person, Integer>
     @Override
     public boolean create(Person thing)
     {
+        System.out.println(thing);
+
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(

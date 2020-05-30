@@ -33,6 +33,8 @@ public class PayCardDAO implements IDAO<PayCard, Integer>
     @Override
     public boolean create(PayCard thing)
     {
+        System.out.println("Trying to create this: " + thing);
+
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
