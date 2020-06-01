@@ -12,10 +12,12 @@
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
 <!-- Main area of page -->
-<div class="body container">
+<h1 id="headline">View Motorhomes</h1>
+<div class="container">
 
     <!-- Car Fleet grid layout -->
-    <h1 id="headline">Company Fleet Overview</h1>
+    <h3 class="hl">Company Fleet Overview</h3>
+    <div class="padded-blue-area">
     <div class="wrapper">
         <div th:each="motorhome:${motorhomes}">
             <div class="box">
@@ -25,6 +27,7 @@
                     <tr>
                         <td class="item-description">
                             <div class="model-name" th:text="${motorhome.getModel().getModelName()}"></div>
+                            <div th:text="${'Motorhome ID: ' +motorhome.getMotorhomeID()}"></div>
                             <div th:text="${'Production year: '+motorhome.productionYear}"></div>
                             <div th:text="${'LOW price per day: ' +motorhome.getSeasonalDailyCharge()[0] + ' kroner'}"></div>
                             <div th:text="${'MEDIUM price per day: ' + motorhome.getSeasonalDailyCharge()[1] + ' kroner'}"></div>
@@ -34,9 +37,6 @@
                         <td>
                             <div>
                                 <a th:href="@{/motorhomes/details(id=${motorhome.getMotorhomeID()})}"><button class="button animate border-8px"><span>Details</span></button></a>
-                            </div>
-                            <div>
-                                <button class="button animate border-8px"><span>Status </span></button>
                             </div>
                             <div>
                                 <a th:href="@{/motorhomes/edit(id=${motorhome.getMotorhomeID()})}"><button class="button animate border-8px"><span>Update</span></button></a>
@@ -52,6 +52,7 @@
                 <div class="collapsible-content" th:text="${motorhome.getDescription()}"></div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 
