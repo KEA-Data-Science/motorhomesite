@@ -1,10 +1,14 @@
 package kea.motorhome.motorhomesite.controllers;
 
-        import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
-        import kea.motorhome.motorhomesite.models.*;
-        import org.springframework.stereotype.Controller;
-        import org.springframework.ui.Model;
-        import org.springframework.web.bind.annotation.*;
+import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
+import kea.motorhome.motorhomesite.models.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MotorhomeController {
@@ -25,7 +29,9 @@ public class MotorhomeController {
 
     @GetMapping("/motorhomes/details")
     public String getMotorhomeByParameter(Model model, @RequestParam int id) {
-        model.addAttribute("motorhome", dao().motorhomeDAO().read(id));
+        Motorhome motorhome = dao().motorhomeDAO().read(id);
+        model.addAttribute("motorhome", motorhome);
+        model.addAttribute("services", motorhome.getServicesAvailable());
         return "motorhomes/details";
     }
 
@@ -41,7 +47,9 @@ public class MotorhomeController {
     }
 
     @RequestMapping(value = "/savemotorhome", method = RequestMethod.POST)
-    public String createMotorhome(@ModelAttribute("motorhome") Motorhome motorhome) {
+    public String createMotorhome(@ModelAttribute("motorhome") Motorhome motorhome, @RequestParam int carModelID) {
+        CarModel carModel = dao().carModelDAO().read(carModelID);
+        motorhome.setModel(carModel);
         dao().motorhomeDAO().create(motorhome);
         return "redirect:/motorhomes/motorhomes";
     }

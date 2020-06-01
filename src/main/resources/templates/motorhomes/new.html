@@ -37,13 +37,9 @@
                 <td>Notes</td>
                 <td><input type="text" th:field="*{notes}"/></td>
             </tr>
+
             <!-- TODO: Tilføje services -->
-                <tr>
-                    <td>Services</td>
-                </tr>
-                <tr th:each="service:${services}">
-                    <td th:text="${'Service ID: '+service.getServiceID() + ', Service Name: ' + service.getName() + ', ' + 'Unit Price: ' + service.getUnitPrice()}"></td>
-                <tr>
+
             <td>Production Year</td>
             <td><input type="number" th:field="*{productionYear}"/></td>
             </tr>

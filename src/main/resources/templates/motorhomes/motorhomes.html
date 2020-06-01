@@ -26,9 +26,9 @@
                         <td class="item-description">
                             <div class="model-name" th:text="${motorhome.getModel().getModelName()}"></div>
                             <div th:text="${'Production year: '+motorhome.productionYear}"></div>
-                            <div th:text="${'LOW Price per day: ' +motorhome.getSeasonalDailyCharge()[0] + ' kroner'}"></div>
-                            <div th:text="${'MEDIUM Price per day: ' + motorhome.getSeasonalDailyCharge()[1] + ' kroner'}"></div>
-                            <div th:text="${'HIGH per day: ' + motorhome.getSeasonalDailyCharge()[2] + ' kroner'}"></div>
+                            <div th:text="${'LOW price per day: ' +motorhome.getSeasonalDailyCharge()[0] + ' kroner'}"></div>
+                            <div th:text="${'MEDIUM price per day: ' + motorhome.getSeasonalDailyCharge()[1] + ' kroner'}"></div>
+                            <div th:text="${'HIGH price per day: ' + motorhome.getSeasonalDailyCharge()[2] + ' kroner'}"></div>
                             <div th:text="${'Minimum rental period: ' + motorhome.getMinimumDaysOfRental() + ' days'}"></div>
                         </td>
                         <td>
@@ -48,7 +48,6 @@
                     </tr>
                 </table>
                 <button class="collapsible">Description:
-                    <span th:text="${motorhome.getDescription().substring(0,6) + '...'}"></span>
                 </button>
                 <div class="collapsible-content" th:text="${motorhome.getDescription()}"></div>
             </div>

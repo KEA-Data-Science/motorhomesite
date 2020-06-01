@@ -43,9 +43,9 @@
             <td>Notes</td>
             <td th:text="${motorhome.getNotes()}"></td>
         </tr>
-        <tr>
-            <td>Services</td>
-            <td th:text="${motorhome.getServicesAvailable()}"></td>
+        <tr th:each="service:${services}">
+            <td>Service</td>
+            <td th:text="${service.getName() + ', ' + service.getUnitPrice() + ' kr.'}"></td>
         </tr>
         <tr>
             <td>Production Year</td>
