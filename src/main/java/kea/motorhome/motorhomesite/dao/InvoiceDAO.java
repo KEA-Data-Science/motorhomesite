@@ -48,6 +48,7 @@ public class InvoiceDAO implements IDAO<Invoice,Integer> {
     }
 
 
+
     /*
         This method adds all the services in the supplied Invoice object to the junction table Invoice_has_Service and gives the rows
         an invoiceID matching the Invoice parameter.
@@ -229,4 +230,5 @@ public class InvoiceDAO implements IDAO<Invoice,Integer> {
 
         return false;
     }
+
 }

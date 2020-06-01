@@ -30,7 +30,12 @@ public class InvoiceController
     }
     private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
+    /*
+        The method responsible for directing the user over to the invoices page where a list of all invoices is presented.
+        It adds all of the invoices into the model and a price calculator which make it possible to calculate the price
+        inside invoices.html.
 
+     */
     @GetMapping("/invoices")
     public String showInvoices(Model model)
     {
@@ -44,6 +49,12 @@ public class InvoiceController
         return "/invoices/invoices";
     }
 
+    /*
+        The method responsible for directing the user into the update page after they have chosen an
+        invoice to update inside invoices.html. It gets the invoice id as a parameter, reads the invoice
+        in the database via the invoice id, adds the invoice to model and show the update form.
+     */
+
     @GetMapping("/invoices/update")
     public String showUpdateForm(@RequestParam int id, Model model, HttpSession session)
     {
@@ -52,6 +63,11 @@ public class InvoiceController
         return "/invoices/edit";
     }
 
+    /*
+        The 4 attributes in this method need to be added to the model many times
+        and the purpose of this method is to reduce redundancy.
+
+     */
     public void addAttributesToModel(Model model,  Invoice invoice)
     {
         model.addAttribute("invoice", invoice);
@@ -59,6 +75,11 @@ public class InvoiceController
         model.addAttribute("customers", dao().customerDAO().readall());
         model.addAttribute("services", dao().serviceDAO().readall());
     }
+
+    /*
+        This method is responsible for updating the invoice in the database. It is called after the user clicks submit
+        inside invoices/edit.html.
+     */
 
     @PostMapping("/invoices/perfomupdate")
     public String performUpdate(WebRequest wr, Model model, HttpSession session)
@@ -76,6 +97,7 @@ public class InvoiceController
         addAttributesToModel(model, invoice);
         return "redirect:/invoices";
     }
+
 
     /*
         This method gets and sets the invoice attributes from a WebRequest.
@@ -108,7 +130,9 @@ public class InvoiceController
         invoice.getReservationPeriod().setPeriodID(reservationPeriodID);
         return invoice;
     }
-
+    /*
+        The method responsible for deleting an invoice.
+     */
     @GetMapping("/invoices/delete")
     public String deleteService(@RequestParam int id)
     {
@@ -116,6 +140,10 @@ public class InvoiceController
         return "redirect:/invoices";
     }
 
+    /*
+        When the user adds a new service inside invoices/edit.html this method is called.
+        It
+     */
     @PostMapping("/invoices/update/addservice")
     public String addServiceToInvoiceUpdate(@RequestParam int invoiceID,
                                             @RequestParam int serviceID,
@@ -252,7 +280,7 @@ public class InvoiceController
      */
     @PostMapping("/invoices/fromreservation")
     public String createInvoiceFromReservation(@RequestParam int reservationID,
-                                               Model model)
+                                               Model model, HttpSession session)
     {
         Reservation r = dao().reservationDAO().read(reservationID);
         Invoice invoice;
@@ -285,6 +313,8 @@ public class InvoiceController
         model.addAttribute("services", services);
 
         model.addAttribute("invoice", invoice);
+
+        session.setAttribute("invoiceUpdate", invoice);
 
         return "/invoices/edit";
     }
@@ -324,5 +354,6 @@ public class InvoiceController
                          "Invoice for " + customer.getPerson().getFullName()
                          + " from Nordic Motorhome Rental", message);
     }
+
 
 }
