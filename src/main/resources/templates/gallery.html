@@ -12,9 +12,10 @@
 <div th:replace="fragments/navbar.html :: navigation"></div>
 
 <!-- Main area of page -->
-<h1 class="hl">Company Fleet Overview</h1>
-<div class="body container">
-
+<h1 id="headline">Gallery</h1>
+<div class="container">
+    <h3 class="hl">Company Fleet Overview</h3>
+<div class="padded-blue-area">
     <!--   Car Fleet grid layout -->
     <div class="wrapper">
         <div th:each="mobileHome:${mobileHomes}">
@@ -25,23 +26,12 @@
                     <tr>
                         <td class="item-description">
                             <div class="model-name" th:text="${mobileHome.getModel().getModelName()}"></div>
+                            <div th:text="${'Motorhome ID: ' +mobileHome.getMotorhomeID()}"></div>
                             <div th:text="${'Production year: '+mobileHome.productionYear}"></div>
                             <div th:text="${'LOW Price per day: ' + mobileHome.getSeasonalDailyCharge()[0] + ' kroner'}"></div>
                             <div th:text="${'MEDIUM Price per day: ' + mobileHome.getSeasonalDailyCharge()[1] + ' kroner'}"></div>
                             <div th:text="${'HIGH per day: ' + mobileHome.getSeasonalDailyCharge()[2] + ' kroner'}"></div>
                             <div th:text="${'Minimum rental period: ' + mobileHome.getMinimumDaysOfRental() + ' days'}"></div>
-                        </td>
-                        <td>
-                            <div>
-                                <!--                                Disse links skal opdateres med Laurits motorhome-links-->
-                                <button class="button animate border-8px"><span>Details </span></button>
-                            </div>
-                            <div>
-                                <button class="button animate border-8px"><span>Status </span></button>
-                            </div>
-                            <div>
-                                <button class="button animate border-8px"><span>Action</span></button>
-                            </div>
                         </td>
                 </table>
 
@@ -128,6 +118,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
 <!-- javascript -->
