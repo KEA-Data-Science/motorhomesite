@@ -67,6 +67,4 @@ public class MotorhomeController {
         dao().motorhomeDAO().delete(id);
         return "redirect:/motorhomes/motorhomes";
     }
-
-
 }
