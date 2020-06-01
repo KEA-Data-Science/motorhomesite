@@ -48,7 +48,7 @@
                     </tr>
                 </table>
                 <button class="collapsible">Description:
-                    <span th:text="${motorhome.getDescription().substring(0,15) + '...'}"></span>
+                    <span th:text="${motorhome.getDescription().substring(0,6) + '...'}"></span>
                 </button>
                 <div class="collapsible-content" th:text="${motorhome.getDescription()}"></div>
             </div>

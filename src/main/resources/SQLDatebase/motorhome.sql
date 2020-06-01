@@ -267,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `motorhome`.`Service`
 (
     `idService`   INT         NOT NULL AUTO_INCREMENT,
     `name`        VARCHAR(45) NULL,
-    `description` VARCHAR(45) NULL,
+    `description` VARCHAR(200) NULL,
     `unitPrice`   FLOAT       NULL,
     PRIMARY KEY (`idService`)
 )

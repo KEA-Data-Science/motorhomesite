@@ -67,9 +67,9 @@ public class CustomerDAO implements IDAO<Customer, String>
         customer.setDriversLicence(resultSet.getString(2));
         customer.setApproved(resultSet.getBoolean(3));
         // Sets appropriate Person object through its id
-        customer.setPerson(dao().personDAO().read(resultSet.getInt(3)));
+        customer.setPerson(dao().personDAO().read(resultSet.getInt(4)));
         // Sets appropriate PayCard object through its id
-        customer.setPayCard(dao().paycardDAO().read(resultSet.getInt(4)));
+        customer.setPayCard(dao().paycardDAO().read(resultSet.getInt(5)));
     }
 
     private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}

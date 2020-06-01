@@ -118,12 +118,12 @@ public class PayCardDAO implements IDAO<PayCard, Integer>
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE motorhome.paycard SET " +
-                    "cardType = ?," +
-                    "cardNumber = ?," +
-                    "expirationDate = ?," +
-                    "securityDigits = ?" +
-                    "WHERE idPaycard = ?");
+                    "UPDATE `motorhome`.`paycard` SET" +
+                    " `cardType` = ?," +
+                    " `cardNumber` = ?," +
+                    " `expirationDate` = ?," +
+                    " `securityDigits` = ?" +
+                    " WHERE (`idPaycard` = ?) ") ;
 
             preparedStatement.setString(1, thing.getCardType());
             preparedStatement.setString(2, thing.getCardNumber());

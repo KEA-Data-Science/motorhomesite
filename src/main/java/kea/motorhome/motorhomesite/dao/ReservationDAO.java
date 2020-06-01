@@ -387,12 +387,13 @@ public class ReservationDAO implements IDAO<Reservation, Integer>
             PreparedStatement deleteReservationStatement = connection.prepareStatement(
                     "DELETE FROM motorhome.reservation WHERE idReservation = ?");
             deleteReservationStatement.setInt(1, id);
-            deleteReservationStatement.executeUpdate();
 
             /* delete all rows associated with reservation in reservation_has_service-tale */
             removeEntriesFromReservationServiceJunction(id);
             removeEntriesFromReservationAppointmentJunction(id);
 
+            // this update needs to happen after deletion of junction-table rows
+            deleteReservationStatement.executeUpdate();
             return true;
 
         } catch(SQLException e) { e.printStackTrace();}
