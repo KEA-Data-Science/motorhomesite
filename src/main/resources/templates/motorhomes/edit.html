@@ -28,16 +28,8 @@
                 <td><input type="text" th:field="*{licensePlate}" name="licensePlate"/></td>
             </tr>
             <tr>
-                <td>Seasonal Daily Charges: LOW Price Per Day</td>
-                <td><input type="number" th:field="*{seasonalDailyCharge[0]}"/></td>
-            </tr>
-            <tr>
-                <td>Seasonal Daily Charges: MEDIUM Price Per Day</td>
-                <td><input type="number" th:field="*{seasonalDailyCharge[1]}"/></td>
-            </tr>
-            <tr>
-                <td>Seasonal Daily Charges: HIGH Price Per Day</td>
-                <td><input type="number" th:field="*{seasonalDailyCharge[2]}"/></td>
+                <td>Seasonal Daily Charges (Base Charge)</td>
+                <td><input type="number" th:field="*{seasonalDailyCharge}"/></td>
             </tr>
             <tr>
                 <td>Notes</td>
