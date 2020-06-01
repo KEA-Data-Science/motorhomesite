@@ -71,7 +71,7 @@ public class MotorhomeController {
     }
 
     @RequestMapping("motorhomes/delete")
-    public String deleteEmployee(@RequestParam int id) {
+    public String deleteMotorhome(@RequestParam int id) {
         dao().motorhomeDAO().delete(id);
         return "redirect:/motorhomes/motorhomes";
     }

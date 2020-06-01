@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <td>Notes</td>
-                <td><input type="text" th:field="*{notes}"/></td>
+                <td><input type="text" th:field="*{notes}" maxlength="200"/></td>
             </tr>
 
             <!-- TODO: Tilføje services -->
@@ -36,8 +36,8 @@
             <td><input type="number" th:field="*{productionYear}"/></td>
             </tr>
             <tr>
-                <td>Description (min. 15 characters)</td>
-                <td><input type="text" minlength="15" th:field="*{description}"/></td>
+                <td>Description</td>
+                <td><input type="text" th:field="*{description}" maxlength="200" minlength="15"/></td>
             </tr>
             <tr>
                 <td>Minimum Days of Rental</td>

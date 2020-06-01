@@ -35,12 +35,15 @@ public class EmployeeController
         Employee employee = new Employee();
         employee.setEmployeeID(dao().employeeDAO().readall().size()+1);
         employee.setAccountancyID(dao().employeeDAO().readall().size()+1);
+
         Person person = new Person();
         person.setPersonID(dao().personDAO().readall().size()+1);
         employee.setPerson(person);
+
         Address address = new Address();
         address.setAddressID(dao().addressDAO().readall().size()+1);
         employee.getPerson().setAddress(address);
+
         model.addAttribute("employee", employee);
         model.addAttribute("person", person);
         model.addAttribute("address", address);
@@ -51,14 +54,16 @@ public class EmployeeController
     public String createEmployee(@ModelAttribute("employee") Employee employee,
                                  @ModelAttribute("person") Person person,
                                  @ModelAttribute("address") Address address) {
-        dao().addressDAO().create(address);
-        dao().personDAO().create(person); // der er et problem med dette person object
+        dao().addressDAO().create(employee.getPerson().getAddress());
+        dao().personDAO().create(employee.getPerson());
         dao().employeeDAO().create(employee);
         return "redirect:/employees/employees";
     }
 
     @RequestMapping(value ="/updateemployee", method = RequestMethod.POST)
     public String updateEmployee(@ModelAttribute("employee") Employee employee) {
+        dao().addressDAO().update(employee.getPerson().getAddress());
+        dao().personDAO().update(employee.getPerson());
         dao().employeeDAO().update(employee);
         return "redirect:/employees/employees";
     }

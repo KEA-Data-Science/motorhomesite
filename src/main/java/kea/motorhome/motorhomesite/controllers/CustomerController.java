@@ -63,15 +63,16 @@ public class CustomerController
                                  @ModelAttribute("address") Address address,
                                  @ModelAttribute("payCard") PayCard payCard)
     {
-        /* Setting status of customer */
-        customer.getPerson().setUserType(SiteRole.CUSTOMER);
-
+        /*
         System.out.println("From CUSTOMERCONTROLLER::createCustomer\n" +
                            "" + customer+ "\n"+
                            "" + person + "\n"+
                            "" + address + "\n" +
                            "" + payCard + "\n"
                           ); // dataen bliver ikke ført med fra formuleren
+                          */
+
+        customer.getPerson().setUserType(SiteRole.CUSTOMER);
 
         dao().paycardDAO().create(customer.getPayCard());
         dao().addressDAO().create(customer.getPerson().getAddress());
@@ -81,10 +82,7 @@ public class CustomerController
     }
 
     @RequestMapping(value = "/updatecustomer", method = RequestMethod.POST)
-    public String updateCustomer(@ModelAttribute("customer") Customer customer/*,
-                                 @ModelAttribute("person") Person person,
-                                 @ModelAttribute("address") Address address,
-                                 @ModelAttribute("payCard") PayCard payCard*/)
+    public String updateCustomer(@ModelAttribute("customer") Customer customer)
     {
         dao().customerDAO().update(customer);
         dao().personDAO().update(customer.getPerson());
