@@ -32,8 +32,8 @@ public class CustomerDAO implements IDAO<Customer, String>
             preparedStatement.setString(1, thing.getDriversLicence());
             byte approvedAsByte = (byte)(thing.isApproved() ? 1 : 0); // Byte to represent boolean value in database
             preparedStatement.setByte(2, approvedAsByte);
-            preparedStatement.setInt(3, thing.getPerson().getPersonID()); // Sets id of appropriate Person object
-            preparedStatement.setInt(3, thing.getPayCard().getCardID()); // Sets id of appropriate PayCard object
+            preparedStatement.setInt(3, thing.getPerson().getPersonID()); // Sets id of Person
+            preparedStatement.setInt(4, thing.getPayCard().getCardID()); // Sets id of PayCard
 
             return preparedStatement.executeUpdate() > 0;
         } catch(SQLException e) { e.printStackTrace(); }

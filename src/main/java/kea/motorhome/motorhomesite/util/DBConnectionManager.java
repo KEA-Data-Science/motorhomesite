@@ -19,7 +19,7 @@ public class DBConnectionManager
 
     private DBConnectionManager(){}
 
-    public static Connection getConnection()
+    public static Connection  getConnection()
     {
         if(connection != null){return connection;}
         return connection = getDatabaseConnection();
