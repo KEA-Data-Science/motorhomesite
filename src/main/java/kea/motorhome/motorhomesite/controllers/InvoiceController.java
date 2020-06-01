@@ -1,5 +1,8 @@
 package kea.motorhome.motorhomesite.controllers;
 
+import kea.motorhome.motorhomesite.dao.InvoiceDAO;
+import kea.motorhome.motorhomesite.dao.PeriodDAO;
+import kea.motorhome.motorhomesite.dao.PersonDAO;
 import kea.motorhome.motorhomesite.mail.PreparedOutGoingMessage;
 import kea.motorhome.motorhomesite.mail.SimpleMessageSender;
 import kea.motorhome.motorhomesite.util.PriceCalculator;
@@ -232,6 +235,11 @@ public class InvoiceController
         Motorhome motorhome;
         Period billPeriod;
         Period reservationPeriod;
+        int billPeriodID;
+        int reservationPeriodID;
+
+        billPeriodID = invoice.getBillPeriod().getPeriodID();
+        reservationPeriodID = invoice.getReservationPeriod().getPeriodID();
 
         customerID =  (wr.getParameter("customerID-service").equals("")) ? invoice.getCustomerID() :  wr.getParameter("customerID-service");
 
@@ -254,6 +262,9 @@ public class InvoiceController
         invoice.setBillPeriod(billPeriod);
         invoice.setReservationPeriod(reservationPeriod);
         invoice.setMotorhome(motorhome);
+
+        invoice.getBillPeriod().setPeriodID(billPeriodID);
+        invoice.getReservationPeriod().setPeriodID(reservationPeriodID);
 
         return invoice;
     }
@@ -284,6 +295,8 @@ public class InvoiceController
     {
         Reservation r = dao().reservationDAO().read(reservationID);
         Invoice invoice;
+        Period billPeriod = new Period(LocalDate.now(), LocalDate.now().plusWeeks(2));
+        InvoiceDAO invoiceDAO = new InvoiceDAO();
 
         if(r == null) // if reservation id was bad, return ordinary empty create invoice view
         {
@@ -292,15 +305,19 @@ public class InvoiceController
 
         int tempID = dao().invoiceDAO().readall().size() + 1; // mechanism good for temp ids? with db?
 
+
         invoice = new Invoice(tempID,
                               r.getCustomer().getDriversLicence(),
-                              new Period(LocalDate.now(), LocalDate.now().plusWeeks(2)),
+                              billPeriod,
                               r.getMotorhome(),
                               r.getServices(),
                               false,
                               r.getPeriod());
 
-        dao().invoiceDAO().create(invoice); /* entering invoice from reservation into database */
+        dao().invoiceDAO().create(invoice); //* entering invoice from reservation into database */
+
+        //The invoice needs to match the invoice in the database that was just created.
+        invoice = invoiceDAO.read(invoiceDAO.create_getID(invoice));
 
         // the view demands some lists, and we want no choices, only display of specific options.
         List<Motorhome> motorhomes = new ArrayList<>();

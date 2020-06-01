@@ -47,6 +47,37 @@ public class InvoiceDAO implements IDAO<Invoice,Integer> {
         return false;
     }
 
+    public int create_getID(Invoice thing) {
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO motorhome.invoice (isCompleted, Customer_driversLicense, billPeriod, Motorhome_IdMotorhome, reservationPeriod) " +
+                            "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+
+            preparedStatement.setBoolean(1, thing.isCompleted());
+            preparedStatement.setString(2, thing.getCustomerID());
+            preparedStatement.setInt(3, new PeriodDAO().create_getID(thing.getBillPeriod()));
+            preparedStatement.setInt(4, thing.getMotorhome().getMotorhomeID());
+            preparedStatement.setInt(5, new PeriodDAO().create_getID(thing.getReservationPeriod()));
+
+            preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+            if(resultSet.next())
+            {
+                thing.setInvoiceID(resultSet.getInt(1));
+            }
+
+            return thing.getInvoiceID();
+
+
+        } catch(SQLException e) { e.printStackTrace(); }
+
+        return -1;
+
+    }
+
 
 
     /*
@@ -220,7 +251,7 @@ public class InvoiceDAO implements IDAO<Invoice,Integer> {
             if (deleteServices(read(id)) == false) return false;
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "DELETE FROM motorhome.employee WHERE idInvoice = ?");
+                    "DELETE FROM motorhome.invoice WHERE idInvoice = ?");
 
             preparedStatement.setInt(1, id);
 
