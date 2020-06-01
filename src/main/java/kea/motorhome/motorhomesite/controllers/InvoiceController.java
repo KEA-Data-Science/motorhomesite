@@ -295,7 +295,6 @@ public class InvoiceController
     {
         Reservation r = dao().reservationDAO().read(reservationID);
         Invoice invoice;
-        Period billPeriod = new Period(LocalDate.now(), LocalDate.now().plusWeeks(2));
         InvoiceDAO invoiceDAO = new InvoiceDAO();
 
         if(r == null) // if reservation id was bad, return ordinary empty create invoice view
@@ -308,13 +307,11 @@ public class InvoiceController
 
         invoice = new Invoice(tempID,
                               r.getCustomer().getDriversLicence(),
-                              billPeriod,
+                              new Period(LocalDate.now(), LocalDate.now().plusWeeks(2)),
                               r.getMotorhome(),
                               r.getServices(),
                               false,
                               r.getPeriod());
-
-        dao().invoiceDAO().create(invoice); //* entering invoice from reservation into database */
 
         //The invoice needs to match the invoice in the database that was just created.
         invoice = invoiceDAO.read(invoiceDAO.create_getID(invoice));
