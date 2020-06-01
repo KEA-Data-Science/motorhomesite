@@ -75,7 +75,8 @@ public class Person {
 
 	public Address getAddress()
 	{
-		return address;
+		if(address== null){ address = new Address();}
+			return address;
 	}
 
 	public void setAddress(Address address)

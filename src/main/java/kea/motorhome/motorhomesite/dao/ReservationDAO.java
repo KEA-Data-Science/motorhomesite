@@ -338,6 +338,8 @@ public class ReservationDAO implements IDAO<Reservation, Integer>
 
             updateReservationStatement.executeUpdate();
 
+            /* dates need to be be update as well */
+
             /* delete all rows associated with reservation in reservation_has_service-tale */
             removeEntriesFromReservationServiceJunction(thing.getReservationID());
             /* then add those associated service/reservations to the same junction table */

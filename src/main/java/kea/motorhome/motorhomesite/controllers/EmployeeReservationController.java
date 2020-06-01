@@ -354,6 +354,7 @@ public class EmployeeReservationController
         reservation.getPeriod().setEnd(dateB.toLocalDate());
 
         dao().reservationDAO().update(reservation);
+        dao().periodDAO().update(reservation.getPeriod());
 
         model.addAttribute("reservation", reservation);
         model.addAttribute("reservationID", reservation.getReservationID());
