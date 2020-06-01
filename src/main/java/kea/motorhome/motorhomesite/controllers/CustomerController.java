@@ -1,6 +1,7 @@
 package kea.motorhome.motorhomesite.controllers;
 
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
+import kea.motorhome.motorhomesite.enums.SiteRole;
 import kea.motorhome.motorhomesite.models.Address;
 import kea.motorhome.motorhomesite.models.Customer;
 import kea.motorhome.motorhomesite.models.PayCard;
@@ -36,15 +37,19 @@ public class CustomerController
     {
         Customer customer = new Customer();
         customer.setCustomerID(dao().customerDAO().readall().size()+1);
+
         Person person = new Person();
         person.setPersonID(dao().personDAO().readall().size()+1);
         customer.setPerson(person);
+
         Address address = new Address();
         address.setAddressID(dao().addressDAO().readall().size()+1);
         customer.getPerson().setAddress(address);
+
         PayCard payCard = new PayCard();
         payCard.setCardID(dao().paycardDAO().readall().size()+1);
         customer.setPayCard(payCard);
+
         model.addAttribute("customer", customer);
         model.addAttribute("person", person);
         model.addAttribute("address", address);
@@ -58,25 +63,26 @@ public class CustomerController
                                  @ModelAttribute("address") Address address,
                                  @ModelAttribute("payCard") PayCard payCard)
     {
+        /*
         System.out.println("From CUSTOMERCONTROLLER::createCustomer\n" +
                            "" + customer+ "\n"+
                            "" + person + "\n"+
                            "" + address + "\n" +
                            "" + payCard + "\n"
                           ); // dataen bliver ikke ført med fra formuleren
+                          */
 
-        dao().paycardDAO().create(payCard);
-        dao().addressDAO().create(address);
-        dao().personDAO().create(person);
+        customer.getPerson().setUserType(SiteRole.CUSTOMER);
+
+        dao().paycardDAO().create(customer.getPayCard());
+        dao().addressDAO().create(customer.getPerson().getAddress());
+        dao().personDAO().create(customer.getPerson());
         dao().customerDAO().create(customer);
         return "redirect:/customers/customers";
     }
 
     @RequestMapping(value = "/updatecustomer", method = RequestMethod.POST)
-    public String updateCustomer(@ModelAttribute("customer") Customer customer/*,
-                                 @ModelAttribute("person") Person person,
-                                 @ModelAttribute("address") Address address,
-                                 @ModelAttribute("payCard") PayCard payCard*/)
+    public String updateCustomer(@ModelAttribute("customer") Customer customer)
     {
         dao().customerDAO().update(customer);
         dao().personDAO().update(customer.getPerson());

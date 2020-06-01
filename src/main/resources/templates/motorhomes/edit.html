@@ -32,37 +32,10 @@
             </tr>
             <tr>
                 <td>Notes</td>
-                <td><input type="text" th:field="*{notes}" name="notes"/></td>
+                <td><input type="text" th:field="*{notes}" maxlength="200" name="notes"/></td>
             </tr>
 
             <!-- TODO: services -->
-
-
-
-
-            <!--
-            <tr>
-                <td>Services</td>
-                    <tr th:each="service : ${services}">
-                        <td th:text="${service.getName() + ', ' + service.getUnitPrice() + ' kr.'}"></td>
-                        <input type="checkbox" name="serviceIDArray" th:value="${service.serviceID}"/>
-                        <label th:text="${service.getName()}"></label>
-                    </tr>
-            </tr>
-            -->
-
-            <!--
-            <tr th:each="service:${services}">
-                <td th:text="${service.getName() + ', ' + service.getUnitPrice() + ' kr.'}"></td>
-                <td><input type="checkbox" th:checked="${motorhome.getServicesAvailable().add(service)}"></td>
-            </tr>
-            -->
-
-            <!--
-            <tr th:each="service:${services}">
-                <td th:text="${'Service ID: '+service.getServiceID() + ', Service Name: ' + service.getName() + ', ' + 'Unit Price: ' + service.getUnitPrice()}"></td>
-            <tr>
-            -->
 
             <tr>
                 <td>Production Year</td>
@@ -70,7 +43,7 @@
             </tr>
             <tr>
                 <td>Description</td>
-                <td><input type="text" minlength="15" th:field="*{description}" name="description"/></td>
+                <td><input type="text" minlength="15" maxlength="200" th:field="*{description}" name="description"/></td>
             </tr>
             <tr>
                 <td>Minimum Days of Rental</td>
