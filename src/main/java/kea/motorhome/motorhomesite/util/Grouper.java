@@ -38,7 +38,7 @@ public class Grouper
                 /* if breaks are allowed */
                 if(sendInSpiteOfBreaks){continue;}
 
-                /* send back empty array to signify the exception */
+                /* else send back empty array to signify the exception */
                 return new ArrayList<>();
             }
         }

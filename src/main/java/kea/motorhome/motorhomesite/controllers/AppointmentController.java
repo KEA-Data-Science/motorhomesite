@@ -16,8 +16,6 @@ public class AppointmentController
 {
     public AppointmentController(){ }
 
-    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
-
     @GetMapping("/appointments/appointments")
     public String appointmentsPage(Model model)
     {
@@ -25,7 +23,7 @@ public class AppointmentController
         return "appointments/appointments";
     }
 
-
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
     @GetMapping("/appointments/details")
     public String getAppointmentByParameter(Model model, @RequestParam int id)
@@ -63,12 +61,16 @@ public class AppointmentController
                                     @ModelAttribute("address") Address address,
                                     @ModelAttribute("empIDsString") String empIDsString)
     {
-        List<Integer> employeeIDs =getListOfEmployeeIDsFromCSVString(empIDsString);
+        List<Integer> employeeIDs;
+
+        if(Objects.nonNull(empIDsString) && empIDsString.length() > 0)
+        {
+            employeeIDs = getListOfEmployeeIDsFromCSVString(empIDsString);
+        } else
+        {employeeIDs = new ArrayList<>();}
 
         /* the ids are at no point used to fetch further data, so we settle for not checking if emp exists */
         appointment.setEmployeeIDs(employeeIDs);
-
-        System.out.println("Print of employeeIDs = " + employeeIDs);
 
         dao().addressDAO().create(appointment.getAddress());
         dao().appointmentDAO().create(appointment);
@@ -76,19 +78,20 @@ public class AppointmentController
         return "redirect:/appointments/appointments";
     }
 
-    private List<Integer> getListOfEmployeeIDsFromCSVString(String employeeIDString){
-        return  Grouper.splitCSVString_IntList(employeeIDString, ",", -1, true);
+    private List<Integer> getListOfEmployeeIDsFromCSVString(String employeeIDString)
+    {
+        return Grouper.splitCSVString_IntList(employeeIDString, ",", -1, true);
     }
 
     @RequestMapping(value = "/updateappointment", method = RequestMethod.POST)
     public String updateAppointment(@ModelAttribute("appointment") Appointment appointment,
-                                   @ModelAttribute("employeeIDs") String employeeIDs)
+                                    @ModelAttribute("employeeIDsString") String employeeIDsString)
     {
         /* an initial check; if string is less than one character long, it signifies no change
-        * to the appointment.employeeIDs list*/
-        if(!Objects.isNull(employeeIDs) && employeeIDs.length()>0)
+         * to the appointment.employeeIDs list*/
+        if(Objects.nonNull(employeeIDsString) && employeeIDsString.length() > 0)
         {
-            appointment.setEmployeeIDs(getListOfEmployeeIDsFromCSVString(employeeIDs));
+            appointment.setEmployeeIDs(getListOfEmployeeIDsFromCSVString(employeeIDsString));
         }
 
         System.out.println("\n\nHere is the appointment being updated:\n" + appointment + "\n\n");
