@@ -9,17 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class AppointmentController
 {
+    public AppointmentController(){ }
 
-//    private SiteDAOCollection dao;
-
-    public AppointmentController()
-    {
-//        dao = SiteDAOCollection.getInstance();
-    }
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
     @GetMapping("/appointments/appointments")
     public String appointmentsPage(Model model)
@@ -28,7 +25,7 @@ public class AppointmentController
         return "appointments/appointments";
     }
 
-    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
+
 
     @GetMapping("/appointments/details")
     public String getAppointmentByParameter(Model model, @RequestParam int id)
@@ -66,24 +63,33 @@ public class AppointmentController
                                     @ModelAttribute("address") Address address,
                                     @ModelAttribute("empIDsString") String empIDsString)
     {
-        List<Integer> employeeIDs =
-                Grouper.splitCSVString_IntList(empIDsString, ",",-1,true);
-
+        List<Integer> employeeIDs =getListOfEmployeeIDsFromCSVString(empIDsString);
 
         /* the ids are at no point used to fetch further data, so we settle for not checking if emp exists */
         appointment.setEmployeeIDs(employeeIDs);
+
         System.out.println("Print of employeeIDs = " + employeeIDs);
-//        list of employees not updating inspite of employeeIDS obvoiusly having values
 
         dao().addressDAO().create(appointment.getAddress());
-//        appointment.setAddress(address);
         dao().appointmentDAO().create(appointment);
+
         return "redirect:/appointments/appointments";
     }
 
+    private List<Integer> getListOfEmployeeIDsFromCSVString(String employeeIDString){
+        return  Grouper.splitCSVString_IntList(employeeIDString, ",", -1, true);
+    }
+
     @RequestMapping(value = "/updateappointment", method = RequestMethod.POST)
-    public String updateAppointment(@ModelAttribute("appointment") Appointment appointment)
+    public String updateAppointment(@ModelAttribute("appointment") Appointment appointment,
+                                   @ModelAttribute("employeeIDs") String employeeIDs)
     {
+        /* an initial check; if string is less than one character long, it signifies no change
+        * to the appointment.employeeIDs list*/
+        if(!Objects.isNull(employeeIDs) && employeeIDs.length()>0)
+        {
+            appointment.setEmployeeIDs(getListOfEmployeeIDsFromCSVString(employeeIDs));
+        }
 
         System.out.println("\n\nHere is the appointment being updated:\n" + appointment + "\n\n");
 

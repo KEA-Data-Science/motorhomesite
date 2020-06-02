@@ -113,7 +113,6 @@ public class EmployeeReservationController
 
         if(customer != null && motorhome != null)
         {
-            // todo: period needs to present in datalayer before the rest of this process
             // specific DAO because of pattern breaking method create_getID
             PeriodDAO periodDAO = new PeriodDAO();
 
@@ -212,8 +211,7 @@ public class EmployeeReservationController
                                           Model model)
     {
         Reservation reservation = dao().reservationDAO().read(reservationID);
-
-        Service service = dao().serviceDAO().read(serviceID); //
+        Service service = dao().serviceDAO().read(serviceID);
 
         if(reservation != null && service != null)
         {
@@ -227,7 +225,8 @@ public class EmployeeReservationController
             return "reservation/" + requestURL;
         }
         //        in null cases
-        return showErrorPage("No reservation with id " + reservationID + " OR no service with id " + serviceID, model);
+        return showErrorPage("No reservation with id " + reservationID
+                             + " OR no service with id " + serviceID, model);
     }
 
     @PostMapping("reservation/removeservice")

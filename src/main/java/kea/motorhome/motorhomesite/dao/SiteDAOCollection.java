@@ -11,6 +11,7 @@ import kea.motorhome.motorhomesite.models.*;
 public class SiteDAOCollection
 {
 
+    private static SiteDAOCollection instance;
     private IDAO<Address, Integer> addressDAO;
     private IDAO<Appointment, Integer> appointmentDAO;
     private IDAO<Customer, String> customerDAO;
@@ -23,27 +24,11 @@ public class SiteDAOCollection
     private IDAO<Service, Integer> serviceDAO;
     private IDAO<Invoice, Integer> invoiceDAO;
     private IDAO<CarModel, Integer> carModelDAO;
-
     private DemoData demoData; // don't use
 
     private SiteDAOCollection()
     {
-        /* pure demo dao */
-//        this.addressDAO = new AddressDAO(); // all demos for swapping at appropriate time
-//        this.appointmentDAO = new AppointmentDAODemo();
-//        this.customerDAO = new CustomerDAODemo();
-//        this.employeeDAO = new EmployeeDAODemo();
-//        this.motorhomeDAO = new MotorhomeDAODemo();
-//        this.paycardDAO = new PayCardDAODemo();
-//        this.periodDAO = new PeriodDAODemo();
-//        this.personDAO = new PersonDAODemo();
-//        this.reservationDAO = new ReservationDAODemo();
-//        this.serviceDAO = new ServiceDAODemo();
-//        this.invoiceDAO = new InvoiceDAODemo();
-//        this.carModelDAO = new CarModelDAODemo();
-
-
-        this.addressDAO = new AddressDAO(); // all demos for swapping at appropriate time
+        this.addressDAO = new AddressDAO();
         this.appointmentDAO = new AppointmentDAO();
         this.customerDAO = new CustomerDAO();
         this.employeeDAO = new EmployeeDAO();
@@ -55,22 +40,32 @@ public class SiteDAOCollection
         this.serviceDAO = new ServiceDAO();
         this.invoiceDAO = new InvoiceDAO();
         this.carModelDAO = new CarModelDAO();
-
     }
-
-    private static SiteDAOCollection instance;
 
     /* Lazy instantiation Singleton instance*/
     public static SiteDAOCollection getInstance()
     {
-        if(instance==null){instance=new SiteDAOCollection().configure();}
+        if(instance == null){instance = new SiteDAOCollection();/*.configure()*/}
         return instance;
     }
 
     /* Method supplies demo data in the time of Demos, devourer of Hours. */
-    private SiteDAOCollection configure()
+    private SiteDAOCollection configureDemoData()
     {
-//        demoData = new DemoData(this); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        this.addressDAO = new AddressDAO(); // all demos for swapping at appropriate time
+        this.appointmentDAO = new AppointmentDAODemo();
+        this.customerDAO = new CustomerDAODemo();
+        this.employeeDAO = new EmployeeDAODemo();
+        this.motorhomeDAO = new MotorhomeDAODemo();
+        this.paycardDAO = new PayCardDAODemo();
+        this.periodDAO = new PeriodDAODemo();
+        this.personDAO = new PersonDAODemo();
+        this.reservationDAO = new ReservationDAODemo();
+        this.serviceDAO = new ServiceDAODemo();
+        this.invoiceDAO = new InvoiceDAODemo();
+        this.carModelDAO = new CarModelDAODemo();
+
+        demoData = new DemoData(this); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!D
         return this;
     }
 

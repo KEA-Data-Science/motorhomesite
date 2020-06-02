@@ -29,7 +29,7 @@
         </tr>
         <tr>
             <td>Time</td>
-            <td><input type="time" th:field="*{time}" name="time"/></td>
+            <td><input type="time" th:field="*{time}" th:value="*{getTime()}" name="time"/></td>
         </tr>
         <tr>
             <td>Address</td>
@@ -59,11 +59,25 @@
                 </select>
             </td>
         </tr>
+        <tr>
+            <td>Currently associated employee IDs</td>
+            <td>
+            <span th:each="employeeID:${appointment.getEmployeeIDs()}">
+                <span th:text="${' '+ employeeID + ', '}"></span>
+            </span>
+            </td>
+        </tr>
 <!--        &lt;!&ndash; TODO: Vælge flere id fra/til + kun vælge imellem eksisterende id &ndash;&gt;-->
-<!--        <tr>-->
-<!--            <td>Employee IDs</td>-->
-<!--            <td><input type="number" th:field="*{employeeIDs}" name="employeeIDs"/></td>-->
-<!--        </tr>-->
+        <tr>
+            <td>Employee IDs</td>
+            <td><input type="text" name="employeeIDs"/>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><span> Please enter each employeeID separated by a comma,
+                or leave empty to signify no changes.</span></td>
+        </tr>
         <tr>
             <td>Notes</td>
             <td><input type="text" th:field="*{notes}" name="notes"/></td>

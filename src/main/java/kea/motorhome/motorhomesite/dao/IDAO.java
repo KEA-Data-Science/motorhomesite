@@ -34,5 +34,4 @@ public interface IDAO<T,U> {
 	 * equals the supplied id, and returns a thing of type U
 	 */
 	boolean delete(U id);
-
 }

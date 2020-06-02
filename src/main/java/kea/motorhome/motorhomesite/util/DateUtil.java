@@ -81,7 +81,7 @@ public class DateUtil
     }
 
     /**
-     * Method returns true if a periods, AA & AB and BA & BB, have no overlapping dates.
+     * Method returns true if periods, AA to AB and BA to BB, have no overlapping dates.
      */
     public static boolean doPeriodsOverlap(LocalDate periodAA, LocalDate periodAB,
                                            LocalDate periodBA, LocalDate periodBB)
