@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td>Date</td>
-            <td><input type="date" th:field="*{date}"/></td>
+            <td><input type="date" th:field="*{date}" th:value="${appointment.getDate()}"/></td>
         </tr>
         <tr>
             <td>Time</td>
@@ -60,7 +60,7 @@
         <!-- TODO: Vælge flere id fra/til + kun vælge imellem eksisterende id -->
         <tr>
             <td>Employee IDs</td>
-            <td><input type="number" th:field="*{employeeIDs}"/></td>
+            <td><input type="text" th:name="empIDsString"/></td>
         </tr>
         <tr>
             <td>Notes</td>

@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `motorhome`.`Appointment`
     `idAppointment`         INT         NOT NULL AUTO_INCREMENT,
     `date`                  DATE        NULL,
     `time`                  TIME        NULL,
-    `notes`                 VARCHAR(45) NULL,
+    `notes`                 VARCHAR(200) NULL,
     `distance`              FLOAT       NULL,
     `Address_idAddress`     INT         NOT NULL,
     `Motorhome_idMotorhome` INT         NOT NULL,
@@ -217,8 +217,8 @@ CREATE TABLE IF NOT EXISTS `motorhome`.`Appointment`
 CREATE TABLE IF NOT EXISTS `motorhome`.`Reservation`
 (
     `idReservation`             INT         NOT NULL AUTO_INCREMENT,
-    `notes`                     VARCHAR(45) NULL,
-    `internalNotes`             VARCHAR(45) NULL,
+    `notes`                     VARCHAR(200) NULL,
+    `internalNotes`             VARCHAR(200) NULL,
     `reservationStatus`         VARCHAR(45) NULL,
     `Employee_idEmployee`       INT         NOT NULL,
     `Period_idPeriod`           INT         NOT NULL,
@@ -417,9 +417,10 @@ CREATE TABLE IF NOT EXISTS `motorhome`.`Invoice_has_Service`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `motorhome`.`Employee_has_Appointment`
 (
+    `idAppointment_Employee` INT NOT NULL AUTO_INCREMENT,
     `Employee_idEmployee`       INT NOT NULL,
     `Appointment_idAppointment` INT NOT NULL,
-    PRIMARY KEY (`Employee_idEmployee`, `Appointment_idAppointment`),
+    PRIMARY KEY (`idAppointment_Employee`),
     INDEX `fk_Employee_has_Appointment_Appointment1_idx` (`Appointment_idAppointment` ASC),
     INDEX `fk_Employee_has_Appointment_Employee1_idx` (`Employee_idEmployee` ASC),
     CONSTRAINT `fk_Employee_has_Appointment_Employee1`

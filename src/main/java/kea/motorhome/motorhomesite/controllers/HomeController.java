@@ -11,22 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class DemoController
+public class HomeController
 {
     List<Motorhome> mobileHomes;
 
 //    SiteDAOCollection dao; // all dao in one. dao is the way
 
-    public DemoController()
+    public HomeController()
     {
         /*dao = SiteDAOCollection.getInstance();*/
     }
 
-    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
-
     @GetMapping("/")
     public String home(){ return "index"; }
-
 
     @GetMapping("/gallery")
     public String galleryPage(Model model)
@@ -36,15 +33,18 @@ public class DemoController
         return "gallery";
     }
 
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
+
     @PostMapping("/feedback")
     public String showFeedback(@RequestParam String feedbackMessage, Model model)
     {
-        if(feedbackMessage!=null&&feedbackMessage.length()>0){
-            model.addAttribute("feedbackMessage",feedbackMessage);
-        }
-        else{
-            model.addAttribute("feedbackMessage","You were redirected to here; but there is "+
-                                                 "no message to show");
+        if(feedbackMessage != null && feedbackMessage.length() > 0)
+        {
+            model.addAttribute("feedbackMessage", feedbackMessage);
+        } else
+        {
+            model.addAttribute("feedbackMessage", "You were redirected to here; but there is " +
+                                                  "no message to show");
         }
 
         return "feedback";

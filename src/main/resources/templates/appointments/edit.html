@@ -32,8 +32,8 @@
             <td><input type="time" th:field="*{time}" name="time"/></td>
         </tr>
         <tr>
-            <td>Address ID</td>
-            <td><input type="text" th:field="*{address.addressID}" name="address.addressID"/></td>
+            <td>Address</td>
+            <td><input type="hidden" th:field="*{address.addressID}" name="address.addressID" readonly="readonly"/></td>
         </tr>
         <tr>
             <td>Road Name</td>
@@ -59,11 +59,11 @@
                 </select>
             </td>
         </tr>
-        <!-- TODO: Vælge flere id fra/til + kun vælge imellem eksisterende id -->
-        <tr>
-            <td>Employee IDs</td>
-            <td><input type="number" th:field="*{employeeIDs}" name="employeeIDs"/></td>
-        </tr>
+<!--        &lt;!&ndash; TODO: Vælge flere id fra/til + kun vælge imellem eksisterende id &ndash;&gt;-->
+<!--        <tr>-->
+<!--            <td>Employee IDs</td>-->
+<!--            <td><input type="number" th:field="*{employeeIDs}" name="employeeIDs"/></td>-->
+<!--        </tr>-->
         <tr>
             <td>Notes</td>
             <td><input type="text" th:field="*{notes}" name="notes"/></td>

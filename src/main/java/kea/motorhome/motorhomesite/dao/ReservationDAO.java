@@ -91,10 +91,10 @@ public class ReservationDAO implements IDAO<Reservation, Integer>
         }
     }
 
-    private void writeRowsToReservation_has_AppointmentTable(List<Appointment> appointsments, int reservationsID) throws
+    private void writeRowsToReservation_has_AppointmentTable(List<Appointment> appointments, int reservationsID) throws
                                                                                                                   SQLException
     {
-        for(Appointment appointment : appointsments)
+        for(Appointment appointment : appointments)
         {
             PreparedStatement reservationAppointmentsStatement = connection.prepareStatement(
                     "INSERT INTO motorhome.reservation_has_appointment" +
@@ -338,7 +338,8 @@ public class ReservationDAO implements IDAO<Reservation, Integer>
 
             updateReservationStatement.executeUpdate();
 
-            /* dates need to be be update as well */
+            /* reservation period is update | this is a little dirty; a possibly opaque coupling */
+            SiteDAOCollection.getInstance().periodDAO().update(thing.getPeriod());
 
             /* delete all rows associated with reservation in reservation_has_service-tale */
             removeEntriesFromReservationServiceJunction(thing.getReservationID());

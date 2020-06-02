@@ -1,6 +1,5 @@
 package kea.motorhome.motorhomesite.dao;
-
-
+// kcn
 import kea.motorhome.motorhomesite.enums.SiteRole;
 import kea.motorhome.motorhomesite.models.Person;
 import kea.motorhome.motorhomesite.util.DBConnectionManager;
@@ -159,7 +158,6 @@ public class PersonDAO implements IDAO<Person, Integer>
                     "siteRole = ?," +
                     "birthDate = ?," +
                     "joinDate = ?" +
-//                    "Address_idAddress = ?" + // adresse-id kan ikke ændres her; gå ad AddressDAO
                     "WHERE idPerson = ?");
             /*filling in the attribute values from Person object, id last because of 'preppedSt.' */
             preparedStatement.setString(1, thing.getPassword());
@@ -169,10 +167,15 @@ public class PersonDAO implements IDAO<Person, Integer>
             preparedStatement.setString(5, thing.getUserType().toString());
             preparedStatement.setDate(6, Date.valueOf(thing.getBirthDate()));
             preparedStatement.setDate(7, Date.valueOf(thing.getJoinDate()));
-//            preparedStatement.setInt(8, thing.getAddress().getAddressID());
             preparedStatement.setInt(8, thing.getPersonID());
+
             /* e.Update returns the num of rows manipulated. */
             int numChanges = preparedStatement.executeUpdate();
+
+            /* Address is updated here, adhering the principle of least astonishment rather than
+            * insisting on low coupling */
+            SiteDAOCollection.getInstance().addressDAO().update(thing.getAddress());
+
             /* if numChanges above zero, DB was written to */
             return numChanges > 0;
         } catch(SQLException e)

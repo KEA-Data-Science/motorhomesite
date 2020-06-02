@@ -1,6 +1,5 @@
 package kea.motorhome.motorhomesite.dao;
 
-import kea.motorhome.motorhomesite.models.PayCard;
 import kea.motorhome.motorhomesite.models.Period;
 import kea.motorhome.motorhomesite.util.DBConnectionManager;
 
@@ -89,7 +88,7 @@ public class PeriodDAO implements IDAO<Period,Integer> {
 			preparedStatement.setInt(1, id);
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			while(resultSet.next()) { fillPeriodValuesFromResultSet(period, resultSet); }
+			if(resultSet.next()) { fillPeriodValuesFromResultSet(period, resultSet); }
 
 			return period;
 

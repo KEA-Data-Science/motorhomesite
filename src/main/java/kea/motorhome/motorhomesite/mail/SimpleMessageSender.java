@@ -10,6 +10,8 @@ import java.util.Properties;
 
 /**
  * Class enables the sending of emails from a Gmail account.
+ * NOI: Access to project specifically-configured SimpleMessageSender
+ * open through static method.
  */
 @Component
 public class SimpleMessageSender
@@ -24,6 +26,11 @@ public class SimpleMessageSender
         this.password = password;
         this.javaMailSender = getJavaMailSender();
     }
+
+    /**
+     * Return a SimpleMessageSender, user and password uninitialized.
+     */
+    public SimpleMessageSender(){}
 
     private JavaMailSender getJavaMailSender()
     {
@@ -47,9 +54,12 @@ public class SimpleMessageSender
     }
 
     /**
-     * Return a SimpleMessageSender, user and password uninitialized.
-     */
-    public SimpleMessageSender(){ this.javaMailSender = getJavaMailSender(); }
+     * Set user and password fields, and configure JavaMailSender */
+    public void configureMailDetails(String emailString, String password){
+        user = emailString;
+        this.password = password;
+        javaMailSender = getJavaMailSender();
+    }
 
     /**
      * Return a SimpleMessageSender, user and password initialized to mail Nordic Motorhome user/pass.

@@ -36,9 +36,14 @@
         <td>Motorhome</td>
         <td th:text="${motorhome.getModel().getModelName()}"></td>
     </tr>
+<!--    Qucik fix, 'each'ing the employee list /kcn -->
     <tr>
         <td>Employee IDs</td>
-        <td th:text="${appointment.getEmployeeIDs()}"></td>
+        <td>
+            <span th:each="employeeID:${appointment.getEmployeeIDs()}">
+                <span th:text="${' ('+ employeeID + ') '}"></span>
+            </span>
+        </td>
     </tr>
     <tr>
         <td>Notes</td>
