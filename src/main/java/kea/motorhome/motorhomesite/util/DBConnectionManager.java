@@ -3,6 +3,7 @@ package kea.motorhome.motorhomesite.util;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,6 +12,8 @@ import java.util.Properties;
 
 public class DBConnectionManager
 {
+   public String rando;
+
     private static String user;
     private static String password;
     private static String url;
@@ -30,7 +33,12 @@ public class DBConnectionManager
         Properties prop = new Properties();
         try
         {
-            FileInputStream propertyFile = new FileInputStream("src/main/resources/application.properties");
+
+            FileInputStream propertyFile = new FileInputStream(
+                    "C:/Program Files/MotorhomeSite/application.properties");
+            /* comment out above line and uncomment below to use application.properties file in resources */
+//            FileInputStream propertyFile = new FileInputStream("src/main/resources/application.properties");
+
             prop.load(propertyFile);
             user = prop.getProperty("db.user");
             password = prop.getProperty("db.password");
