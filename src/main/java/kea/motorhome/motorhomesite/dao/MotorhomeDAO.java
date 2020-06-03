@@ -1,5 +1,5 @@
 package kea.motorhome.motorhomesite.dao;
-// by KCN
+// by KCN, LNS
 import kea.motorhome.motorhomesite.models.*;
 import kea.motorhome.motorhomesite.util.DBConnectionManager;
 import kea.motorhome.motorhomesite.util.Grouper;

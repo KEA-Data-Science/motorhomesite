@@ -1,5 +1,5 @@
 package kea.motorhome.motorhomesite.daodemo.data;
-
+// by LNS
 import kea.motorhome.motorhomesite.dao.ServiceDAO;
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.daodemo.MotorhomeDAODemo;

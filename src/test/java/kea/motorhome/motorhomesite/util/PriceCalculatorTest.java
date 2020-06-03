@@ -1,5 +1,5 @@
 package kea.motorhome.motorhomesite.util;
-
+// by LNS
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.models.CarModel;
 import kea.motorhome.motorhomesite.models.Motorhome;
