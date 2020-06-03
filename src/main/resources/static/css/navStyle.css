@@ -1,3 +1,4 @@
+/* AL */
 .navbar-top {
     background: #9fa4c4 linear-gradient(315deg, #b3cdd1 0%, #9fa4c4 74%);
     overflow: hidden;
@@ -143,11 +144,3 @@ nav span {
     display: block;
     transform: skewx(20deg);
 }
-
-.selected {
-    background: black;
-}
-
-nav a .selected:hover {
-     color: white;
- }
