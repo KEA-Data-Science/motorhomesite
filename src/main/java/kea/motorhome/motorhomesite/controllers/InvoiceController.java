@@ -1,5 +1,5 @@
 package kea.motorhome.motorhomesite.controllers;
-// by LNS
+// by TV, LNS
 import kea.motorhome.motorhomesite.dao.InvoiceDAO;
 import kea.motorhome.motorhomesite.dao.PeriodDAO;
 import kea.motorhome.motorhomesite.dao.PersonDAO;
@@ -27,7 +27,7 @@ public class InvoiceController
 
     public InvoiceController(){ }
 
-    /*
+    /**
         The method responsible for directing the user over to the invoices page where a list of all invoices is presented.
         It adds all of the invoices into the model and a price calculator which make it possible to calculate the price
         inside invoices.html.
@@ -48,7 +48,7 @@ public class InvoiceController
 
     private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
-    /*
+    /**
         The method responsible for directing the user into the update page after they have chosen an
         invoice to update inside invoices.html. It gets the invoice id as a parameter, reads the invoice
         in the database via the invoice id, adds the invoice to model and show the update form.
@@ -62,7 +62,7 @@ public class InvoiceController
         return "invoices/edit";
     }
 
-    /*
+    /**
         The 4 attributes in this method need to be added to the model many times
         and the purpose of this method is to reduce redundancy.
 
@@ -75,7 +75,7 @@ public class InvoiceController
         model.addAttribute("services", dao().serviceDAO().readall());
     }
 
-    /*
+    /**
         This method is responsible for updating the invoice in the database. It is called after the user clicks submit
         inside invoices/edit.html.
      */
@@ -98,7 +98,7 @@ public class InvoiceController
     }
 
 
-    /*
+    /**
         This method gets and sets the invoice attributes from a WebRequest.
         When creating and updating invoices, some of the same parameters need to be extracted from a WebRequest
         and this method reduces redundancy.
@@ -130,7 +130,7 @@ public class InvoiceController
         return invoice;
     }
 
-    /*
+    /**
         The method responsible for deleting an invoice.
      */
     @GetMapping("invoices/delete")
@@ -140,9 +140,9 @@ public class InvoiceController
         return "redirect:invoices";
     }
 
-    /*
+    /**
         When the user adds a new service inside invoices/edit.html this method is called.
-        It
+        It reads the saved invoice from the session and adds the service from the invoice.
      */
     @PostMapping("invoices/update/addservice")
     public String addServiceToInvoiceUpdate(@RequestParam int invoiceID,
@@ -160,6 +160,12 @@ public class InvoiceController
         addAttributesToModel(model, invoice);
         return "invoices/edit";
     }
+
+    /**
+        This method gets and sets the invoice attributes from a WebRequest.
+        When creating and updating invoices, some of the same parameters need to be extracted from a WebRequest
+        and this method reduces redundancy.
+    */
 
     public Invoice getInvoiceFromServiceWR(WebRequest wr, Invoice invoice)
     {
@@ -205,6 +211,11 @@ public class InvoiceController
         return invoice;
     }
 
+    /**
+     When the user removes a service inside invoices/edit.html this method is called.
+     It reads the saved invoice from the session and removes the service from the invoice.
+     */
+
     @PostMapping("invoices/update/removeservice")
     public String removeServiceFromInvoiceUpdate(@RequestParam int invoiceID,
                                                  @RequestParam int serviceID,
@@ -228,6 +239,10 @@ public class InvoiceController
         return "invoices/edit";
     }
 
+    /**
+        The method responsible for directing the user over to a page where it is possible to create a new invoice.
+        It creates a new invoice and save it in the session and model.
+     */
     @GetMapping("invoices/create")
     public String showCreateForm(Model model, HttpSession session)
     {
@@ -242,6 +257,10 @@ public class InvoiceController
         return "invoices/new";
     }
 
+    /**
+        This method is called when the user clicks submit inside invoices/new.
+        It reads the invoice from the session and creates the invoice in the database.
+     */
     @PostMapping("invoices/create")
     public String createNewInvoice(WebRequest wr, Model model, HttpSession session)
     {
@@ -251,6 +270,11 @@ public class InvoiceController
         addAttributesToModel(model, invoice);
         return "redirect:invoices";
     }
+
+    /**
+        When the user adds a new service inside invoices/new.html this method is called.
+        It reads the saved invoice from the session and adds the service from the invoice.
+     */
 
     @PostMapping("invoices/create/addservice")
     public String addServiceToNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr, HttpSession session)
@@ -264,6 +288,11 @@ public class InvoiceController
         addAttributesToModel(model, invoice);
         return "invoices/new";
     }
+
+    /**
+        When the user removes a service inside invoices/new.html this method is called.
+        It reads the saved invoice from the session and removes the service from the invoice.
+     */
 
     @PostMapping("invoices/create/removeservice")
     public String removeServiceFromNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr, HttpSession session)
