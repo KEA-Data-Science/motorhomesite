@@ -1,18 +1,15 @@
 package kea.motorhome.motorhomesite.util;
-
+// kcn
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-
 public class DBConnectionManager
 {
-   public String rando;
 
     private static String user;
     private static String password;

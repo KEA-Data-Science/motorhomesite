@@ -11,60 +11,53 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class ServiceController {
+public class ServiceController
+{
 
-//    SiteDAOCollection dao;
+    public ServiceController(){ }
 
-    public ServiceController()
-    {
-//        dao = SiteDAOCollection.getInstance();
-//        serviceDAODemo.addServices();
-    }
-
-
-    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
-
-
-    @GetMapping("/services")
+    @GetMapping("services")
     public String showServices(Model model)
     {
         model.addAttribute("services", dao().serviceDAO().readall());
-        return "/services/services";
+        return "services/services";
     }
 
-    @GetMapping("/createservice")
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
+
+    @GetMapping("createservice")
     public String createService()
     {
-        return "/services/new";
+        return "services/new";
     }
 
-    @PostMapping("/services/getdata")
+    @PostMapping("services/getdata")
     public String getData(@ModelAttribute Service service)
     {
         service.setServiceID(dao().serviceDAO().readall().size());
         dao().serviceDAO().create(service);
-        return "redirect:/services";
+        return "redirect:services";
     }
 
-    @GetMapping("/updateservice")
+    @GetMapping("updateservice")
     public String showUpdateService(@RequestParam int id, Model model)
     {
         model.addAttribute("service", dao().serviceDAO().read(id));
-        return "/services/edit";
+        return "services/edit";
     }
 
-    @PostMapping("/performUpdate")
+    @PostMapping("performUpdate")
     public String performUpdate(@ModelAttribute Service service)
     {
         dao().serviceDAO().update(service);
         System.out.println(service);
-        return "redirect:/services";
+        return "redirect:services";
     }
 
-    @GetMapping("/deleteservice")
+    @GetMapping("deleteservice")
     public String deleteService(@RequestParam int id)
     {
         dao().serviceDAO().delete(id);
-        return "redirect:/services";
+        return "redirect:services";
     }
 }

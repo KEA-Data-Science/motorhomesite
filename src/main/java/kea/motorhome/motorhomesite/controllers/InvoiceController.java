@@ -25,13 +25,7 @@ import java.util.List;
 public class InvoiceController
 {
 
-//    SiteDAOCollection dao;
-
-    public InvoiceController()
-    {
-//        dao = SiteDAOCollection.getInstance();
-    }
-    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
+    public InvoiceController(){ }
 
     /*
         The method responsible for directing the user over to the invoices page where a list of all invoices is presented.
@@ -39,7 +33,7 @@ public class InvoiceController
         inside invoices.html.
 
      */
-    @GetMapping("/invoices")
+    @GetMapping("invoices")
     public String showInvoices(Model model)
     {
 //        SiteDAOCollection dao = SiteDAOCollection.getInstance();
@@ -49,8 +43,10 @@ public class InvoiceController
         model.addAttribute("invoices", invoices);
         model.addAttribute("calculator", priceCalculator);
 
-        return "/invoices/invoices";
+        return "invoices/invoices";
     }
+
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
     /*
         The method responsible for directing the user into the update page after they have chosen an
@@ -58,12 +54,12 @@ public class InvoiceController
         in the database via the invoice id, adds the invoice to model and show the update form.
      */
 
-    @GetMapping("/invoices/update")
+    @GetMapping("invoices/update")
     public String showUpdateForm(@RequestParam int id, Model model, HttpSession session)
     {
         session.setAttribute("invoiceUpdate", dao().invoiceDAO().read(id));
         addAttributesToModel(model, dao().invoiceDAO().read(id));
-        return "/invoices/edit";
+        return "invoices/edit";
     }
 
     /*
@@ -71,7 +67,7 @@ public class InvoiceController
         and the purpose of this method is to reduce redundancy.
 
      */
-    public void addAttributesToModel(Model model,  Invoice invoice)
+    public void addAttributesToModel(Model model, Invoice invoice)
     {
         model.addAttribute("invoice", invoice);
         model.addAttribute("motorhomes", dao().motorhomeDAO().readall());
@@ -84,10 +80,10 @@ public class InvoiceController
         inside invoices/edit.html.
      */
 
-    @PostMapping("/invoices/perfomupdate")
+    @PostMapping("invoices/perfomupdate")
     public String performUpdate(WebRequest wr, Model model, HttpSession session)
     {
-        Invoice invoice = (Invoice) session.getAttribute("invoiceUpdate");
+        Invoice invoice = (Invoice)session.getAttribute("invoiceUpdate");
 
         invoice.setInvoiceID(Integer.parseInt((wr.getParameter("invoiceID"))));
 
@@ -98,7 +94,7 @@ public class InvoiceController
         System.out.println("update: " + invoice.getBillPeriod().getPeriodID());
 
         addAttributesToModel(model, invoice);
-        return "redirect:/invoices";
+        return "redirect:invoices";
     }
 
 
@@ -133,26 +129,27 @@ public class InvoiceController
         invoice.getReservationPeriod().setPeriodID(reservationPeriodID);
         return invoice;
     }
+
     /*
         The method responsible for deleting an invoice.
      */
-    @GetMapping("/invoices/delete")
+    @GetMapping("invoices/delete")
     public String deleteService(@RequestParam int id)
     {
         dao().invoiceDAO().delete(id);
-        return "redirect:/invoices";
+        return "redirect:invoices";
     }
 
     /*
         When the user adds a new service inside invoices/edit.html this method is called.
         It
      */
-    @PostMapping("/invoices/update/addservice")
+    @PostMapping("invoices/update/addservice")
     public String addServiceToInvoiceUpdate(@RequestParam int invoiceID,
                                             @RequestParam int serviceID,
                                             Model model, WebRequest wr, HttpSession session)
     {
-        Invoice invoice = (Invoice) session.getAttribute("invoiceUpdate");
+        Invoice invoice = (Invoice)session.getAttribute("invoiceUpdate");
 
         Service service = dao().serviceDAO().read(serviceID);
 
@@ -163,67 +160,6 @@ public class InvoiceController
         addAttributesToModel(model, invoice);
         return "invoices/edit";
     }
-
-    @PostMapping("/invoices/update/removeservice")
-    public String removeServiceFromInvoiceUpdate(@RequestParam int invoiceID,
-                                                 @RequestParam int serviceID,
-                                                 Model model, WebRequest wr, HttpSession session)
-    {
-        Invoice invoice = (Invoice) session.getAttribute("invoiceUpdate");
-
-        for(int i = 0; i < invoice.getServices().size(); i++)
-        {
-            if(invoice.getServices().get(i).getServiceID() == serviceID)
-            {
-                invoice.getServices().remove(i);
-                break;
-            }
-        }
-
-        invoice = getInvoiceFromServiceWR(wr, invoice);
-
-        addAttributesToModel(model, invoice);
-
-        return "invoices/edit";
-    }
-
-    @GetMapping("/invoices/create")
-    public String showCreateForm(Model model, HttpSession session)
-    {
-        Invoice invoice = new Invoice();
-        invoice.setServices(new ArrayList<Service>());
-        invoice.setBillPeriod(new Period());
-        invoice.setReservationPeriod(new Period());
-
-        session.setAttribute("invoice", invoice);
-        addAttributesToModel(model, invoice);
-
-        return "/invoices/new";
-    }
-
-    @PostMapping("/invoices/create")
-    public String createNewInvoice(WebRequest wr, Model model, HttpSession session)
-    {
-        Invoice invoice = (Invoice) session.getAttribute("invoice");
-        invoice = getInvoiceFromStandardWR(wr, invoice);
-        dao().invoiceDAO().create(invoice);
-        addAttributesToModel(model, invoice);
-        return "redirect:/invoices";
-    }
-
-    @PostMapping("/invoices/create/addservice")
-    public String addServiceToNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr, HttpSession session)
-    {
-        Invoice invoice = (Invoice) session.getAttribute("invoice");
-
-        invoice.getServices().add(dao().serviceDAO().read(serviceID));
-
-        invoice = getInvoiceFromServiceWR(wr, invoice);
-
-        addAttributesToModel(model, invoice);
-        return "/invoices/new";
-    }
-
 
     public Invoice getInvoiceFromServiceWR(WebRequest wr, Invoice invoice)
     {
@@ -241,7 +177,7 @@ public class InvoiceController
         billPeriodID = invoice.getBillPeriod().getPeriodID();
         reservationPeriodID = invoice.getReservationPeriod().getPeriodID();
 
-        customerID =  (wr.getParameter("customerID-service").equals("")) ? invoice.getCustomerID() :  wr.getParameter("customerID-service");
+        customerID = (wr.getParameter("customerID-service").equals("")) ? invoice.getCustomerID() : wr.getParameter("customerID-service");
 
         motorhome = (wr.getParameter("motorhomeID-service").equals("")) ? invoice.getMotorhome() :
                 dao().motorhomeDAO().read(Integer.parseInt(wr.getParameter("motorhomeID-service")));
@@ -269,10 +205,70 @@ public class InvoiceController
         return invoice;
     }
 
-    @PostMapping("/invoices/create/removeservice")
+    @PostMapping("invoices/update/removeservice")
+    public String removeServiceFromInvoiceUpdate(@RequestParam int invoiceID,
+                                                 @RequestParam int serviceID,
+                                                 Model model, WebRequest wr, HttpSession session)
+    {
+        Invoice invoice = (Invoice)session.getAttribute("invoiceUpdate");
+
+        for(int i = 0; i < invoice.getServices().size(); i++)
+        {
+            if(invoice.getServices().get(i).getServiceID() == serviceID)
+            {
+                invoice.getServices().remove(i);
+                break;
+            }
+        }
+
+        invoice = getInvoiceFromServiceWR(wr, invoice);
+
+        addAttributesToModel(model, invoice);
+
+        return "invoices/edit";
+    }
+
+    @GetMapping("invoices/create")
+    public String showCreateForm(Model model, HttpSession session)
+    {
+        Invoice invoice = new Invoice();
+        invoice.setServices(new ArrayList<Service>());
+        invoice.setBillPeriod(new Period());
+        invoice.setReservationPeriod(new Period());
+
+        session.setAttribute("invoice", invoice);
+        addAttributesToModel(model, invoice);
+
+        return "invoices/new";
+    }
+
+    @PostMapping("invoices/create")
+    public String createNewInvoice(WebRequest wr, Model model, HttpSession session)
+    {
+        Invoice invoice = (Invoice)session.getAttribute("invoice");
+        invoice = getInvoiceFromStandardWR(wr, invoice);
+        dao().invoiceDAO().create(invoice);
+        addAttributesToModel(model, invoice);
+        return "redirect:invoices";
+    }
+
+    @PostMapping("invoices/create/addservice")
+    public String addServiceToNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr, HttpSession session)
+    {
+        Invoice invoice = (Invoice)session.getAttribute("invoice");
+
+        invoice.getServices().add(dao().serviceDAO().read(serviceID));
+
+        invoice = getInvoiceFromServiceWR(wr, invoice);
+
+        addAttributesToModel(model, invoice);
+        return "invoices/new";
+    }
+
+    @PostMapping("invoices/create/removeservice")
     public String removeServiceFromNewInvoice(@RequestParam int serviceID, Model model, WebRequest wr, HttpSession session)
     {
-        Invoice invoice = (Invoice) session.getAttribute("invoice");
+        Invoice invoice = (Invoice)session.getAttribute("invoice");
 
         invoice.getServices().remove(dao().serviceDAO().read(serviceID));
 
@@ -280,7 +276,7 @@ public class InvoiceController
 
         addAttributesToModel(model, invoice);
 
-        return "/invoices/new";
+        return "invoices/new";
     }
 
     /**
@@ -289,7 +285,7 @@ public class InvoiceController
      * a view of this new invoice. If reservationID does not match any reservations in system
      * simply return a view with a new invoice for editing/disposal.
      */
-    @PostMapping("/invoices/fromreservation")
+    @PostMapping("invoices/fromreservation")
     public String createInvoiceFromReservation(@RequestParam int reservationID,
                                                Model model, HttpSession session)
     {
@@ -299,7 +295,7 @@ public class InvoiceController
 
         if(r == null) // if reservation id was bad, return ordinary empty create invoice view
         {
-            return "redirect:/invoices/create";
+            return "redirect:invoices/create";
         }
 
         int tempID = dao().invoiceDAO().readall().size() + 1; // mechanism good for temp ids? with db?
@@ -330,10 +326,10 @@ public class InvoiceController
 
         session.setAttribute("invoiceUpdate", invoice);
 
-        return "/invoices/edit";
+        return "invoices/edit";
     }
 
-    @PostMapping("/invoices/sendinvoice")
+    @PostMapping("invoices/sendinvoice")
     public String sendInvoiceToCustomer(@RequestParam int invoiceID, Model model)
     {
 
@@ -345,13 +341,14 @@ public class InvoiceController
             model.addAttribute("feedbackMessage",
                                "Invoice " + invoice.getInvoiceID() + " has been sent to " + invoice.getCustomerID());
 
-        } else{
+        } else
+        {
             model.addAttribute("feedbackMessage",
                                "Invoice " + invoice.getInvoiceID() + " COULD NOT BE sent to " + invoice.getCustomerID() +
                                " :: Reason: Invoice not found.");
         }
 
-        return "/feedback";
+        return "feedback";
     }
 
     /* Method sends a confirmation email to the customer. */
