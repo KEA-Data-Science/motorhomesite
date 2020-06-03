@@ -1,4 +1,5 @@
 package kea.motorhome.motorhomesite.controllers;
+// kcn
 
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.models.Motorhome;
@@ -13,14 +14,8 @@ import java.util.List;
 @Controller
 public class HomeController
 {
-    List<Motorhome> mobileHomes;
 
-//    SiteDAOCollection dao; // all dao in one. dao is the way
-
-    public HomeController()
-    {
-        /*dao = SiteDAOCollection.getInstance();*/
-    }
+    public HomeController(){ }
 
     @GetMapping("/")
     public String home(){ return "index"; }

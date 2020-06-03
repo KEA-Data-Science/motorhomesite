@@ -1,5 +1,5 @@
 package kea.motorhome.motorhomesite.controllers;
-// by LNS
+// by LNS, kcn
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.enums.SiteRole;
 import kea.motorhome.motorhomesite.models.Address;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController
 {
 
-    public CustomerController() { /*dao = SiteDAOCollection.getInstance();*/ }
+    public CustomerController() { }
 
     private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 

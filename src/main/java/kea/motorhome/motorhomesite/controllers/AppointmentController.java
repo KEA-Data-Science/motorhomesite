@@ -1,5 +1,6 @@
 package kea.motorhome.motorhomesite.controllers;
-// by LNS
+// LNS, kcn
+
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
 import kea.motorhome.motorhomesite.models.*;
 import kea.motorhome.motorhomesite.util.Grouper;

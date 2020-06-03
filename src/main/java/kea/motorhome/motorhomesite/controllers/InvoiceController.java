@@ -36,7 +36,7 @@ public class InvoiceController
     @GetMapping("invoices")
     public String showInvoices(Model model)
     {
-//        SiteDAOCollection dao = SiteDAOCollection.getInstance();
+
         PriceCalculator priceCalculator = new PriceCalculator();
         List<Invoice> invoices = new ArrayList<>(dao().invoiceDAO().readall());
 

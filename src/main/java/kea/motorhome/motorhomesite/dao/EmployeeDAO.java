@@ -1,12 +1,14 @@
 package kea.motorhome.motorhomesite.dao;
-// by TV
+// by TV, kcn
 import kea.motorhome.motorhomesite.models.Employee;
 import kea.motorhome.motorhomesite.util.DBConnectionManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Class is a Data Access Object for Employee objects. Find notes for all method 'types' in the
+ * DAOs of Reservation, Person, and Service*/
 public class EmployeeDAO implements IDAO<Employee,Integer> {
 
 	/* sql connection to db motorhome */

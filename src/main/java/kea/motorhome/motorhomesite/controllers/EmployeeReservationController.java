@@ -1,6 +1,5 @@
 package kea.motorhome.motorhomesite.controllers;
 //  kcn
-
 import kea.motorhome.motorhomesite.dao.PeriodDAO;
 import kea.motorhome.motorhomesite.mail.PreparedOutGoingMessage;
 import kea.motorhome.motorhomesite.mail.SimpleMessageSender;
@@ -20,12 +19,7 @@ import java.util.List;
 @Controller // annotation marking class as controller class
 public class EmployeeReservationController
 {
-//    private SiteDAOCollection dao; // all DAOs in one
-
-    public EmployeeReservationController()
-    {
-        /*dao = SiteDAOCollection.getInstance();*/
-    }
+    public EmployeeReservationController(){ }
 
     private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
@@ -119,9 +113,10 @@ public class EmployeeReservationController
             Period period = new Period(dateA.toLocalDate(), dateB.toLocalDate());
             int periodID = periodDAO.create_getID(period);
             period = dao().periodDAO().read(periodID); // this jump ensures the auto-generated ID is set
-            if(period==null) {
+            if(period == null)
+            {
                 return showErrorPage("An error happened, could not create reservation" +
-                                     "period. Report to support.",model);
+                                     "period. Report to support.", model);
             }
 
             Reservation reservation = // nb. some fields are yet unknown

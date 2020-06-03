@@ -2,7 +2,6 @@ package kea.motorhome.motorhomesite.dao;
 // by kcn
 import kea.motorhome.motorhomesite.models.Appointment;
 import kea.motorhome.motorhomesite.util.DBConnectionManager;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

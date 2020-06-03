@@ -9,7 +9,8 @@ import java.util.Date;
 
 
 /**
- * Class is intended to use with the LocalDateTime class instances; most available methods compare.
+ * Class is intended to use with the LocalDateTime class instances; most available methods compare
+ * LocalDates to one another, or Periods to one another.
  */
 public class DateUtil
 {

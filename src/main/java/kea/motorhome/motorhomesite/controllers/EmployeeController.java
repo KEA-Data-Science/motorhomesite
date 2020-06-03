@@ -2,7 +2,6 @@ package kea.motorhome.motorhomesite.controllers;
 // by LNS, TV
 import kea.motorhome.motorhomesite.dao.IDAO;
 import kea.motorhome.motorhomesite.dao.SiteDAOCollection;
-import kea.motorhome.motorhomesite.daodemo.EmployeeDAODemo;
 import kea.motorhome.motorhomesite.models.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController
 {
 
-//    private SiteDAOCollection dao;
-
-    public EmployeeController() { /*dao = SiteDAOCollection.getInstance();*/ }
+    public EmployeeController() { }
 
     private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 

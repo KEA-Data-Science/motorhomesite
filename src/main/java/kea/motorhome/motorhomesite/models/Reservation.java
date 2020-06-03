@@ -1,6 +1,5 @@
 package kea.motorhome.motorhomesite.models;
-
-
+// kcn
 import kea.motorhome.motorhomesite.enums.ReservationStatus;
 
 import java.io.Serializable;

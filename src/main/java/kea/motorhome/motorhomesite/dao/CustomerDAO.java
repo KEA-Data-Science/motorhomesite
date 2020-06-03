@@ -1,5 +1,6 @@
 package kea.motorhome.motorhomesite.dao;
 // by LNS
+
 import kea.motorhome.motorhomesite.models.*;
 import kea.motorhome.motorhomesite.util.DBConnectionManager;
 
@@ -10,13 +11,10 @@ import java.util.List;
 public class CustomerDAO implements IDAO<Customer, String>
 {
     private Connection connection;
-//	private SiteDAOCollection dao;
 
-    public CustomerDAO()
-    {
-        connection = DBConnectionManager.getConnection();
-//		dao = SiteDAOCollection.getInstance();
-    }
+    public CustomerDAO(){ connection = DBConnectionManager.getConnection(); }
+
+    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
     @Override
     public boolean create(Customer thing)
@@ -70,7 +68,6 @@ public class CustomerDAO implements IDAO<Customer, String>
         customer.setPayCard(dao().paycardDAO().read(resultSet.getInt(5)));
     }
 
-    private SiteDAOCollection dao(){return SiteDAOCollection.getInstance();}
 
     @Override
     public List<Customer> readall()
@@ -96,37 +93,21 @@ public class CustomerDAO implements IDAO<Customer, String>
         return customers;
     }
 
-	/** Update only able to change/update approved-status; all other fields are foreign keys
-	 * (not idCustomer, but you don't want to change that) */
+    /**
+     * Update only able to change/update approved-status; all other fields are foreign keys
+     * (not idCustomer, but you don't want to change that)
+     */
     @Override
     public boolean update(Customer thing)
     {
-		System.out.println("CustomerDAO::update\n" +
-						   "Customer about to be updated:\n" +
-						   "" + thing);
-
         try
-        {	/* first tried update statemtent looked fine, but was follied by foreign-key resistance */
-//            PreparedStatement preparedStatement = connection.prepareStatement(
-//                    "UPDATE motorhome.customer SET " + // ændret fra motorhome.motorhome
-//                    "approved = ?," +
-//                    "Person_idPerson = ?," +
-//                    "Paycard_idPaycard = ?" +
-//                    "WHERE driversLicense = ?");
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE `motorhome`.`customer` SET `approved` = ? WHERE (`driversLicense` = ?)");
 
-//            byte approvedAsByte = (byte)(thing.isApproved() ? 1 : 0); // Byte to represent boolean value in database
-//            preparedStatement.setByte(1, approvedAsByte);
-//            preparedStatement.setInt(2, thing.getPerson().getPersonID()); // Sets id of appropriate Person object
-//            preparedStatement.setInt(3, thing.getPayCard().getCardID()); // Sets id of appropriate PayCard object
-//            preparedStatement.setString(4, thing.getDriversLicence());
-
-
-			PreparedStatement preparedStatement = connection.prepareStatement(
-					"UPDATE `motorhome`.`customer` SET `approved` = ? WHERE (`driversLicense` = ?)");
-
-			byte approvedAsByte = (byte)(thing.isApproved() ? 1 : 0); // Byte to represent boolean value in database
-			preparedStatement.setByte(1, approvedAsByte);
-			preparedStatement.setString(2, thing.getDriversLicence());
+            byte approvedAsByte = (byte)(thing.isApproved() ? 1 : 0); // Byte to represent boolean value in database
+            preparedStatement.setByte(1, approvedAsByte);
+            preparedStatement.setString(2, thing.getDriversLicence());
 
             return preparedStatement.executeUpdate() > 0;
 

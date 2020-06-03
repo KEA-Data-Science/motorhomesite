@@ -1,5 +1,5 @@
 package kea.motorhome.motorhomesite.models;
-
+// kcn
 import kea.motorhome.motorhomesite.enums.SiteRole;
 import org.springframework.format.annotation.DateTimeFormat;
 

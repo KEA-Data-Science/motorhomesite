@@ -1,7 +1,6 @@
 package kea.motorhome.motorhomesite.dao;
-
+// kcn
 import kea.motorhome.motorhomesite.models.Address;
-import kea.motorhome.motorhomesite.models.PayCard;
 import kea.motorhome.motorhomesite.util.DBConnectionManager;
 
 import java.sql.*;

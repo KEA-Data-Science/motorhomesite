@@ -1,5 +1,5 @@
 package kea.motorhome.motorhomesite.dao;
-
+// kcn
 import java.util.List;
 
 public interface IDAO<T,U> {
