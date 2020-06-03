@@ -31,10 +31,10 @@ public class DBConnectionManager
         try
         {
 
-            FileInputStream propertyFile = new FileInputStream(
-                    "C:/Program Files/MotorhomeSite/application.properties");
+ //           FileInputStream propertyFile = new FileInputStream(
+//                    "C:/Program Files/MotorhomeSite/application.properties");
             /* comment out above line and uncomment below to use application.properties file in resources */
-//            FileInputStream propertyFile = new FileInputStream("src/main/resources/application.properties");
+           FileInputStream propertyFile = new FileInputStream("src/main/resources/application.properties");
 
             prop.load(propertyFile);
             user = prop.getProperty("db.user");
